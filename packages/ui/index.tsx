@@ -1,2 +1,3 @@
-import * as React from "react";
-export * from "./Button";
+import theme from "./theme/index";
+
+export { theme };

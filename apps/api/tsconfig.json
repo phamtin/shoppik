@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"rootDir": "./",
+		"target": "es2017",
+		"module": "ES6",
+		"moduleResolution": "Node",
+		"lib": ["ES5"],
+		"types": ["node"],
+		"allowSyntheticDefaultImports": true,
+		"sourceMap": true,
+		"outDir": "./dist",
+		"skipLibCheck": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"esModuleInterop": true
+	},
+	"include": ["./**/*.ts"],
+	"exclude": ["node_modules"]
+}

@@ -1,0 +1,30 @@
+{
+	"parser": "@typescript-eslint/parser",
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended-requiring-type-checking",
+		"plugin:@typescript-eslint/recommended"
+	],
+	"plugins": ["@typescript-eslint"],
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module"
+	},
+	"rules": {
+		"no-multiple-empty-lines": 2
+	},
+	"overrides": [
+		{
+			"files": ["./DataAccess/*.ts"],
+			"rules": {
+				"@typescript-eslint/explicit-function-return-type": "error"
+			},
+			"excludedFiles": ["base.ts"]
+		}
+	],
+	"env": {
+		"node": true
+	},
+	"root": true
+}
