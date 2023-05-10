@@ -1,10 +1,10 @@
-import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from "axios";
 
 import {
   trimValue,
   sanitizeParams,
   toCamelCase,
-} from 'Utils/queryParams/transform-params';
+} from "@/Utils/queryParams/transform-params";
 
 /**
  * Add Authorization headers to API calls
@@ -15,7 +15,7 @@ const authInterceptor = (request: AxiosRequestConfig) => {
   requestConfig.params = sanitizeParams(requestConfig.params);
   requestConfig.data = toCamelCase(requestConfig.data);
 
-  const accessToken = 'abc123';
+  const accessToken = "abc123";
 
   if (accessToken) {
     const headers = requestConfig.headers as any;
@@ -34,10 +34,10 @@ const errorInterceptor = async (axiosError: AxiosError) => {
     switch (statusCode) {
       case 401:
         // await logout();
-        window.location.replace('/');
+        window.location.replace("/");
         break;
       case 403:
-        window.location.replace('/');
+        window.location.replace("/");
         break;
       default:
     }
@@ -59,11 +59,11 @@ const responseInterceptor = (response: AxiosResponse) => {
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
   },
 });
 
 /** Add interceptor */
-api.interceptors.request.use(authInterceptor);
+api.interceptors.request.use(authInterceptor as any);
 api.interceptors.response.use(responseInterceptor, errorInterceptor);

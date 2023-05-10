@@ -1,7 +1,7 @@
-import { RegisterOptions } from 'react-hook-form';
+// import { RegisterOptions } from 'react-hook-form';
 
 export const baseFieldValidation = (
-  fieldName = 'Input',
+  fieldName = "Input",
   required: boolean,
   minLength?: number | null,
   maxLength?: number | null,
@@ -9,7 +9,7 @@ export const baseFieldValidation = (
   min?: number | null,
   max?: number | null
 ) => {
-  let valid: RegisterOptions = {};
+  let valid: any = {};
 
   if (!!required) {
     valid.required = {
@@ -18,28 +18,28 @@ export const baseFieldValidation = (
     };
   }
 
-  if (typeof min === 'number' && min > 0) {
+  if (typeof min === "number" && min > 0) {
     valid.min = {
       value: min,
       message: `"${fieldName}" is too short`,
     };
   }
 
-  if (typeof max === 'number' && max > 0) {
+  if (typeof max === "number" && max > 0) {
     valid.max = {
       value: max,
       message: `"${fieldName}" is too long`,
     };
   }
 
-  if (typeof minLength === 'number' && minLength > 0) {
+  if (typeof minLength === "number" && minLength > 0) {
     valid.minLength = {
       value: minLength,
       message: `"${fieldName}" is too short`,
     };
   }
 
-  if (typeof maxLength === 'number' && maxLength > 0) {
+  if (typeof maxLength === "number" && maxLength > 0) {
     valid.maxLength = {
       value: maxLength,
       message: `"${fieldName}" is too long`,

@@ -1,8 +1,0 @@
-.statsCard {
-  height: 135px !important;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  border: 0;
-  box-shadow: 0 2px 20px rgba(213, 213, 213, 0.6);
-}

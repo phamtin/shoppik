@@ -2,7 +2,7 @@ import { Button, Typography } from "@/../../packages/ui/components/Core";
 import Image from "next/image";
 import Link from "next/link";
 
-export default () => (
+const Custom404 = () => (
   <div
     style={{
       display: "flex",
@@ -27,3 +27,5 @@ export default () => (
     </Button>
   </div>
 );
+
+export default Custom404;

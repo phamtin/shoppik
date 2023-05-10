@@ -1,14 +1,12 @@
 "use client";
 import { PropsWithChildren, useCallback, useEffect } from "react";
-import { useSession } from "next-auth/react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { CssVarsProvider, theme } from "ui";
+import { useRouter } from "next/router";
 import "./app-skeleton.css";
 
-const PUBLIC_PAGE: Record<string, string> = { "/signin": "/signin" };
-const s = { display: "flex" };
+// const PUBLIC_PAGE: Record<string, string> = { "/signin": "/signin" };
+// const s = { display: "flex" };
 
 interface Props extends PropsWithChildren {
   session?: any;
@@ -21,20 +19,19 @@ const AppSkeleton = ({ children }: Props) => {
 
   const router = useRouter();
   const client = new QueryClient();
+  const renderRootLayout = useCallback(() => {
+    router.replace("/");
+    return children;
+  }, [children, router]);
 
   useEffect(() => {
     session?.user ? renderRootLayout() : renderRootLayout();
-  }, []);
+  }, [renderRootLayout, session?.user]);
 
-  const renderRootLayout = () => {
-    router.replace("/");
-    return children;
-  };
-
-  const renderPublicPage = () => {
-    router.replace("/signin");
-    // return <SigninNextScreen
-  };
+  // const renderPublicPage = () => {
+  //   router.replace("/signin");
+  //   // return <SigninNextScreen
+  // };
 
   return (
     <div className="appSkeleton">
