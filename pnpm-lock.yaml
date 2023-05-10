@@ -492,6 +492,9 @@ importers:
       eslint-config-next:
         specifier: 12.3.4
         version: 12.3.4(eslint@8.39.0)(typescript@5.0.4)
+      husky:
+        specifier: ^8.0.3
+        version: 8.0.3
       tsconfig:
         specifier: ^7.0.0
         version: 7.0.0
@@ -4515,6 +4518,12 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: false
+
+  /husky@8.0.3:
+    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
 
   /iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
