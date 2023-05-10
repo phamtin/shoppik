@@ -3,11 +3,11 @@ import { Redis, RedisOptions } from 'ioredis';
 import systemLog from '../Pkgs/systemLog';
 
 class RedisCache {
-	#instance: Redis | undefined = undefined;
-	#options: RedisOptions & { prefix?: string };
+	instance: Redis | undefined = undefined;
+	options: RedisOptions & { prefix?: string };
 
 	constructor(options: RedisOptions) {
-		this.#options = options || {};
+		this.options = options || {};
 		const keepAlive = options.keepAlive || true;
 
 		if (keepAlive) {
@@ -16,26 +16,26 @@ class RedisCache {
 	}
 
 	async _connect() {
-		const { prefix, db } = this.#options;
-		if (!this.#instance) {
+		const { prefix, db } = this.options;
+		if (!this.instance) {
 			try {
-				this.#instance = new Redis();
-				await this.#instance.set('PING', 'PONG');
+				this.instance = new Redis();
+				await this.instance.set('PING', 'PONG');
 				systemLog.info('- Connected WTF to Redis.');
 			} catch (e) {
-				this.#instance = undefined;
+				this.instance = undefined;
 				this._close();
 				systemLog.error('Connect to Redis fail');
 				throw e;
 			}
 		}
 
-		return this.#instance;
+		return this.instance;
 	}
 
 	_expire(key: string, ttl: number) {
 		return new Promise((resolve, reject) =>
-			this.#instance
+			this.instance
 				?.expire(key, ttl)
 				.then((r) => resolve(r))
 				.catch((e) => reject(e)),
@@ -43,12 +43,12 @@ class RedisCache {
 	}
 
 	_pipeline() {
-		return this.#instance?.pipeline();
+		return this.instance?.pipeline();
 	}
 
 	_set(key: string, value: any, ttl?: number) {
 		return new Promise((resolve, reject) =>
-			this.#instance
+			this.instance
 				?.set(key, value)
 				.then(() => {
 					if (ttl) this._expire(key, ttl);
@@ -61,12 +61,12 @@ class RedisCache {
 	}
 
 	_deleteKey(key: string) {
-		return new Promise(() => this.#instance?.set(key, ''));
+		return new Promise(() => this.instance?.set(key, ''));
 	}
 
 	_get(key: string) {
 		return new Promise((resolve, reject) =>
-			this.#instance
+			this.instance
 				?.get(key)
 				.then((r) => resolve(r))
 				.catch((e) => reject(e)),
@@ -74,7 +74,7 @@ class RedisCache {
 	}
 
 	_close() {
-		return this.#instance?.disconnect();
+		return this.instance?.disconnect();
 	}
 }
 
