@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@sentry/nextjs": "^7.51.0",
@@ -44,7 +45,7 @@
     "eslint": "8.39.0",
     "eslint-config-custom": "workspace:^",
     "eslint-config-next": "12.3.4",
-    "husky": "^8.0.3",
+    "husky": "^8.0.0",
     "tsconfig": "^7.0.0"
   }
 }
