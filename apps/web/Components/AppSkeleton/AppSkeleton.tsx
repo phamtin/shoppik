@@ -1,4 +1,3 @@
-"use client";
 import { PropsWithChildren, useCallback, useEffect } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
