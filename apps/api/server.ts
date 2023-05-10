@@ -29,4 +29,6 @@ Fastify.get('/ping', async () => {
 	return 'Hello from very first tRPC !';
 });
 
+export type { AppRouter } from './Router';
+
 export default Fastify;

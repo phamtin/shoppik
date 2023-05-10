@@ -9,10 +9,10 @@ const storeSchema = new mongoose.Schema<Store>(
 		name: { type: String, required: true },
 		ownerId: { type: ObjectId, ref: 'User', required: true },
 		status: { enum: Object.values(STATUS) },
-		categories: [
+		products: [
 			{
 				type: ObjectId,
-				ref: 'Token',
+				ref: 'Product',
 			},
 		],
 		deletedAt: { type: Date, default: undefined },

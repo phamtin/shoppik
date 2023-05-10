@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 
-import { UserDoc } from '../Model/user/user.model';
+import { UserDoc } from '../Model/account/account.model';
 import makeBaseRepo from './base';
 
 const checkUserPriority = async (id?: string): Promise<boolean> => {

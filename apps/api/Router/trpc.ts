@@ -1,12 +1,9 @@
-import superjson from 'superjson';
 import { OpenApiMeta } from 'trpc-openapi';
 import { TRPCError, initTRPC } from '@trpc/server';
 
 import { Context } from './context';
 
-const t = initTRPC.context<Context>().meta<OpenApiMeta>().create({
-	transformer: superjson,
-});
+const t = initTRPC.context<Context>().meta<OpenApiMeta>().create();
 
 const isAuthed = t.middleware(({ next, ctx }) => {
 	if (!ctx.user?.id) {

@@ -53,7 +53,7 @@ const makeBaseRepo = <T>(EntityModel: Model<T>) => {
 		return EntityModel.deleteMany(filter, options);
 	};
 
-	const bulkWrite = async (data: Array<AnyBulkWriteOperation<any>>, options: MongooseBulkWriteOptions = {}) => {
+	const bulkWrite = async (data: Array<any>, options: MongooseBulkWriteOptions = {}) => {
 		return EntityModel.bulkWrite(data, options);
 	};
 

@@ -1,21 +1,21 @@
 import { z } from 'zod';
-import { STATUS } from '../entity/entity.entity';
+import { STATUS } from '../owner/owner.entity';
 
-export const CreateUserRequest = z.object({
+export const CreateAccountRequest = z.object({
 	fullname: z.string(),
 	entityId: z.string(),
 	status: z.nativeEnum(STATUS),
 	managers: z.array(z.string()).min(0).max(100),
 });
 
-export const CreateUserResponse = z.object({
+export const CreateAccountResponse = z.object({
 	success: z.number(),
 });
 
-export const GetUsersRequest = z.object({
+export const GetAccountsRequest = z.object({
 	greeting: z.string(),
 });
 
-export const GetUsersResponse = z.object({
+export const GetAccountsResponse = z.object({
 	greeting: z.string(),
 });

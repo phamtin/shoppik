@@ -1,4 +1,4 @@
-import UserModel from '../Model/user/user.model';
+import UserModel from '../Model/account/account.model';
 
 import makeUserDb from './user.repo';
 

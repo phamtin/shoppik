@@ -1,3 +1,3 @@
 export class BaseJob {
-	readonly name: string = this.contructor.name;
+	readonly name: string = this.constructor.name;
 }

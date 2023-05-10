@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default () => (
   <div style={{ marginLeft: "-60px" }}>
-    <Image alt="empty" width={120} height={100} src="/images/empty.png" />
+    <Image alt="empty" width={110} height={92} src="/images/empty.png" />
     <br />
     <Typography.Text style={{ color: "#b1b1b1" }}>
       &nbsp;No data

@@ -5,11 +5,12 @@ export enum STATUS {
 	INACTIVE = 'INACTIVE',
 }
 
-export interface UserEntity {
+export type UserEntity = {
 	roleId: SchemaDefinitionProperty<Types.ObjectId>;
-	fullname: string;
+	firstname: string;
+	lastname: string;
 	status: STATUS;
 	managers: SchemaDefinitionProperty<Types.ObjectId[]>;
 	entityId: SchemaDefinitionProperty<Types.ObjectId>;
 	deletedAt?: Date;
-}
+};

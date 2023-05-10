@@ -2,3 +2,7 @@ node_modules
 
 *.env
 .env.prod
+
+public/images/*
+!public/images/.gitkeep
+dev-volume

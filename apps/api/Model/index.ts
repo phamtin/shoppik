@@ -1,4 +1,6 @@
-import Portfolio from './portfolio/portfolio.model';
-import Token from './token/token.model';
+import User from './account/account.model';
+import Owner from './owner/owner.model';
+import Store from './store/store.model';
+import Product from './product/product.model';
 
-export { Portfolio, Token };
+export { User, Owner, Product, Store };

@@ -2,7 +2,7 @@ import { createTRPCReact } from "@trpc/react-query";
 
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 
-import type { AppRouter } from "../../../veneno/Router";
+import type { AppRouter } from "../../../api/server";
 
 // infer the types for your router
 // export type ReactQueryOptions = inferReactQueryProcedureOptions<AppRouter>;
@@ -15,9 +15,5 @@ const getBaseUrl = () =>
 // export const trpc = createTRPCReact<AppRouter>();
 
 export const trpc = createTRPCReact<AppRouter>({
-  config() {
-    return {
-      abortOnUnmount: true,
-    };
-  },
+  abortOnUnmount: true,
 });

@@ -2,12 +2,13 @@ import { Dropdown, Layout, MenuProps, Typography } from "ui/components/Core";
 import useStyle from "./navbar.style";
 import { getItem } from "@/Utils/common";
 import NotiButton from "./NotiButton/NotiButton";
+import { trpc } from "@/Utils/trpc/trpc";
 
 const { Header } = Layout;
 const { Text } = Typography;
 
 const NavBar = () => {
-  const { styles, theme } = useStyle();
+  const { styles } = useStyle();
 
   const items: MenuProps["items"] = [
     getItem(<Text>Charts</Text>, "sub3"),

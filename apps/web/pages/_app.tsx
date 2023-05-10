@@ -9,6 +9,8 @@ import RootLayout from "@/Layout/RootLayout/RootLayout";
 import { trpc } from "@/Utils/trpc/trpc";
 import "@/styles/globals.css";
 
+const customTheme = { borderRadius: 8 };
+
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
@@ -16,11 +18,8 @@ export default function App({ Component, pageProps }: AppProps) {
       links: [
         httpBatchLink({
           url: "http://localhost:8000/trpc",
-          // You can pass any HTTP headers you wish here
           async headers() {
-            return {
-              authorization: "cc",
-            };
+            return { authorization: "API" };
           },
         }),
       ],
@@ -32,7 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
           <ConfigProvider
-            theme={{ token: { borderRadius: 8 } }}
+            theme={{ token: customTheme }}
             renderEmpty={() => <EmptyState />}
           >
             <Component {...pageProps} />

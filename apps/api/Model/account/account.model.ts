@@ -1,7 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 
-import { UserEntity } from './user.entity';
-import { STATUS } from '../entity/entity.entity';
+import { UserEntity } from './account.entity';
+import { STATUS } from '../owner/owner.entity';
 
 const { ObjectId } = mongoose.Types;
 
@@ -9,8 +9,9 @@ export interface UserDoc extends UserEntity, Document {}
 
 const userSchema = new mongoose.Schema<UserDoc>(
 	{
-		fullname: { type: String, required: true },
-		roleId: { type: ObjectId, ref: 'Role', required: true },
+		firstname: { type: String, required: true },
+		lastname: { type: String, required: true },
+		roleId: { type: String, ref: 'Role', required: true },
 		status: { enum: Object.values(STATUS) },
 		managers: [
 			{
