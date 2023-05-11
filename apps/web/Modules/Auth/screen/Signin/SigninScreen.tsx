@@ -11,30 +11,29 @@ import useStyle from "./signin-screen.style";
 const PROVIDERS = ["google", "github", "facebook"];
 
 const SigninScreen = () => {
-  const { styles } = useStyle();
+	const { styles } = useStyle();
 
-  const [authLoading, setAuthLoading] =
-    useState<LiteralUnion<BuiltInProviderType, string>>();
+	const [authLoading, setAuthLoading] = useState<LiteralUnion<BuiltInProviderType, string>>();
 
-  console.log("[ SigninScreen ]");
+	console.log("[ SigninScreen ]");
 
-  return (
-    <div className={styles.container}>
-      <Typography.Title>Welcome back</Typography.Title>
-      <Typography.Text className={styles.gretting}>
-        All done, signin to save the world!
-      </Typography.Text>
+	return (
+		<div className={styles.container}>
+			<Typography.Title>Welcome back</Typography.Title>
+			<Typography.Text className={styles.gretting}>
+				All done, signin to save the world!
+			</Typography.Text>
 
-      <div className={styles.btnGroup}>
-        <Button block size="large">
-          Signin with Google
-        </Button>
-        <Button block size="large">
-          Signin with Facebook
-        </Button>
-      </div>
-    </div>
-  );
+			<div className={styles.btnGroup}>
+				<Button block size="large">
+					Signin with Google
+				</Button>
+				<Button block size="large">
+					Signin with Facebook
+				</Button>
+			</div>
+		</div>
+	);
 };
 
 export default SigninScreen;

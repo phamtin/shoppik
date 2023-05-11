@@ -4,21 +4,19 @@ import { getServerSession } from "next-auth";
 import HomePage from "@/Modules/Home/Home";
 
 export default function Page() {
-  return null;
+	return null;
 }
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
-  // const session = await getServerSession(context.req, context.res, authOptions);
-  const session = null;
-  // if (!session) {
-  //   return {
-  //     redirect: { permanent: false, destination: "/signin" },
-  //   };
-  // }
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+	// const session = await getServerSession(context.req, context.res, authOptions);
+	const session = null;
+	// if (!session) {
+	//   return {
+	//     redirect: { permanent: false, destination: "/signin" },
+	//   };
+	// }
 
-  return {
-    redirect: { permanent: false, destination: "/shoppik" },
-  };
+	return {
+		redirect: { permanent: false, destination: "/shoppik" },
+	};
 };

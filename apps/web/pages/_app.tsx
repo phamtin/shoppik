@@ -12,32 +12,29 @@ import "@/styles/globals.css";
 const customTheme = { borderRadius: 8 };
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [queryClient] = useState(() => new QueryClient());
-  const [trpcClient] = useState(() =>
-    trpc.createClient({
-      links: [
-        httpBatchLink({
-          url: "http://localhost:8000/trpc",
-          async headers() {
-            return { authorization: "API" };
-          },
-        }),
-      ],
-    })
-  );
+	const [queryClient] = useState(() => new QueryClient());
+	const [trpcClient] = useState(() =>
+		trpc.createClient({
+			links: [
+				httpBatchLink({
+					url: "http://localhost:8000/trpc",
+					async headers() {
+						return { authorization: "API" };
+					},
+				}),
+			],
+		})
+	);
 
-  return (
-    <RootLayout>
-      <trpc.Provider client={trpcClient} queryClient={queryClient}>
-        <QueryClientProvider client={queryClient}>
-          <ConfigProvider
-            theme={{ token: customTheme }}
-            renderEmpty={() => <EmptyState />}
-          >
-            <Component {...pageProps} />
-          </ConfigProvider>
-        </QueryClientProvider>
-      </trpc.Provider>
-    </RootLayout>
-  );
+	return (
+		<RootLayout>
+			<trpc.Provider client={trpcClient} queryClient={queryClient}>
+				<QueryClientProvider client={queryClient}>
+					<ConfigProvider theme={{ token: customTheme }} renderEmpty={() => <EmptyState />}>
+						<Component {...pageProps} />
+					</ConfigProvider>
+				</QueryClientProvider>
+			</trpc.Provider>
+		</RootLayout>
+	);
 }

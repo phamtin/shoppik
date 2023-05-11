@@ -8,37 +8,37 @@ import "./app-skeleton.css";
 // const s = { display: "flex" };
 
 interface Props extends PropsWithChildren {
-  session?: any;
+	session?: any;
 }
 
 const AppSkeleton = ({ children }: Props) => {
-  // const { data: session } = useSession();
-  const session: any = {};
-  // console.log('session = ', session);
+	// const { data: session } = useSession();
+	const session: any = {};
+	// console.log('session = ', session);
 
-  const router = useRouter();
-  const client = new QueryClient();
-  const renderRootLayout = useCallback(() => {
-    router.replace("/");
-    return children;
-  }, [children, router]);
+	const router = useRouter();
+	const client = new QueryClient();
+	const renderRootLayout = useCallback(() => {
+		router.replace("/");
+		return children;
+	}, [children, router]);
 
-  useEffect(() => {
-    session?.user ? renderRootLayout() : renderRootLayout();
-  }, [renderRootLayout, session?.user]);
+	useEffect(() => {
+		session?.user ? renderRootLayout() : renderRootLayout();
+	}, [renderRootLayout, session?.user]);
 
-  // const renderPublicPage = () => {
-  //   router.replace("/signin");
-  //   // return <SigninNextScreen
-  // };
+	// const renderPublicPage = () => {
+	//   router.replace("/signin");
+	//   // return <SigninNextScreen
+	// };
 
-  return (
-    <div className="appSkeleton">
-      <QueryClientProvider client={client}>
-        {session?.user ? children : children}
-      </QueryClientProvider>
-    </div>
-  );
+	return (
+		<div className="appSkeleton">
+			<QueryClientProvider client={client}>
+				{session?.user ? children : children}
+			</QueryClientProvider>
+		</div>
+	);
 };
 
 export default AppSkeleton;
