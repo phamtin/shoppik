@@ -1,7 +1,7 @@
-import { AxiosResponse } from "axios";
+import { AxiosResponse } from 'axios';
 
-import { api } from "@/Api/api";
-import { SigninPayload } from "../auth";
+import { api } from '@/Api/api';
+import { SigninPayload } from '../auth';
 
 const loginApi = (data: SigninPayload): Promise<any> => {
 	// const url = '/signin';
@@ -11,17 +11,17 @@ const loginApi = (data: SigninPayload): Promise<any> => {
 		// setTimeout(() => {
 		resolve({
 			...data,
-			_id: "3465378683796458",
-			role: "host",
-			firstname: "Tin",
-			lastname: "Pham",
+			_id: '3465378683796458',
+			role: 'host',
+			firstname: 'Tin',
+			lastname: 'Pham',
 		});
 		// }, 1000);
 	});
 };
 
 const logoutApi = (): Promise<AxiosResponse> => {
-	return api.delete("/logout");
+	return api.delete('/logout');
 };
 
 const authApi = {

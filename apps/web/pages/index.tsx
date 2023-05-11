@@ -1,7 +1,7 @@
-import { GetServerSidePropsContext } from "next";
-import { getServerSession } from "next-auth";
+import { GetServerSidePropsContext } from 'next';
+import { getServerSession } from 'next-auth';
 // import { authOptions } from "./api/auth/[...nextauth]";
-import HomePage from "@/Modules/Home/Home";
+import HomePage from '@/Modules/Home/Home';
 
 export default function Page() {
 	return null;
@@ -17,6 +17,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 	// }
 
 	return {
-		redirect: { permanent: false, destination: "/shoppik" },
+		redirect: { permanent: false, destination: '/shoppik' },
 	};
 };

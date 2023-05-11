@@ -1,6 +1,6 @@
-import { MenuProps, Typography } from "ui/components/Core";
+import { MenuProps, Typography } from 'ui/components/Core';
 
-type MenuItem = Required<MenuProps>["items"][number];
+type MenuItem = Required<MenuProps>['items'][number];
 const { Text } = Typography;
 
 export function getItem(
@@ -8,7 +8,7 @@ export function getItem(
 	key: React.Key,
 	icon?: React.ReactNode,
 	children?: MenuItem[],
-	type?: "group"
+	type?: 'group',
 ): MenuItem {
 	return {
 		key,

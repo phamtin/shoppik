@@ -1,5 +1,5 @@
-import qs from "qs";
-import { ParsedQs } from "qs";
+import qs from 'qs';
+import { ParsedQs } from 'qs';
 
 export interface QueryParams {
 	page?: number;
@@ -18,5 +18,5 @@ export function getQueryParams(path: string) {
 	return qs.parse(path, { ignoreQueryPrefix: true }) as ParsedQsParams;
 }
 export function setQueryParams(params: QueryParams) {
-	return qs.stringify(params, { arrayFormat: "brackets" });
+	return qs.stringify(params, { arrayFormat: 'brackets' });
 }

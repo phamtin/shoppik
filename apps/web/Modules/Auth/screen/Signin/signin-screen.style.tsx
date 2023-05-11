@@ -1,14 +1,14 @@
-import { createStyles } from "antd-style";
+import { createStyles } from 'antd-style';
 
 const styles = createStyles(({ token }) => ({
 	container: {
-		width: "100%",
+		width: '100%',
 		backgroundColor: token.colorText,
-		height: "100vh",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		flexDirection: "column",
+		height: '100vh',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		flexDirection: 'column',
 
 		h1: {
 			marginBottom: token.marginXS,
@@ -20,21 +20,21 @@ const styles = createStyles(({ token }) => ({
 		marginBottom: token.marginXL,
 	},
 	btnGroup: {
-		width: "320px",
+		width: '320px',
 		button: {
 			border: 0,
-			color: token["blue-6"],
-			"&:first-child": {
-				color: token["red-6"],
+			color: token['blue-6'],
+			'&:first-child': {
+				color: token['red-6'],
 				marginBottom: token.marginSM,
-				"&:hover": {
-					color: token["red-6"],
-					backgroundColor: token["red-1"],
+				'&:hover': {
+					color: token['red-6'],
+					backgroundColor: token['red-1'],
 				},
 			},
-			"&:hover": {
+			'&:hover': {
 				border: 0,
-				backgroundColor: token["blue-1"],
+				backgroundColor: token['blue-1'],
 			},
 		},
 	},

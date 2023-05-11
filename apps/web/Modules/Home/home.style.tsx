@@ -1,4 +1,4 @@
-import { createStyles } from "antd-style";
+import { createStyles } from 'antd-style';
 
 export default createStyles(({ token }) => ({
 	wrapper: {},

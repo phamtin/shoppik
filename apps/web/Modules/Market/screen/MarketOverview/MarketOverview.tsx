@@ -1,7 +1,7 @@
-import { Button, Col, Row, Typography } from "ui/components/Core";
-import useStyle from "./market-overview.style";
-import ProductCard from "../../components/ProductCard/ProductCard";
-import { Activity, Chart, Home } from "react-iconly";
+import { Button, Col, Row, Typography } from 'ui/components/Core';
+import useStyle from './market-overview.style';
+import ProductCard from '../../components/ProductCard/ProductCard';
+import { Activity, Chart, Home } from 'react-iconly';
 
 interface MarketProp {}
 

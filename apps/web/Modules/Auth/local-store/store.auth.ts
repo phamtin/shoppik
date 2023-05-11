@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export type LoggedInUser = {
 	_id: string;
@@ -40,9 +40,9 @@ const store = create<AuthStore>()(
 			},
 		}),
 		{
-			name: "auth-storage",
-		}
-	)
+			name: 'auth-storage',
+		},
+	),
 );
 
 export const useAuthStore = store;

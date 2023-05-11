@@ -1,5 +1,5 @@
-import { memo } from "react";
-import { Avatar, List, Skeleton } from "ui/components/Core";
+import { memo } from 'react';
+import { Avatar, List, Skeleton } from 'ui/components/Core';
 
 const NotiItem = ({ item }: any) => {
 	return (

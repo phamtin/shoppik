@@ -1,12 +1,13 @@
-import camelCase from "lodash.camelcase";
-import escape from "lodash.escape";
-import get from "lodash.get";
+import camelCase from 'lodash.camelcase';
+import escape from 'lodash.escape';
+import get from 'lodash.get';
 
 export type ObjectType = {
 	[key: string]: unknown;
 };
 export const isArray = (d: any) => Array.isArray(d);
-export const isObject = (d: any) => d === Object(d) && !isArray(d) && typeof d !== "function";
+export const isObject = (d: any) =>
+	d === Object(d) && !isArray(d) && typeof d !== 'function';
 
 export const sanitizeParams = (d: any, filter?: boolean) => {
 	if (isObject(d)) {
@@ -21,11 +22,11 @@ export const sanitizeParams = (d: any, filter?: boolean) => {
 		return d.map((o: any) => sanitizeParams(o, true));
 	}
 
-	if (filter && d === "") {
+	if (filter && d === '') {
 		return null;
 	}
 
-	if (typeof d === "string") {
+	if (typeof d === 'string') {
 		return escape(d);
 	}
 	return d;
@@ -43,7 +44,7 @@ export const toCamelCase = (d: any, filter?: boolean) => {
 		return d.map((o: any) => toCamelCase(o, true));
 	}
 
-	if (filter && d === "") {
+	if (filter && d === '') {
 		return null;
 	}
 
@@ -51,7 +52,7 @@ export const toCamelCase = (d: any, filter?: boolean) => {
 };
 
 export function trimValue<T extends unknown>(d: T): T | ObjectType {
-	if (typeof d === "string") {
+	if (typeof d === 'string') {
 		return d.trim() as T;
 	}
 

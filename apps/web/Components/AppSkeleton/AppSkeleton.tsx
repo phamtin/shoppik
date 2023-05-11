@@ -1,8 +1,8 @@
-import { PropsWithChildren, useCallback, useEffect } from "react";
+import { PropsWithChildren, useCallback, useEffect } from 'react';
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import "./app-skeleton.css";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
+import './app-skeleton.css';
 
 // const PUBLIC_PAGE: Record<string, string> = { "/signin": "/signin" };
 // const s = { display: "flex" };
@@ -19,7 +19,7 @@ const AppSkeleton = ({ children }: Props) => {
 	const router = useRouter();
 	const client = new QueryClient();
 	const renderRootLayout = useCallback(() => {
-		router.replace("/");
+		router.replace('/');
 		return children;
 	}, [children, router]);
 

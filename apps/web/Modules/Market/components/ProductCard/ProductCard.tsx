@@ -1,5 +1,5 @@
-import { Card, Typography } from "ui/components/Core";
-import useStyle from "./ProductCard.style";
+import { Card, Typography } from 'ui/components/Core';
+import useStyle from './ProductCard.style';
 
 const ProductCard = () => {
 	const { styles } = useStyle();

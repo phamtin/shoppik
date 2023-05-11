@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
 	Avatar,
 	Button,
@@ -8,11 +8,11 @@ import {
 	Typography,
 	message,
 	Skeleton,
-} from "ui/components/Core";
-import { Notification } from "react-iconly";
+} from 'ui/components/Core';
+import { Notification } from 'react-iconly';
 
-import useStyle from "./noti-button.style";
-import NotiItem from "./NotiItem";
+import useStyle from './noti-button.style';
+import NotiItem from './NotiItem';
 
 const count = 8;
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
@@ -53,7 +53,7 @@ const NotiButton = () => {
 	}, []);
 
 	const markAllRead = () => {
-		message.success("Successfully");
+		message.success('Successfully');
 	};
 
 	const onLoadMore = () => {
@@ -64,8 +64,8 @@ const NotiButton = () => {
 					loading: true,
 					name: {},
 					picture: {},
-				}))
-			)
+				})),
+			),
 		);
 		fetch(fakeDataUrl)
 			.then((res) => res.json())
@@ -77,7 +77,7 @@ const NotiButton = () => {
 				// Resetting window's offsetTop so as to display react-virtualized demo underfloor.
 				// In real scene, you can using public method of react-virtualized:
 				// https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
-				window.dispatchEvent(new Event("resize"));
+				window.dispatchEvent(new Event('resize'));
 			});
 	};
 
@@ -85,7 +85,7 @@ const NotiButton = () => {
 		!initLoading && !loading ? (
 			<div
 				style={{
-					textAlign: "center",
+					textAlign: 'center',
 					marginTop: 12,
 					height: 32,
 				}}
@@ -97,7 +97,7 @@ const NotiButton = () => {
 	return (
 		<div className={styles.wrapper}>
 			<Dropdown
-				trigger={["click"]}
+				trigger={['click']}
 				dropdownRender={(menu) => (
 					<div className={styles.notiDropdown}>
 						<div className={styles.header}>
@@ -111,8 +111,12 @@ const NotiButton = () => {
 								</Typography.Text>
 							</div>
 						</div>
-						<div style={{ padding: "6px 16px 8px 16px" }}>
-							<Segmented block type="primary" options={["Timeline", "Tasks", "Reports"]} />
+						<div style={{ padding: '6px 16px 8px 16px' }}>
+							<Segmented
+								block
+								type="primary"
+								options={['Timeline', 'Tasks', 'Reports']}
+							/>
 						</div>
 						<div className={styles.content}>
 							<div className="notiList">

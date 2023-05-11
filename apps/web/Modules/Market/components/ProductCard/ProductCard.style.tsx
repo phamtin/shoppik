@@ -1,4 +1,4 @@
-import { createStyles } from "antd-style";
+import { createStyles } from 'antd-style';
 
 export default createStyles(({ token }) => ({
 	wrapper: {
@@ -8,25 +8,25 @@ export default createStyles(({ token }) => ({
 		height: 280,
 		marginBottom: 62,
 		marginRight: token.marginXL,
-		backgroundColor: "white",
+		backgroundColor: 'white',
 		boxShadow: `8px 4px 28px ${token.colorFill}`,
-		".ant-card-body": {
+		'.ant-card-body': {
 			padding: 0,
-			".title": {
+			'.title': {
 				fontSize: 14,
-				margin: "12px 0",
+				margin: '12px 0',
 			},
-			".desc": {
+			'.desc': {
 				fontSize: 10,
 				marginBottom: 0,
 			},
-			".price": {
+			'.price': {
 				fontSize: 12,
 				margin: 0,
 			},
 		},
-		".ant-card": {
-			boxShadow: "none",
+		'.ant-card': {
+			boxShadow: 'none',
 			marginBottom: 0,
 		},
 	},

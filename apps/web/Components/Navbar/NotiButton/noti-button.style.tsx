@@ -1,4 +1,4 @@
-import { createStyles } from "antd-style";
+import { createStyles } from 'antd-style';
 
 const styles = createStyles(({ token }) => ({
 	wrapper: {
@@ -11,23 +11,23 @@ const styles = createStyles(({ token }) => ({
 			svg: {
 				color: token.orange6,
 			},
-			"&:hover": {
-				backgroundColor: token.orange2 + "!important",
+			'&:hover': {
+				backgroundColor: token.orange2 + '!important',
 			},
 		},
 
-		"li.ant-menu-item": {
-			display: "block",
-			paddingLeft: "19px",
+		'li.ant-menu-item': {
+			display: 'block',
+			paddingLeft: '19px',
 			marginBottom: token.marginXS,
 			border: `1px solid transparent`,
 
-			"&.ant-menu-item-selected": {
+			'&.ant-menu-item-selected': {
 				color: `${token.colorBgLayout}`,
 				backgroundColor: `${token.colorPrimary}`,
-				borderColor: "transparent",
+				borderColor: 'transparent',
 			},
-			"&.ant-menu-item-active": {
+			'&.ant-menu-item-active': {
 				color: token.colorBgLayout,
 				backgroundColor: `transparent`,
 				border: `1px solid ${token.colorBgLayout}`,
@@ -41,29 +41,29 @@ const styles = createStyles(({ token }) => ({
 	},
 
 	notiDropdown: {
-		height: "calc(100vh - 60px)",
+		height: 'calc(100vh - 60px)',
 		backgroundColor: token.colorBgContainer,
 		boxShadow: `1px 3px 18px ${token.colorBorder}`,
-		borderRadius: "16px",
+		borderRadius: '16px',
 		paddingTop: 16,
-		".ant-segmented": {
-			backgroundColor: "transparent",
+		'.ant-segmented': {
+			backgroundColor: 'transparent',
 		},
-		".ant-segmented-item": {
-			backgroundColor: "transparent",
-			border: "1px solid transparent",
+		'.ant-segmented-item': {
+			backgroundColor: 'transparent',
+			border: '1px solid transparent',
 		},
-		".ant-segmented-thumb": {
+		'.ant-segmented-thumb': {
 			color: token.geekblue6,
 			backgroundColor: token.geekblue6,
 			border: `1px solid ${token.geekblue7}`,
 			boxShadow: `0px 1px 8px ${token.geekblue6}`,
 		},
-		".ant-segmented-item-selected": {
+		'.ant-segmented-item-selected': {
 			color: token.colorBgBase,
 			border: `1px solid ${token.geekblue7}`,
 			boxShadow: `0 1px 8px ${token.geekblue6}`,
-			".ant-segmented-item-label": {
+			'.ant-segmented-item-label': {
 				color: token.colorBgBase,
 				backgroundColor: token.geekblue6,
 			},
@@ -71,10 +71,10 @@ const styles = createStyles(({ token }) => ({
 	},
 
 	header: {
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		flexDirection: "column",
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: 'column',
 		width: 410,
 		height: 86,
 		marginLeft: 16,
@@ -93,34 +93,34 @@ const styles = createStyles(({ token }) => ({
 				color: token.green6,
 			},
 		},
-		".markRead": {
-			cursor: "pointer",
+		'.markRead': {
+			cursor: 'pointer',
 		},
 	},
 
 	content: {
-		display: "flex",
-		flexDirection: "column",
-		height: "calc(100% - 144px)",
+		display: 'flex',
+		flexDirection: 'column',
+		height: 'calc(100% - 144px)',
 		padding: token.paddingXXS,
 		paddingTop: token.paddingXS,
-		justifyContent: "space-between",
+		justifyContent: 'space-between',
 		button: {
-			marginTop: "auto",
+			marginTop: 'auto',
 		},
-		".notiList": {
-			overflow: "auto",
+		'.notiList': {
+			overflow: 'auto',
 		},
-		".loadmoreList": {
+		'.loadmoreList': {
 			li: {
-				display: "block",
+				display: 'block',
 				padding: token.paddingSM,
 				paddingTop: token.paddingXXS,
 				paddingBottom: token.paddingXXS,
-				cursor: "pointer",
+				cursor: 'pointer',
 				borderRadius: token.borderRadius,
-				border: "none",
-				"&:hover": {
+				border: 'none',
+				'&:hover': {
 					backgroundColor: token.colorBgTextHover,
 				},
 			},
