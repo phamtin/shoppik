@@ -1,15 +1,15 @@
-import { ReactNode, memo } from "react";
+import { ReactNode, memo } from 'react';
 
 type AuthLayoutProps = {
-  children: ReactNode;
+	children: ReactNode;
 };
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
-  return (
-    <div className="container">
-      <div>{children}</div>
-    </div>
-  );
+	return (
+		<div className="container">
+			<div>{children}</div>
+		</div>
+	);
 };
 
 export default memo(AuthLayout);

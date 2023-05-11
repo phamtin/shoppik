@@ -1,5 +1,5 @@
 interface OverviewTableProps {}
 
 export default ({}: OverviewTableProps) => {
-  return <div className="overview-table">TABLE</div>;
+	return <div className="overview-table">TABLE</div>;
 };

@@ -1,3 +1,3 @@
 export const updateUserProfileApi = async (profile: any) => {
-  return profile;
+	return profile;
 };
