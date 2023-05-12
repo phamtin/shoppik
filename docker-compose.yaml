@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  api:
+    # image: veneno:latest
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - API_PORT=${API_PORT}
+      - API_HOST=${API_HOST}
+      - LOG_LEVEL=${LOG_LEVEL}
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    restart: unless-stopped
+    depends_on:
+      - redis
+      - mongodb
+
+  mongodb:
+    image: mongo:5.0.15
+    restart: unless-stopped
+    container_name: "mongodb"
+    volumes:
+      - mongodb:/data/db
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis:7.0.8-alpine
+    container_name: "redis"
+    volumes:
+      - ./dev-volume/redis:/data
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      retries: 3
+      timeout: 5s
+
+volumes:
+  mongodb: null
+  # bullmq:
+  #     driver: bridge

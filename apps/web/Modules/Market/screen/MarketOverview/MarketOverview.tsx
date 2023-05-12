@@ -12,10 +12,10 @@ const MarketScreen = ({}: MarketProp) => {
 		<div className={styles.wrapper}>
 			<Typography.Title className="title">Discover Products</Typography.Title>
 
-			<Row gutter={28}>
-				<FilterComponent text="Category" icon={<Chart />} />
-				<FilterComponent text="Collection" icon={<Home />} />
-				<FilterComponent text="Price" icon={<Activity />} />
+			<Row gutter={22}>
+				<FilterComponent text="Category" icon={<Chart style={{ width: 20 }} />} />
+				<FilterComponent text="Collection" icon={<Home style={{ width: 20 }} />} />
+				<FilterComponent text="Price" icon={<Activity style={{ width: 20 }} />} />
 			</Row>
 
 			<div className="productWrapper">
@@ -35,8 +35,7 @@ const MarketScreen = ({}: MarketProp) => {
 const FilterComponent = ({ text, icon }: { text: string; icon: any }) => {
 	return (
 		<Col>
-			<Button className="button">
-				{icon}
+			<Button size="large" className="button" icon={icon}>
 				<Typography.Paragraph className="paragraph">{text}</Typography.Paragraph>
 			</Button>
 		</Col>

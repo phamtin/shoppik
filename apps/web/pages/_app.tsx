@@ -9,7 +9,7 @@ import RootLayout from '@/Layout/RootLayout/RootLayout';
 import { trpc } from '@/Utils/trpc/trpc';
 import '@/styles/globals.css';
 
-const customTheme = { borderRadius: 8 };
+const customTheme = { borderRadius: 10 };
 
 export default function App({ Component, pageProps }: AppProps) {
 	const [queryClient] = useState(() => new QueryClient());
