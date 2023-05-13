@@ -3,8 +3,7 @@ import { createStyles } from 'antd-style';
 const styles = createStyles(({ token }) => ({
 	wrapper: {
 		padding: token.paddingXXS,
-		marginTop: 13,
-		marginRight: token.marginXL,
+		marginTop: token.marginSM,
 
 		button: {
 			backgroundColor: token.orange1,

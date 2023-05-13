@@ -2,35 +2,41 @@ import { createStyles } from 'antd-style';
 
 export default createStyles(({ token }) => ({
 	wrapper: {
-		borderRadius: 16,
+		borderRadius: 18,
 		padding: 10,
 		width: 196,
-		height: 280,
+		minWidth: 196,
 		marginBottom: 62,
 		marginRight: token.marginXL,
 		backgroundColor: 'white',
-		boxShadow: `8px 4px 28px ${token.colorFill}`,
+		boxShadow: `8px 2px 30px ${token.colorFill}`,
 		'.ant-card-body': {
-			padding: 0,
+			padding: `${token.paddingXS}px 0 ${token.paddingXXS}px 0`,
 			'.title': {
-				fontSize: 14,
-				margin: '12px 0',
+				fontSize: token.fontSizeLG,
+				marginBottom: token.marginXS,
 			},
 			'.desc': {
-				fontSize: 10,
-				marginBottom: 0,
+				fontSize: token.fontSizeSM,
+				color: token.colorTextDescription,
 			},
 			'.price': {
 				fontSize: 12,
 				margin: 0,
+			},
+			'.cardInfo': {
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'space-between',
+
+				'.metadata': {
+					marginBottom: 0,
+				},
 			},
 		},
 		'.ant-card': {
 			boxShadow: 'none',
 			marginBottom: 0,
 		},
-	},
-	imageCard: {
-		borderRadius: 6,
 	},
 }));

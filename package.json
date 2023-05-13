@@ -14,7 +14,8 @@
     "dev:web": "cd ./apps/web && pnpm dev",
     "dev:api": "cd ./apps/api && pnpm dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "build:docker:prod": "docker build ./apps/api -t veneno --build-arg APP_ENV=production"
   },
   "devDependencies": {
     "eslint-config-custom": "workspace:*",

@@ -5,7 +5,7 @@ import { Activity, Chart, Home } from 'react-iconly';
 
 interface MarketProp {}
 
-const MarketScreen = ({}: MarketProp) => {
+const MarketOverviewScreen = ({}: MarketProp) => {
 	const { styles } = useStyle();
 
 	return (
@@ -42,4 +42,4 @@ const FilterComponent = ({ text, icon }: { text: string; icon: any }) => {
 	);
 };
 
-export default MarketScreen;
+export default MarketOverviewScreen;

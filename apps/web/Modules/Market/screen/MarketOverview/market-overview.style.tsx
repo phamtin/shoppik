@@ -2,14 +2,11 @@ import { createStyles } from 'antd-style';
 
 export default createStyles(({ token }) => ({
 	wrapper: {
-		marginLeft: 48,
-		marginRight: 48,
+		margin: '24px 42px 0 42px',
 
 		'.title': {
-			fontSize: '40px',
-			marginBottom: 40,
+			marginBottom: token.marginLG,
 		},
-
 		'.button': {
 			display: 'flex',
 			borderWidth: 2,
@@ -17,8 +14,7 @@ export default createStyles(({ token }) => ({
 			alignItems: 'center',
 			'.paragraph': {
 				marginBottom: 0,
-				marginLeft: 8,
-				fontSize: 14,
+				marginLeft: token.marginXS,
 			},
 			':hover': {
 				color: token.colorTextLabel,

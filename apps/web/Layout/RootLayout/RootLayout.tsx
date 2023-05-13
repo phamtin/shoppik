@@ -32,7 +32,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
 			</Sider>
 			<Layout style={{ height: '100%', overflow: 'auto' }}>
 				<NavBar />
-				<Content>{children}</Content>
+				<Content style={{ backgroundColor: '#fff' }}>{children}</Content>
 			</Layout>
 		</Layout>
 	);

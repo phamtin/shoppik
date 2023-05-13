@@ -11,8 +11,7 @@
     "check:types": "tsc --noEmit",
     "lint": "eslint . ",
     "lint:fix": "eslint . --fix",
-    "build": "tsc --project .",
-    "build:docker:prod": "docker build . -t veneno --build-arg APP_ENV=production"
+    "build": "tsc --project ."
   },
   "keywords": [
     "fastify"
