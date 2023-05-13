@@ -9,7 +9,7 @@ export default createStyles(({ token }) => ({
 		marginBottom: 62,
 		marginRight: token.marginXL,
 		backgroundColor: 'white',
-		boxShadow: `8px 2px 30px ${token.colorFill}`,
+		boxShadow: ' rgba(0, 0, 0, 0.15) 2px 5px 15px 0px',
 		'.ant-card-body': {
 			padding: `${token.paddingXS}px 0 ${token.paddingXXS}px 0`,
 			'.title': {

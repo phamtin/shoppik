@@ -15,7 +15,7 @@ const ProductCard = () => {
 						src="/images/product.png"
 						width={180}
 						height={180}
-						style={{ borderRadius: 20 }}
+						style={{ borderRadius: 18 }}
 					/>
 				}
 			>
