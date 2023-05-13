@@ -3,6 +3,9 @@
   "singleQuote": true,
   "trailingComma": "all",
   "tabWidth": 2,
+  "quoteProps": "as-needed",
   "singleAttributePerLine": false,
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "semi": true,
+  "endOfLine": "auto"
 }

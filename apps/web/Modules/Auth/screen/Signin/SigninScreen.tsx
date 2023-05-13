@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import Image from 'next/image';
 import { BuiltInProviderType } from 'next-auth/providers';
 
 import { Button, Typography, Col, Row } from 'ui/components/Core';

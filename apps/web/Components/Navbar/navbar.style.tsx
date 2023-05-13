@@ -15,7 +15,7 @@ const styles = createStyles(({ token }) => ({
 				display: 'flex',
 				width: 480,
 				span: {
-					backgroundColor: token.colorBgContainerDisabled,
+					backgroundColor: token.colorBgLayout,
 					marginRight: token.marginSM,
 				},
 			},

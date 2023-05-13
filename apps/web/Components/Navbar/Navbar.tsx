@@ -11,6 +11,7 @@ import useStyle from './navbar.style';
 import { getItem } from '@/Utils/common';
 import NotiButton from './NotiButton/NotiButton';
 import { trpc } from '@/Utils/trpc/trpc';
+
 import { Filter, Search } from 'react-iconly';
 
 const { Header } = Layout;
@@ -22,6 +23,7 @@ const NavBar = () => {
 	const items: MenuProps['items'] = [
 		getItem(<Text>Charts</Text>, 'sub3'),
 		getItem(<Text>Actions</Text>, 'sub4'),
+
 		getItem(
 			'Group',
 			'grp',

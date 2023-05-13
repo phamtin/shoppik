@@ -7,7 +7,6 @@
     "packages/*"
   ],
   "scripts": {
-    "prepare": "cd ./apps/web && husky install",
     "build": "turbo run build",
     "dev:u": "cd ./apps/api && docker compose up -d",
     "dev:d": "cd ./apps/api && docker compose down --remove-orphans",
@@ -19,12 +18,10 @@
   },
   "devDependencies": {
     "eslint-config-custom": "workspace:*",
-    "prettier": "latest",
     "turbo": "latest"
   },
   "engines": {
     "node": ">=18.15.0"
   },
-  "dependencies": {},
   "packageManager": "pnpm@7.25.1"
 }

@@ -17,7 +17,7 @@ const styles = createStyles(({ token }) => ({
 				borderColor: `transparent !important`,
 			},
 			'&.ant-menu-item-active': {
-				color: token.colorBgLayout + '!important',
+				color: `${token.colorBgLayout} !important`,
 				backgroundColor: `transparent`,
 				border: `1px solid #5a5a5a`,
 			},
