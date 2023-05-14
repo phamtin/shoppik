@@ -1,15 +1,15 @@
-import { memo } from 'react';
+import {memo} from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { Home, Bag, Chart, Message, Activity } from 'react-iconly';
+import {useRouter} from 'next/router';
+import {Home, Bag, Chart, Message, Activity} from 'react-iconly';
 
-import type { MenuProps } from 'ui/components/Core';
-import { Menu } from 'ui/components/Core';
-import { getItem } from '@/Utils/common';
+import type {MenuProps} from 'ui/components/Core';
+import {Menu} from 'ui/components/Core';
+import {getItem} from '@/Utils/common';
 
 import useStyle from './sidebar.style';
 
-const Dot = ({ color }: any) => (
+const Dot = ({color}: any) => (
 	<span
 		style={{
 			display: 'block',
@@ -37,7 +37,7 @@ const items: MenuProps['items'] = [
 ];
 
 const Sidebar: React.FC = () => {
-	const { styles } = useStyle();
+	const {styles} = useStyle();
 	const router = useRouter();
 
 	const onGotoPage: MenuProps['onClick'] = (e) => {
@@ -53,7 +53,7 @@ const Sidebar: React.FC = () => {
 			<br />
 			<Menu
 				items={items}
-				style={{ width: '100%', backgroundColor: '#121212' }}
+				style={{width: '100%', backgroundColor: '#121212'}}
 				defaultSelectedKeys={['1']}
 				defaultOpenKeys={['sub1']}
 				mode="inline"
