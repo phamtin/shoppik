@@ -17,7 +17,6 @@
     "build:docker:prod": "docker build ./apps/api -t veneno --build-arg APP_ENV=production"
   },
   "devDependencies": {
-    "eslint-config-custom": "workspace:*",
     "turbo": "latest"
   },
   "engines": {

@@ -28,7 +28,7 @@ services:
       - "27017:27017"
 
   redis:
-    image: redis:7.0.8-alpine
+    image: redis:7.0.9-alpine
     container_name: "redis"
     volumes:
       - ./dev-volume/redis:/data

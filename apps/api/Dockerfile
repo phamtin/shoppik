@@ -1,23 +1,28 @@
-FROM node:18.15.0 AS builder
+FROM node:18-alpine3.16 AS builder
 
 WORKDIR /app
+
+RUN npm install yarn --global --force
+RUN npm --global install pnpm
 
 COPY . .
 
-RUN npm install
+RUN yarn install -W
 
-RUN npm run build
+RUN mkdir /app/dist
 
-FROM node:18.15.0 AS final
+RUN yarn build
+
+FROM node:18-alpine3.16 AS final
 
 WORKDIR /app
 
-COPY --from=builder ./app/dist ./dist
+COPY --from=builder /app/dist ./dist
 
 COPY package.json .
 
-RUN npm install --omit=dev
+RUN yarn install --omit=dev -W
 
-RUN npm install pm2 -g
+RUN yarn global add pm2
 
 CMD ["pm2-runtime", "ecosystem.config.js", "--env", "production"]
