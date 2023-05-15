@@ -35,13 +35,19 @@ const styles = createStyles(({ token }) => ({
 
 		'ul.ant-menu-vertical': {
 			'li.ant-menu-item': {
-				paddingTop: '3.5px !important',
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				padding: 0,
+				'span.ant-menu-title-content': {
+					display: 'none',
+				},
 			},
 		},
 	},
 	logo: {
 		marginTop: token.marginLG,
-		marginLeft: token.marginSM,
+		marginLeft: token.marginXS - 1,
 	},
 }));
 

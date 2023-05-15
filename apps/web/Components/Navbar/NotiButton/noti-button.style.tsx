@@ -17,7 +17,7 @@ const styles = createStyles(({ token }) => ({
 
 		'li.ant-menu-item': {
 			display: 'block',
-			paddingLeft: '19px',
+			paddingLeft: token.paddingSM,
 			marginBottom: token.marginXS,
 			border: `1px solid transparent`,
 
@@ -44,7 +44,7 @@ const styles = createStyles(({ token }) => ({
 		backgroundColor: token.colorBgContainer,
 		boxShadow: `1px 3px 18px ${token.colorBorder}`,
 		borderRadius: '16px',
-		paddingTop: 16,
+		paddingTop: token.padding,
 		'.ant-segmented': {
 			backgroundColor: 'transparent',
 		},
@@ -76,8 +76,8 @@ const styles = createStyles(({ token }) => ({
 		flexDirection: 'column',
 		width: 410,
 		height: 86,
-		marginLeft: 16,
-		marginRight: 16,
+		marginLeft: token.marginXS,
+		marginRight: token.marginXS,
 		marginBottom: token.marginSM,
 		backgroundColor: token.cyan10,
 		borderRadius: token.borderRadiusLG,

@@ -1,21 +1,23 @@
-import {Button, Col, Row, Typography} from 'ui/components/Core';
+import { Button, Col, Row, Typography } from 'ui/components/Core';
 import useStyle from './market-overview.style';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import {Activity, Chart, Home} from 'react-iconly';
+import { Activity, Chart, Home } from 'react-iconly';
 
-interface MarketProp { }
+interface MarketProp {}
 
-const MarketOverviewScreen = ({ }: MarketProp) => {
-	const {styles} = useStyle();
+const MarketOverviewScreen = ({}: MarketProp) => {
+	const { styles } = useStyle();
 
 	return (
 		<div className={styles.wrapper}>
-			<Typography.Title className="title">Discover Products</Typography.Title>
+			<Typography.Title level={2} className="title">
+				Discover Products
+			</Typography.Title>
 
 			<Row gutter={22}>
-				<FilterComponent text="Category" icon={<Chart style={{width: 20}} />} />
-				<FilterComponent text="Collection" icon={<Home style={{width: 20}} />} />
-				<FilterComponent text="Price" icon={<Activity style={{width: 20}} />} />
+				<FilterComponent text="Category" icon={<Chart style={{ width: 20 }} />} />
+				<FilterComponent text="Collection" icon={<Home style={{ width: 20 }} />} />
+				<FilterComponent text="Price" icon={<Activity style={{ width: 20 }} />} />
 			</Row>
 
 			<div className="productWrapper">
@@ -32,7 +34,7 @@ const MarketOverviewScreen = ({ }: MarketProp) => {
 	);
 };
 
-const FilterComponent = ({text, icon}: {text: string; icon: any}) => {
+const FilterComponent = ({ text, icon }: { text: string; icon: any }) => {
 	return (
 		<Col>
 			<Button size="large" className="button" icon={icon}>

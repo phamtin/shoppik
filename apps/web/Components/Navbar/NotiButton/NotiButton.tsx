@@ -35,7 +35,7 @@ interface DataType {
 }
 
 const NotiButton = () => {
-	const { styles } = useStyle();
+	const { styles, theme } = useStyle();
 
 	const [initLoading, setInitLoading] = useState(true);
 	const [loading, setLoading] = useState(false);
@@ -86,8 +86,8 @@ const NotiButton = () => {
 			<div
 				style={{
 					textAlign: 'center',
-					marginTop: 12,
-					height: 32,
+					marginTop: theme.padding,
+					height: theme.marginLG,
 				}}
 			>
 				<Button onClick={onLoadMore}>loading more</Button>
@@ -111,7 +111,7 @@ const NotiButton = () => {
 								</Typography.Text>
 							</div>
 						</div>
-						<div style={{ padding: '6px 16px 8px 16px' }}>
+						<div>
 							<Segmented
 								block
 								type="primary"

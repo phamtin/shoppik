@@ -2,11 +2,11 @@ import { createStyles } from 'antd-style';
 
 export default createStyles(({ token }) => ({
 	wrapper: {
-		borderRadius: 18,
-		padding: 10,
-		width: 196,
-		minWidth: 196,
-		marginBottom: 62,
+		borderRadius: token.borderRadiusLG * 2,
+		padding: token.paddingSM - 2,
+		width: 190,
+		minWidth: 190,
+		marginBottom: token.marginXXL,
 		marginRight: token.marginXL,
 		backgroundColor: 'white',
 		boxShadow: ' rgba(0, 0, 0, 0.15) 2px 4px 15px 0px',
@@ -29,14 +29,15 @@ export default createStyles(({ token }) => ({
 				alignItems: 'center',
 				justifyContent: 'space-between',
 
-				'.metadata': {
-					marginBottom: 0,
-				},
+				'.metadata': { marginBottom: 0 },
 			},
 		},
 		'.ant-card': {
 			boxShadow: 'none',
 			marginBottom: 0,
+		},
+		':hover': {
+			cursor: 'pointer',
 		},
 	},
 }));

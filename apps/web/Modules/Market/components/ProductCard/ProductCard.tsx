@@ -1,14 +1,14 @@
 import Image from 'next/image';
-import {Button, Card, Typography} from 'ui/components/Core';
+import { Button, Card, Typography } from 'ui/components/Core';
 import useStyle from './ProductCard.style';
 import Link from 'next/link';
 
 const ProductCard = () => {
-	const {styles} = useStyle();
+	const { styles } = useStyle();
 
 	return (
 		<div className={styles.wrapper}>
-			<Link href='/market/[id]' as={'/market/Sun-Glass'}>
+			<Link href="/market/[id]" as={'/market/Sun-Glass'}>
 				<Card
 					bordered={false}
 					cover={
@@ -16,8 +16,8 @@ const ProductCard = () => {
 							alt="example"
 							src="/images/product.png"
 							width={180}
-							height={180}
-							style={{borderRadius: 20}}
+							height={160}
+							style={{ borderRadius: 16 }}
 						/>
 					}
 				>

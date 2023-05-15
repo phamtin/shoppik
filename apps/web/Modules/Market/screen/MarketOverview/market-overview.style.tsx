@@ -2,11 +2,12 @@ import { createStyles } from 'antd-style';
 
 export default createStyles(({ token }) => ({
 	wrapper: {
-		margin: '24px 42px 0 42px',
+		margin: `${token.marginLG}px ${token.marginLG * 2}px 0 ${token.marginLG * 2}px`,
 
 		'.title': {
-			marginBottom: token.marginLG,
+			marginBottom: token.marginMD,
 		},
+
 		'.button': {
 			display: 'flex',
 			borderWidth: 2,
@@ -24,7 +25,7 @@ export default createStyles(({ token }) => ({
 		},
 
 		'.productWrapper': {
-			marginTop: 48,
+			marginTop: token.marginXL,
 			display: 'flex',
 			flexWrap: 'wrap',
 		},

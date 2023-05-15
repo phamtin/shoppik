@@ -27,12 +27,12 @@ const RootLayout = ({ children }: RootLayoutProps) => {
 			>
 				<ArrowLeftSquare />
 			</Button>
-			<Sider width={226} style={siderStyle} collapsed={collapsed}>
+			<Sider collapsedWidth={58} width={226} style={siderStyle} collapsed={collapsed}>
 				<Sidebar />
 			</Sider>
-			<Layout style={{ height: '100%', overflow: 'auto' }}>
+			<Layout style={{ height: '100%', overflow: 'auto', backgroundColor: '#fff' }}>
 				<NavBar />
-				<Content style={{ backgroundColor: '#fff' }}>{children}</Content>
+				<Content>{children}</Content>
 			</Layout>
 		</Layout>
 	);

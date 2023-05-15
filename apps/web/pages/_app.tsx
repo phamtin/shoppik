@@ -5,13 +5,30 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { ConfigProvider } from 'ui/components/Core';
 import EmptyState from '@/Components/EmptyState/EmptyState';
+
 import RootLayout from '@/Layout/RootLayout/RootLayout';
 import { trpc } from '@/Utils/trpc/trpc';
 import '@/styles/globals.css';
+import { useMediaQuery } from '@/Hooks/useMediaQuery';
+import { useOs } from '@/Hooks/useUserAgent';
 
-const customTheme = { borderRadius: 8 };
+const customTheme = {
+	borderRadius: 8,
+	wireframe: false,
+	sizeStep: 4,
+	sizeUnit: 4,
+};
+const customThemeIPad = {
+	borderRadius: 6,
+	wireframe: false,
+	sizeStep: 3,
+	sizeUnit: 3,
+};
 
 export default function App({ Component, pageProps }: AppProps) {
+	const ua = useOs();
+	let theme = customTheme;
+
 	const [queryClient] = useState(() => new QueryClient());
 	const [trpcClient] = useState(() =>
 		trpc.createClient({
@@ -26,14 +43,19 @@ export default function App({ Component, pageProps }: AppProps) {
 		}),
 	);
 
+	const isIpad = useMediaQuery('(max-width: 992px)', true, {
+		getInitialValueInEffect: false,
+	});
+
+	if (ua == 'ios' && isIpad) {
+		theme = customThemeIPad;
+	}
+
 	return (
 		<RootLayout>
 			<trpc.Provider client={trpcClient} queryClient={queryClient}>
 				<QueryClientProvider client={queryClient}>
-					<ConfigProvider
-						theme={{ token: customTheme }}
-						renderEmpty={() => <EmptyState />}
-					>
+					<ConfigProvider theme={{ token: theme }} renderEmpty={() => <EmptyState />}>
 						<Component {...pageProps} />
 					</ConfigProvider>
 				</QueryClientProvider>
