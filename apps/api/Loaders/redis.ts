@@ -19,7 +19,10 @@ class RedisCache {
 		const { prefix, db } = this.options;
 		if (!this.instance) {
 			try {
-				this.instance = new Redis();
+				this.instance = new Redis({
+					host: 'redis',
+					port: 6379,
+				});
 				await this.instance.set('PING', 'PONG');
 				systemLog.info('- Connected WTF to Redis.');
 			} catch (e) {

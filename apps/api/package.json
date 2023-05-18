@@ -7,11 +7,11 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch ./index .env",
-    "start": "node ./bin/www",
+    "start": "node dist/index",
     "check:types": "tsc --noEmit",
     "lint": "eslint . ",
     "lint:fix": "eslint . --fix",
-    "build": "tsc --project ."
+    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json"
   },
   "keywords": [
     "fastify"
@@ -37,7 +37,8 @@
     "pino-pretty": "^10.0.0",
     "trpc-openapi": "^1.1.2",
     "ts-node": "^10.9.1",
-    "zod": "^3.21.4"
+    "zod": "^3.21.4",
+    "tsc-alias": "^1.8.6"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.57.0",

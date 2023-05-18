@@ -1,19 +1,27 @@
 {
 	"compilerOptions": {
+		"baseUrl": ".",
 		"rootDir": "./",
-		"target": "es2017",
+		"target": "es5",
 		"module": "ES6",
-		"moduleResolution": "Node",
+		"moduleResolution": "node",
 		"lib": ["ES5"],
 		"types": ["node"],
 		"allowSyntheticDefaultImports": true,
 		"sourceMap": true,
-		"outDir": "./dist",
+		"outDir": "dist",
 		"skipLibCheck": true,
 		"strict": true,
 		"noImplicitAny": true,
-		"esModuleInterop": true
+		"noEmitOnError": true,
+		"removeComments": false,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true
 	},
-	"include": ["./**/*.ts"],
-	"exclude": ["node_modules"]
+	"include": ["./*"],
+	"exclude": ["node_modules", ".vscode", ".turbo"],
+	"tsc-alias": {
+		"verbose": false,
+		"resolveFullPaths": true
+	}
 }

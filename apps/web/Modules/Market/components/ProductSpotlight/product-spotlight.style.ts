@@ -50,12 +50,8 @@ export default createStyles(({ token }) => ({
 						color: token.colorTextDisabled,
 					},
 					'.productMoreItemPrice': {
-						fontSize: token.fontSizeHeading3,
+						fontSize: token.fontSizeHeading4,
 						margin: 0,
-					},
-					'.productMoreItemTime': {
-						fontSize: token.fontSizeLG,
-						marginTop: token.marginXXS,
 					},
 				},
 			},

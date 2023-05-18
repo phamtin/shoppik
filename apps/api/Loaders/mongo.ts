@@ -9,14 +9,14 @@ class MongoDb {
 
 	constructor(options: MongooseOptions) {
 		this.options = options || {};
-		this.url = 'mongodb://localhost/nodex';
+		this.url = 'mongodb://mongodb:27017';
 		this._connect();
 	}
 
 	async _connect() {
 		if (!this.instance) {
 			try {
-				this.instance = await mongoose.connect(this.url, this.options);
+				this.instance = await mongoose.connect(this.url, { dbName: 'shoppik' });
 				systemLog.info('- Connected to MongoDB.');
 			} catch (e) {
 				this.instance = undefined;

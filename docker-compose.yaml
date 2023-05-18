@@ -7,7 +7,6 @@ services:
       context: .
       dockerfile: ./apps/api/Dockerfile
     environment:
-      - NODE_ENV=${NODE_ENV}
       - API_PORT=${API_PORT}
       - API_HOST=${API_HOST}
       - LOG_LEVEL=${LOG_LEVEL}

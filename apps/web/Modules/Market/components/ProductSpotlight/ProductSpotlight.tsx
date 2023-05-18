@@ -45,7 +45,7 @@ const ProductSpotLight = (props: ProductSpotLightProps) => {
 						<div className="productMore">
 							<div className="productMoreItem">
 								<Text className="productMoreItemTitle">Current Bid</Text>
-								<Title className="productMoreItemPrice">1.75</Title>
+								<Text className="productMoreItemPrice">1.75</Text>
 							</div>
 							<div className="productMoreItem">
 								<Text className="productMoreItemTitle">End In</Text>
