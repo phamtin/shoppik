@@ -4,7 +4,7 @@ import useStyle from './ProductCard.style';
 import Link from 'next/link';
 
 const ProductCard = () => {
-	const { styles } = useStyle();
+	const { styles, theme } = useStyle();
 
 	return (
 		<div className={styles.wrapper}>
@@ -12,13 +12,7 @@ const ProductCard = () => {
 				<Card
 					bordered={false}
 					cover={
-						<Image
-							alt="example"
-							src="/images/product.png"
-							width={180}
-							height={160}
-							style={{ borderRadius: 16 }}
-						/>
+						<Image alt="example" src="/images/product.png" width={180} height={160} />
 					}
 				>
 					<Typography.Title className="title">Sun-Glass</Typography.Title>

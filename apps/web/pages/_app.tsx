@@ -17,12 +17,14 @@ const customTheme = {
 	wireframe: false,
 	sizeStep: 4,
 	sizeUnit: 4,
+	fontSize: 13.4,
 };
 const customThemeIPad = {
 	borderRadius: 6,
 	wireframe: false,
 	sizeStep: 3,
-	sizeUnit: 3,
+	sizeUnit: 4,
+	fontSize: 10,
 };
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -43,9 +45,10 @@ export default function App({ Component, pageProps }: AppProps) {
 		}),
 	);
 
-	const isIpad = useMediaQuery('(max-width: 992px)', true, {
+	const isIpad = useMediaQuery('(max-width: 1180px)', true, {
 		getInitialValueInEffect: false,
 	});
+	console.log({ isIpad, ua });
 
 	if (ua == 'ios' && isIpad) {
 		theme = customThemeIPad;

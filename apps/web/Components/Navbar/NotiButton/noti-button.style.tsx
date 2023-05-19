@@ -43,7 +43,7 @@ const styles = createStyles(({ token }) => ({
 		height: 'calc(100vh - 60px)',
 		backgroundColor: token.colorBgContainer,
 		boxShadow: `1px 3px 18px ${token.colorBorder}`,
-		borderRadius: '16px',
+		borderRadius: token.borderRadiusLG,
 		paddingTop: token.padding,
 		'.ant-segmented': {
 			backgroundColor: 'transparent',

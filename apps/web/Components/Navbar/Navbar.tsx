@@ -40,17 +40,17 @@ const NavBar = () => {
 				<div className="inputSearch">
 					<Input
 						size="large"
-						placeholder="search"
+						placeholder="search.."
 						bordered={false}
 						prefix={
 							<Search
 								set="light"
-								style={{ width: 20 }}
+								style={{ width: theme.sizeMD }}
 								primaryColor={theme.colorTextDisabled}
 							/>
 						}
 					/>
-					<Button size="large" type="primary" icon={<Filter set="light" />} />
+					<Button size="large" icon={<Filter />} />
 				</div>
 			</div>
 			<Space size="small">

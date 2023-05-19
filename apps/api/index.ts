@@ -18,7 +18,7 @@ for (const signal of ['SIGINT', 'SIGTERM']) {
 (async () => {
 	try {
 		await Fastify.ready();
-		await Fastify.listen({ port: 8000 });
+		await Fastify.listen({ port: process.env.API_PORT as any, host: '0.0.0.0' });
 
 		systemLog.info('- Shoppik API boosted at: 8000');
 		systemLog.info('------------------------------');

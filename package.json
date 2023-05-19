@@ -7,14 +7,14 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "build": "cd ./apps/api && pnpm run build",
     "dev:u": "cd ./apps/api && docker compose up ",
     "dev:d": "cd ./apps/api && docker compose down --remove-orphans",
     "dev:web": "cd ./apps/web && pnpm dev",
     "dev:api": "cd ./apps/api && pnpm dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "build:docker:prod": "docker build ./apps/api -t veneno --build-arg APP_ENV=production",
+    "build:docker:prod": "docker build ./apps/api -t veneno . --build-arg APP_ENV=production",
     "turbo": "latest"
   },
   "devDependencies": {},

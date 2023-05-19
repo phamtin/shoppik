@@ -36,6 +36,12 @@ export default createStyles(({ token }) => ({
 			boxShadow: 'none',
 			marginBottom: 0,
 		},
+		'.ant-card-cover': {
+			'> span': {
+				borderRadius: token.borderRadiusSM * 2 + 2,
+				overflow: 'hidden',
+			},
+		},
 		':hover': {
 			cursor: 'pointer',
 		},

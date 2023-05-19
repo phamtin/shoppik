@@ -15,7 +15,21 @@
 	},
 	"plugins": ["@typescript-eslint", "prettier"],
 	"rules": {
-		"prettier/prettier": "warn",
+		"prettier/prettier": [
+			"error",
+			{
+				"singleQuote": true,
+				"printWidth": 90,
+				"jsxBracketSameLine": false,
+				"semi": true,
+				"endOfLine": "auto",
+				"trailingComma": "all",
+				"tabWidth": 2,
+				"quoteProps": "as-needed",
+				"singleAttributePerLine": false,
+				"bracketSpacing": true
+			}
+		],
 		"no-console": "warn",
 		"react-hooks/exhaustive-deps": "error",
 		"no-var": "error",

@@ -1,9 +1,12 @@
 .next
 .cache
 .github
+.turbo
 build
 package-lock.json
 public
+.eslintrc.js
+tsconfig.json
 node_modules
 next-env.d.ts
 next.config.ts

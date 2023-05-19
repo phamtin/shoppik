@@ -1,6 +1,6 @@
 import { Typography } from 'ui/components/Core';
-import useStyles from './InfoItem.style';
 import Image from 'next/image';
+import useStyles from './InfoItem.style';
 
 interface InfoItemProps {
 	image: string;

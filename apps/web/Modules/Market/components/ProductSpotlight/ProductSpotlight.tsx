@@ -22,7 +22,6 @@ const ProductSpotLight = (props: ProductSpotLightProps) => {
 							src="/images/product-detail.png"
 							layout="fill"
 							objectFit="cover"
-							style={{ borderRadius: 18 }}
 						/>
 					</div>
 				</Col>

@@ -1,5 +1,5 @@
 {
-  "editor.indentSize": "tabSize",
-  "editor.tabSize": 2,
-  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
+	"editor.indentSize": "tabSize",
+	"editor.tabSize": 2,
+	"typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
 }

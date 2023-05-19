@@ -1,16 +1,16 @@
 import { createStyles } from 'antd-style';
 
-const styles = createStyles(({ token }) => ({
+const styles = createStyles(({ token }, props: any) => ({
 	wrapper: {
 		padding: token.paddingXXS,
 
 		'li.ant-menu-item': {
 			display: 'block',
 			color: token.colorBorder,
-			marginBottom: token.marginXS,
 			border: `1px solid transparent`,
 			transition: '0s',
-			svg: { width: 20 },
+			fontSize: 12.6,
+			svg: { width: '18.6px', marginBottom: 3, color: '#FFF !important' },
 			'&.ant-menu-item-selected': {
 				color: token.colorBgBase,
 				backgroundColor: `${token.colorPrimary} !important`,
@@ -24,8 +24,9 @@ const styles = createStyles(({ token }) => ({
 		},
 
 		'li.ant-menu-submenu': {
+			fontSize: 12.6,
 			color: token.colorBorder,
-			svg: { width: '20px' },
+			svg: { width: '18.6px', marginLeft: 1, color: '#FFF !important' },
 			'&:hover': {
 				'span, i, svg': {
 					color: token.colorBorder,
@@ -46,8 +47,15 @@ const styles = createStyles(({ token }) => ({
 		},
 	},
 	logo: {
+		display: 'flex',
+		alignItems: 'end',
 		marginTop: token.marginLG,
-		marginLeft: token.marginXS - 1,
+		marginLeft: props.collapsed ? token.marginXS : token.marginSM,
+		h4: {
+			color: token.colorBgBase,
+			marginBottom: 0,
+			marginLeft: token.marginXXS,
+		},
 	},
 }));
 

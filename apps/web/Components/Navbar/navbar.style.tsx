@@ -14,8 +14,8 @@ const styles = createStyles(({ token }) => ({
 			'.inputSearch': {
 				display: 'flex',
 				width: 480,
-				span: {
-					backgroundColor: token.colorBgLayout,
+				'span.ant-input-affix-wrapper': {
+					backgroundColor: token.colorBorderSecondary,
 					marginRight: token.marginSM,
 				},
 			},

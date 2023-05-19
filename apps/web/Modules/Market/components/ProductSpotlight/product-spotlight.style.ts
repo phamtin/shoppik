@@ -8,10 +8,14 @@ export default createStyles(({ token }) => ({
 		marginBottom: token.marginLG,
 		backgroundColor: 'white',
 		boxShadow: ' rgba(0, 0, 0, 0.15) 2px 4px 28px 0px',
-		borderRadius: 18,
+		borderRadius: token.borderRadiusLG * 2 - 2,
 
 		'> .ant-row': {
 			width: '100%',
+		},
+
+		img: {
+			borderRadius: token.borderRadiusLG + 2,
 		},
 
 		'.productInfo': {

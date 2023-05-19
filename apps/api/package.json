@@ -37,15 +37,15 @@
     "pino-pretty": "^10.0.0",
     "trpc-openapi": "^1.1.2",
     "ts-node": "^10.9.1",
-    "zod": "^3.21.4",
-    "tsc-alias": "^1.8.6"
+    "tsc-alias": "^1.8.6",
+    "typescript": "^5.0.4",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
     "eslint": "^8.37.0",
     "prettier": "^2.8.7",
-    "tsx": "^3.12.7",
-    "typescript": "^5.0.4"
+    "tsx": "^3.12.7"
   }
 }

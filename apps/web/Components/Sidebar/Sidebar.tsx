@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Home, Bag, Chart, Message, Activity } from 'react-iconly';
 
-import type { MenuProps } from 'ui/components/Core';
+import { MenuProps, Typography } from 'ui/components/Core';
 import { Menu } from 'ui/components/Core';
 import { getItem } from '@/Utils/common';
 
@@ -17,17 +17,17 @@ const Dot = ({ color }: any) => (
 			width: '7px',
 			marginRight: '7px',
 			background: `${color}`,
-			borderRadius: '100px',
+			borderRadius: '100%',
 		}}
 	></span>
 );
 
 const items: MenuProps['items'] = [
-	getItem('Dashboard', 'shoppik', <Home />),
-	getItem('Market', 'market', <Chart />),
-	getItem('Activity', 'activity', <Activity />),
-	getItem('Messengers', 'messengers', <Message />),
-	getItem('My store', 'sub2', <Bag />, [
+	getItem('Dashboard', 'shoppik', <Home set="bold" />),
+	getItem('Market', 'market', <Chart set="bold" />),
+	getItem('Activity', 'activity', <Activity set="bold" />),
+	getItem('Messengers', 'messengers', <Message set="bold" />),
+	getItem('My store', 'sub2', <Bag set="bold" />, [
 		getItem('Overview', 'overview', <Dot color="orangered" />),
 		getItem('Partners', 'partners', <Dot color="orange" />),
 		getItem('Statistic', 'statistic', <Dot color="#acff1e" />),
@@ -36,8 +36,12 @@ const items: MenuProps['items'] = [
 	]),
 ];
 
-const Sidebar: React.FC = () => {
-	const { styles } = useStyle();
+interface SidebarProp {
+	collapsed: boolean;
+}
+
+const Sidebar: React.FC<SidebarProp> = ({ collapsed }) => {
+	const { styles } = useStyle({ collapsed });
 	const router = useRouter();
 
 	const onGotoPage: MenuProps['onClick'] = (e) => {
@@ -48,12 +52,12 @@ const Sidebar: React.FC = () => {
 		<div className={styles.wrapper}>
 			<div className={styles.logo}>
 				<Image alt="logo main" width={36} height={32} src={'/images/logo-main.png'} />
+				{!collapsed && <Typography.Title level={4}>Shoppik</Typography.Title>}
 			</div>
-			<br />
 			<br />
 			<Menu
 				items={items}
-				style={{ width: '100%', backgroundColor: '#121212' }}
+				style={{ width: '100%', backgroundColor: '#0a0a0a' }}
 				defaultSelectedKeys={['1']}
 				defaultOpenKeys={['sub1']}
 				mode="inline"
