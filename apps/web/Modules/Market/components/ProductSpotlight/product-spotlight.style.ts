@@ -15,7 +15,7 @@ export default createStyles(({ token }) => ({
 		},
 
 		img: {
-			borderRadius: token.borderRadiusLG + 2,
+			borderRadius: token.borderRadiusLG * 2 - 2,
 		},
 
 		'.productInfo': {
@@ -51,7 +51,7 @@ export default createStyles(({ token }) => ({
 					flexDirection: 'column',
 					'.productMoreItemTitle': {
 						fontSize: token.fontSizeSM,
-						color: token.colorTextDisabled,
+						color: token.colorTextQuaternary,
 					},
 					'.productMoreItemPrice': {
 						fontSize: token.fontSizeHeading4,

@@ -21,8 +21,3 @@ export const apiRouter = router({
 			};
 		}),
 });
-
-// Infer the type of your router, and then generate the abstract types for use in the client
-// type MyRouterType = ReturnType<typeof createRouter>
-// export MyRouterLike = RouterLike<MyRouterType>
-// export MyRouterUtilsLike = UtilsLike<MyRouterType>a

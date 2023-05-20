@@ -19,7 +19,7 @@ const DetailTitle = ({ title }: DetailTitleProps) => {
 		<Space align="center" className={styles.wrapper}>
 			<Button
 				onClick={goBack}
-				icon={<Image src="/images/ic-back.png" alt="back" height={11} width={6} />}
+				icon={<Image src="/images/ic-back.png" alt="back" height={10} width={6} />}
 				className="iconBack"
 			/>
 			<Title level={5}>Market Detail</Title>

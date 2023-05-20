@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
+import { z } from 'zod';
 
-const { ObjectId } = mongoose.Types;
+export const z_Product = z.object({
+	name: z.string(),
+	price: z.number(),
+	storeId: z.string().optional(),
+});
 
-export type Product = {
-	name: string;
-	price: number;
-	storeId: typeof ObjectId;
-};
+export type Product = z.infer<typeof z_Product>;

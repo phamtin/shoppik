@@ -12,10 +12,11 @@ import useStyle from './sidebar.style';
 const Dot = ({ color }: any) => (
 	<span
 		style={{
-			display: 'block',
+			display: 'inline-block',
 			height: '7px',
 			width: '7px',
-			marginRight: '7px',
+			marginRight: '3px',
+			marginBottom: '1px',
 			background: `${color}`,
 			borderRadius: '100%',
 		}}
@@ -28,7 +29,7 @@ const items: MenuProps['items'] = [
 	getItem('Activity', 'activity', <Activity set="bold" />),
 	getItem('Messengers', 'messengers', <Message set="bold" />),
 	getItem('My store', 'sub2', <Bag set="bold" />, [
-		getItem('Overview', 'overview', <Dot color="orangered" />),
+		getItem('Overssview', 'overview', <Dot color="orangered" />),
 		getItem('Partners', 'partners', <Dot color="orange" />),
 		getItem('Statistic', 'statistic', <Dot color="#acff1e" />),
 		getItem('Performance', 'performance', <Dot color="#367df8" />),

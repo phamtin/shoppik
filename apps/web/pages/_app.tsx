@@ -1,23 +1,22 @@
 import { useState } from 'react';
 import { AppProps } from 'next/app';
-import { httpBatchLink } from '@trpc/client';
+import { httpBatchLink, httpLink } from '@trpc/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-import { ConfigProvider } from 'ui/components/Core';
 import EmptyState from '@/Components/EmptyState/EmptyState';
-
 import RootLayout from '@/Layout/RootLayout/RootLayout';
-import { trpc } from '@/Utils/trpc/trpc';
-import '@/styles/globals.css';
 import { useMediaQuery } from '@/Hooks/useMediaQuery';
+import { ConfigProvider } from 'ui/components/Core';
 import { useOs } from '@/Hooks/useUserAgent';
+import { trpc } from '@/Utils/trpc/trpc';
+
+import '@/styles/globals.css';
 
 const customTheme = {
 	borderRadius: 8,
 	wireframe: false,
 	sizeStep: 4,
 	sizeUnit: 4,
-	fontSize: 13.4,
+	fontSize: 13.2,
 };
 const customThemeIPad = {
 	borderRadius: 6,
@@ -31,19 +30,24 @@ export default function App({ Component, pageProps }: AppProps) {
 	const ua = useOs();
 	let theme = customTheme;
 
-	const [queryClient] = useState(() => new QueryClient());
-	const [trpcClient] = useState(() =>
-		trpc.createClient({
-			links: [
-				httpBatchLink({
-					url: 'http://localhost:8000/trpc',
-					async headers() {
-						return { authorization: 'API' };
-					},
-				}),
-			],
-		}),
-	);
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				retry: false,
+				refetchOnWindowFocus: false,
+				refetchOnReconnect: false,
+				staleTime: 5 * 60 * 1000, //  5 minutes
+			},
+		},
+	});
+
+	const trpcClient = trpc.createClient({
+		links: [
+			httpLink({
+				url: 'http://localhost:8000/trpc',
+			}),
+		],
+	});
 
 	const isIpad = useMediaQuery('(max-width: 1180px)', true, {
 		getInitialValueInEffect: false,
@@ -55,14 +59,14 @@ export default function App({ Component, pageProps }: AppProps) {
 	}
 
 	return (
-		<RootLayout>
-			<trpc.Provider client={trpcClient} queryClient={queryClient}>
+		<trpc.Provider client={trpcClient} queryClient={queryClient}>
+			<RootLayout>
 				<QueryClientProvider client={queryClient}>
 					<ConfigProvider theme={{ token: theme }} renderEmpty={() => <EmptyState />}>
 						<Component {...pageProps} />
 					</ConfigProvider>
 				</QueryClientProvider>
-			</trpc.Provider>
-		</RootLayout>
+			</RootLayout>
+		</trpc.Provider>
 	);
 }

@@ -9,6 +9,7 @@ const styles = createStyles(({ token }) => ({
 			backgroundColor: token.orange1,
 			svg: {
 				color: token.orange6,
+				marginTop: 2,
 			},
 			'&:hover': {
 				backgroundColor: `${token.orange2}!important`,

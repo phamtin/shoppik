@@ -8,14 +8,13 @@ export default createStyles(({ token }) => ({
 			marginBottom: token.marginMD,
 		},
 
-		'.button': {
+		'.buttonFilter': {
 			display: 'flex',
-			borderWidth: 2,
-			borderColor: token.colorTextLabel,
+			borderWidth: 1,
+			borderColor: token.colorTextQuaternary,
 			alignItems: 'center',
 			'.paragraph': {
 				marginBottom: 0,
-				marginLeft: token.marginXS,
 			},
 			':hover': {
 				color: token.colorTextLabel,

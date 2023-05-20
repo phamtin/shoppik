@@ -8,8 +8,8 @@
   ],
   "scripts": {
     "build": "cd ./apps/api && pnpm run build",
-    "dev:u": "cd ./apps/api && docker compose up ",
-    "dev:d": "cd ./apps/api && docker compose down --remove-orphans",
+    "dev:u": "docker compose up -d",
+    "dev:d": "docker compose down --remove-orphans",
     "dev:web": "cd ./apps/web && pnpm dev",
     "dev:api": "cd ./apps/api && pnpm dev",
     "lint": "turbo run lint",

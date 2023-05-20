@@ -10,7 +10,7 @@ interface InfoItemProps {
 	content: string;
 }
 
-const InfoItem = ({ image, width = 50, height = 50, title, content }: InfoItemProps) => {
+const InfoItem = ({ image, width = 44, height = 44, title, content }: InfoItemProps) => {
 	const { styles } = useStyles();
 
 	return (

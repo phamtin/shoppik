@@ -1,9 +1,7 @@
 import { createStyles } from 'antd-style';
 
-const styles = createStyles(({ token }, props: any) => ({
+const styles = createStyles(({ token }) => ({
 	wrapper: {
-		padding: token.paddingXXS,
-
 		'li.ant-menu-item': {
 			display: 'block',
 			color: token.colorBorder,
@@ -11,6 +9,9 @@ const styles = createStyles(({ token }, props: any) => ({
 			transition: '0s',
 			fontSize: 12.6,
 			svg: { width: '18.6px', marginBottom: 3, color: '#FFF !important' },
+			'.ant-menu-title-content': {
+				marginLeft: token.margin - 2,
+			},
 			'&.ant-menu-item-selected': {
 				color: token.colorBgBase,
 				backgroundColor: `${token.colorPrimary} !important`,
@@ -50,7 +51,7 @@ const styles = createStyles(({ token }, props: any) => ({
 		display: 'flex',
 		alignItems: 'end',
 		marginTop: token.marginLG,
-		marginLeft: props.collapsed ? token.marginXS : token.marginSM,
+		marginLeft: token.marginSM,
 		h4: {
 			color: token.colorBgBase,
 			marginBottom: 0,

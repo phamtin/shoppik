@@ -134,7 +134,7 @@ const NotiButton = () => {
 					</div>
 				)}
 			>
-				<Button size="large" type="text" icon={<Notification set="bold" />} />
+				<Button size="large" type="text" icon={<Notification />} />
 			</Dropdown>
 		</div>
 	);

@@ -1,12 +1,29 @@
-import { Button, Col, Row, Typography } from 'ui/components/Core';
+import { Button, Col, Row, Typography, notification } from 'ui/components/Core';
 import useStyle from './market-overview.style';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import { Activity, Chart, Home } from 'react-iconly';
+import { trpc } from '@/Utils/trpc/trpc';
+import { useEffect } from 'react';
 
 interface MarketProp {}
 
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
+
 const MarketOverviewScreen = ({}: MarketProp) => {
 	const { styles } = useStyle();
+	const [api, contextHolder] = notification.useNotification();
+
+	// const { data, error } = trpc.market.getMarket.useQuery({ price: 1200 });
+
+	// const openNotificationWithIcon = (
+	// 	type: NotificationType,
+	// 	content: string | undefined,
+	// ) => {
+	// 	api[type]({
+	// 		message: 'Notification Title',
+	// 		description: content,
+	// 	});
+	// };
 
 	return (
 		<div className={styles.wrapper}>
@@ -37,7 +54,7 @@ const MarketOverviewScreen = ({}: MarketProp) => {
 const FilterComponent = ({ text, icon }: { text: string; icon: any }) => {
 	return (
 		<Col>
-			<Button size="large" className="button" icon={icon}>
+			<Button size="large" className="buttonFilter" icon={icon}>
 				<Typography.Paragraph className="paragraph">{text}</Typography.Paragraph>
 			</Button>
 		</Col>

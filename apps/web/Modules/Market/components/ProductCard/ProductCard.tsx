@@ -1,10 +1,11 @@
 import Image from 'next/image';
-import { Button, Card, Typography } from 'ui/components/Core';
-import useStyle from './ProductCard.style';
 import Link from 'next/link';
+import { Button, Card, Typography } from 'ui/components/Core';
+
+import useStyle from './ProductCard.style';
 
 const ProductCard = () => {
-	const { styles, theme } = useStyle();
+	const { styles } = useStyle();
 
 	return (
 		<div className={styles.wrapper}>

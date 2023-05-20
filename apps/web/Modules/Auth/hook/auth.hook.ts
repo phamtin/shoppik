@@ -1,5 +1,4 @@
 import { useMutation } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
 import authApi from '../api/api.auth';
 
 export const useSignin = (): any => {

@@ -104,7 +104,7 @@ const HomePage = () => {
 				</Button>
 			</Popconfirm>
 			<div style={{ margin: 20 }}>
-				<Table columns={columns} dataSource={data} />;
+				<Table columns={columns} dataSource={data} />
 			</div>
 		</div>
 	);
