@@ -7,17 +7,15 @@ import {
 	Space,
 	Typography,
 } from 'ui/components/Core';
+import { Filter, Search } from 'react-iconly';
 import useStyle from './navbar.style';
 import { getItem } from '@/Utils/common';
 import NotiButton from './NotiButton/NotiButton';
-import { trpc } from '@/Utils/trpc/trpc';
-
-import { Filter, Search } from 'react-iconly';
 
 const { Header } = Layout;
 const { Text } = Typography;
 
-const NavBar = () => {
+function NavBar() {
 	const { styles, theme } = useStyle();
 
 	const items: MenuProps['items'] = [
@@ -57,14 +55,12 @@ const NavBar = () => {
 				<NotiButton />
 				<div>
 					<Dropdown menu={{ items }} overlayStyle={{ width: 200 }}>
-						<a onClick={(e) => e.preventDefault()}>
-							<Typography>Profile</Typography>
-						</a>
+						<Button onClick={(e) => e.preventDefault()}>Profile</Button>
 					</Dropdown>
 				</div>
 			</Space>
 		</Header>
 	);
-};
+}
 
 export default NavBar;

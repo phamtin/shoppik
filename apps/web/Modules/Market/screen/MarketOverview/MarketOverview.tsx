@@ -1,29 +1,34 @@
-import { Button, Col, Row, Typography, notification } from 'ui/components/Core';
+import { PropsWithChildren } from 'react';
+import { Button, Col, Row, Typography } from 'ui/components/Core';
+import { Activity, Chart, Home } from 'react-iconly';
 import useStyle from './market-overview.style';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import { Activity, Chart, Home } from 'react-iconly';
-import { trpc } from '@/Utils/trpc/trpc';
-import { useEffect } from 'react';
+import { trpc } from '@/lib/trpc/trpc';
 
-interface MarketProp {}
+interface MarketProp extends PropsWithChildren {
+	products: any[];
+}
 
-type NotificationType = 'success' | 'info' | 'warning' | 'error';
+const FilterComponent = ({ text, icon }: { text: string; icon: any }) => {
+	return (
+		<Col>
+			<Button size="large" className="buttonFilter" icon={icon}>
+				<Typography.Paragraph className="paragraph">{text}</Typography.Paragraph>
+			</Button>
+		</Col>
+	);
+};
 
-const MarketOverviewScreen = ({}: MarketProp) => {
+const MarketOverviewScreen = ({ products }: MarketProp) => {
 	const { styles } = useStyle();
-	const [api, contextHolder] = notification.useNotification();
 
-	// const { data, error } = trpc.market.getMarket.useQuery({ price: 1200 });
+	const { data, error } = trpc.market.getmarket.useQuery({ price: 1200 });
 
-	// const openNotificationWithIcon = (
-	// 	type: NotificationType,
-	// 	content: string | undefined,
-	// ) => {
-	// 	api[type]({
-	// 		message: 'Notification Title',
-	// 		description: content,
-	// 	});
-	// };
+	if (!data) return <> </>;
+
+	if (data.length) {
+		console.log(data[0]);
+	}
 
 	return (
 		<div className={styles.wrapper}>
@@ -48,16 +53,6 @@ const MarketOverviewScreen = ({}: MarketProp) => {
 				<ProductCard />
 			</div>
 		</div>
-	);
-};
-
-const FilterComponent = ({ text, icon }: { text: string; icon: any }) => {
-	return (
-		<Col>
-			<Button size="large" className="buttonFilter" icon={icon}>
-				<Typography.Paragraph className="paragraph">{text}</Typography.Paragraph>
-			</Button>
-		</Col>
 	);
 };
 

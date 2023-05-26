@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Avatar, List, Skeleton } from 'ui/components/Core';
 
-const NotiItem = ({ item }: any) => {
+function NotiItem({ item }: any) {
 	return (
 		<List.Item>
 			<Skeleton avatar title={false} loading={item.loading} active>
@@ -13,6 +13,6 @@ const NotiItem = ({ item }: any) => {
 			</Skeleton>
 		</List.Item>
 	);
-};
+}
 
 export default memo(NotiItem);

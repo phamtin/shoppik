@@ -10,6 +10,7 @@ class MongoDb {
 	constructor(options: MongooseOptions) {
 		this.options = options || {};
 		this.url = 'mongodb://mongodb:27017';
+		// this.url = 'mongodb://localhost:27017';
 		this._connect();
 	}
 
@@ -33,35 +34,6 @@ class MongoDb {
 	}
 }
 
-const db = new MongoDb({});
+const db = () => new MongoDb({});
 
 export default db;
-
-// const fastifyMongoose = async (fastify: FastifyInstance, options: any, next: Function) => {
-//     mongoose.set('strictQuery', false);
-
-//     const uri = options.uri;
-//     if (!uri) {
-//         next(new Error('`uri` parameter is mandatory'));
-//         return;
-//     }
-//     delete options.uri;
-
-//     try {
-//         await connect(uri, { ...options });
-
-//         systemLog.info('- Connected to MongoDB.');
-
-//         next();
-//     } catch (err) {
-//         await mongoose.disconnect();
-//         await mongoose.connection.close();
-//         fastify.log.error(err, 'Error connecting to MongoDB');
-//         next(err);
-//     }
-// };
-
-// export default fp(fastifyMongoose, {
-//     fastify: '>=4.13.0',
-//     name: 'fastify-mongoose',
-// });

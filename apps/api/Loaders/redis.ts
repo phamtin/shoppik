@@ -23,6 +23,10 @@ class RedisCache {
 					host: 'redis',
 					port: 6379,
 				});
+				// this.instance = new Redis({
+				// 	host: 'localhost',
+				// 	port: 6379,
+				// });
 				await this.instance.set('PING', 'PONG');
 				systemLog.info('- Connected WTF to Redis.');
 			} catch (e) {

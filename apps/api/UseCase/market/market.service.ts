@@ -1,34 +1,22 @@
-import { Types } from 'mongoose';
-import { STATUS, UserEntity } from '../../Model/account/account.entity';
-import { IUserRepo } from '../../Repository/user.repo';
+import { z } from 'zod';
 
-export default function makeAuthService(UserRepo: IUserRepo) {
-	async function signup(provider: 'google' | 'github') {
-		// Validate parameters...
-		// Create user...
-		// Create user items...
+import makeProductService from '../product/product.service';
+import { Context } from '../../Router/context';
+import { getMarketRequest } from 'Router/routers/market';
 
-		const payload2: UserEntity = {
-			firstname: 'Tin',
-			lastname: 'Pham',
-			status: STATUS.ACTIVE,
-			entityId: new Types.ObjectId(),
-			roleId: new Types.ObjectId(),
-			managers: [new Types.ObjectId()],
-		};
+export default function makeMarketService() {
+	const productService = makeProductService();
 
-		const user = await UserRepo.create(payload2);
+	async function getPublicMarket(ctx: Context, request: z.infer<typeof getMarketRequest>) {
+		const products = productService.getProducts(request.price);
 
-		return true;
+		return products;
 	}
 
-	async function signin(email: string) {
-		// Validate parameters...
-		// Create user...
-		// Create user items...
-
-		return true;
+	async function getCustomizedMarket(ctx: Context, request: z.infer<typeof getMarketRequest>) {
+		const products = productService.getProducts(1110);
+		return products;
 	}
 
-	return Object.freeze({ signup, signin });
+	return Object.freeze({ getPublicMarket, getCustomizedMarket });
 }

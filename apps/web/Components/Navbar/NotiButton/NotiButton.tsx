@@ -1,14 +1,5 @@
-import { useEffect, useState } from 'react';
-import {
-	Avatar,
-	Button,
-	Dropdown,
-	List,
-	Segmented,
-	Typography,
-	message,
-	Skeleton,
-} from 'ui/components/Core';
+import { memo, ReactNode, useEffect, useState } from 'react';
+import { Button, Dropdown, List, Segmented, Typography } from 'ui/components/Core';
 import { Notification } from 'react-iconly';
 
 import useStyle from './noti-button.style';
@@ -17,7 +8,7 @@ import NotiItem from './NotiItem';
 const count = 8;
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
 
-interface DataType {
+export interface DataType {
 	gender?: string;
 	name: {
 		title?: string;
@@ -34,7 +25,46 @@ interface DataType {
 	loading: boolean;
 }
 
-const NotiButton = () => {
+interface NotiDropdownProps {
+	list: DataType[];
+	initLoading: boolean;
+	loadMore: ReactNode;
+	style: any;
+}
+
+const NotiDropdown = memo(({ style, list, initLoading, loadMore }: NotiDropdownProps) => (
+	<div className={style.notiDropdown}>
+		<div className={style.header}>
+			<Typography.Title level={5}>Notifications</Typography.Title>
+			<div>
+				<Typography.Text>
+					You have <strong>430</strong> new messages,&nbsp;
+				</Typography.Text>
+				<Typography.Text className="markRead" underline>
+					mark all read?
+				</Typography.Text>
+			</div>
+		</div>
+		<div>
+			<Segmented block type="primary" options={['Timeline', 'Tasks', 'Reports']} />
+		</div>
+		<div className={style.content}>
+			<div className="notiList">
+				<List
+					className="loadmoreList"
+					loading={initLoading}
+					itemLayout="horizontal"
+					loadMore={loadMore}
+					dataSource={list}
+					renderItem={(item) => <NotiItem item={item} />}
+				/>
+			</div>
+			<Button block>See all</Button>
+		</div>
+	</div>
+));
+
+function NotiButton() {
 	const { styles, theme } = useStyle();
 
 	const [initLoading, setInitLoading] = useState(true);
@@ -51,10 +81,6 @@ const NotiButton = () => {
 				setList(res.results);
 			});
 	}, []);
-
-	const markAllRead = () => {
-		message.success('Successfully');
-	};
 
 	const onLoadMore = () => {
 		setLoading(true);
@@ -94,50 +120,22 @@ const NotiButton = () => {
 			</div>
 		) : null;
 
+	const renderNotiDropdown = () => (
+		<NotiDropdown
+			list={list}
+			initLoading={initLoading}
+			loadMore={loadMore}
+			style={styles}
+		/>
+	);
+
 	return (
 		<div className={styles.wrapper}>
-			<Dropdown
-				trigger={['click']}
-				dropdownRender={(menu) => (
-					<div className={styles.notiDropdown}>
-						<div className={styles.header}>
-							<Typography.Title level={5}>Notifications</Typography.Title>
-							<div>
-								<Typography.Text>
-									You have <strong>430</strong> new messages,&nbsp;
-								</Typography.Text>
-								<Typography.Text className="markRead" underline onClick={markAllRead}>
-									mark all read?
-								</Typography.Text>
-							</div>
-						</div>
-						<div>
-							<Segmented
-								block
-								type="primary"
-								options={['Timeline', 'Tasks', 'Reports']}
-							/>
-						</div>
-						<div className={styles.content}>
-							<div className="notiList">
-								<List
-									className="loadmoreList"
-									loading={initLoading}
-									itemLayout="horizontal"
-									loadMore={loadMore}
-									dataSource={list}
-									renderItem={(item) => <NotiItem item={item} />}
-								/>
-							</div>
-							<Button block>See all</Button>
-						</div>
-					</div>
-				)}
-			>
+			<Dropdown trigger={['click']} dropdownRender={renderNotiDropdown}>
 				<Button size="large" type="text" icon={<Notification />} />
 			</Dropdown>
 		</div>
 	);
-};
+}
 
 export default NotiButton;

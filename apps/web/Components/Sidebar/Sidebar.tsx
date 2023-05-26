@@ -3,25 +3,28 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Home, Bag, Chart, Message, Activity } from 'react-iconly';
 
-import { MenuProps, Typography } from 'ui/components/Core';
-import { Menu } from 'ui/components/Core';
+import { Menu, MenuProps, Typography } from 'ui/components/Core';
 import { getItem } from '@/Utils/common';
 
 import useStyle from './sidebar.style';
 
-const Dot = ({ color }: any) => (
-	<span
-		style={{
-			display: 'inline-block',
-			height: '7px',
-			width: '7px',
-			marginRight: '3px',
-			marginBottom: '1px',
-			background: `${color}`,
-			borderRadius: '100%',
-		}}
-	></span>
-);
+function Dot({ color }: { color: string }) {
+	return (
+		<span
+			style={{
+				display: 'inline-block',
+				height: '7px',
+				width: '7px',
+				marginRight: '3px',
+				marginBottom: '1px',
+				background: `${color}`,
+				borderRadius: '100%',
+			}}
+		>
+			{' '}
+		</span>
+	);
+}
 
 const items: MenuProps['items'] = [
 	getItem('Dashboard', 'shoppik', <Home set="bold" />),
@@ -52,7 +55,7 @@ const Sidebar: React.FC<SidebarProp> = ({ collapsed }) => {
 	return (
 		<div className={styles.wrapper}>
 			<div className={styles.logo}>
-				<Image alt="logo main" width={36} height={32} src={'/images/logo-main.png'} />
+				<Image alt="logo main" width={36} height={32} src="/images/logo-main.png" />
 				{!collapsed && <Typography.Title level={4}>Shoppik</Typography.Title>}
 			</div>
 			<br />

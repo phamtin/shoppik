@@ -1,6 +1,6 @@
 {
 	"root": true,
-	"extends": ["next/core-web-vitals", "prettier"],
+	"extends": ["next/core-web-vitals", "airbnb-typescript-prettier"],
 	"env": {
 		"browser": true,
 		"es6": true
@@ -15,28 +15,20 @@
 	},
 	"plugins": ["@typescript-eslint", "prettier"],
 	"rules": {
-		"prettier/prettier": [
-			"error",
-			{
-				"singleQuote": true,
-				"printWidth": 90,
-				"jsxBracketSameLine": false,
-				"semi": true,
-				"endOfLine": "auto",
-				"trailingComma": "all",
-				"tabWidth": 2,
-				"quoteProps": "as-needed",
-				"singleAttributePerLine": false,
-				"bracketSpacing": true
-			}
-		],
 		"no-console": "warn",
 		"react-hooks/exhaustive-deps": "error",
-		"no-var": "error",
 		"brace-style": "error",
 		"prefer-template": "error",
 		"radix": "error",
 		"space-before-blocks": "error",
-		"import/prefer-default-export": "off"
+		"import/prefer-default-export": "off",
+		"react/jsx-uses-react": "off",
+		"react/react-in-jsx-scope": "off",
+		"@typescript-eslint/no-unused-vars": "warn",
+		"import/no-relative-packages": "off",
+		"import/extensions": "off",
+		"import/no-unresolved": "off",
+		"react/function-component-definition": "off",
+		"react/jsx-props-no-spreading": "off"
 	}
 }

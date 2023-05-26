@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 
-import { CreateAccountRequest, CreateAccountResponse, GetAccountsResponse } from '../../Model/account/account.validator';
+import { CreateAccountRequest, CreateAccountResponse } from '../../Model/account/account.validator';
 import { publicProcedure, router } from '../trpc';
 
 export const userRouter = router({

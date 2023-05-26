@@ -1,5 +1,6 @@
 import Fastify from './server.js';
-import systemLog from './Pkgs/systemLog.js';
+import systemLog from './Pkgs/systemLog';
+import mongodb from './Loaders/mongo';
 
 process.on('unhandledRejection', (e) => {
 	systemLog.error(e);
@@ -7,15 +8,19 @@ process.on('unhandledRejection', (e) => {
 });
 
 for (const signal of ['SIGINT', 'SIGTERM']) {
-	process.on(signal, () =>
-		Fastify.close().then(() => {
+	process.on(signal, async () => {
+		await Fastify.close().then(() => {
 			systemLog.error(`Closed application on ${signal}`);
 			process.exit(1);
-		}),
-	);
+		});
+	});
 }
 
-(async () => {
+await (async () => {
+	let db = null;
+	if (!db) {
+		db = mongodb();
+	}
 	try {
 		await Fastify.ready();
 		await Fastify.listen({ port: process.env.API_PORT as any, host: '0.0.0.0' });

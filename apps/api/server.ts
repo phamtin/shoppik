@@ -5,7 +5,7 @@ import fastifyEnv from '@fastify/env';
 
 import { createContext } from './Router/context';
 import redis from './Loaders/redis';
-import { appRouter } from './Router';
+import { appRouter } from './Router/routers/_app';
 import options from './Loaders/env';
 
 const Fastify: FastifyInstance = fastify({
@@ -15,20 +15,20 @@ const Fastify: FastifyInstance = fastify({
 	},
 });
 
-Fastify.register(fastifyEnv, options)
+await Fastify.register(fastifyEnv, options)
+	.register(cors, {
+		origin: true,
+	})
 	.register(fastifyTRPCPlugin, {
 		prefix: '/trpc',
 		trpcOptions: { router: appRouter, createContext },
-	})
-	.register(cors, {
-		origin: true,
 	});
 
 Fastify.get('/ping', async () => {
-	redis._set('airdrop', 100);
+	await redis._set('airdrop', 100);
 	return 'Hello from very first tRPC !';
 });
 
-export type { AppRouter } from './Router';
+export type { AppRouter } from './Router/routers/_app';
 
 export default Fastify;

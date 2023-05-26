@@ -9,8 +9,8 @@ import type { NextPage } from 'next';
 import type { ErrorProps } from 'next/error';
 import NextErrorComponent from 'next/error';
 
-const CustomErrorComponent: NextPage<ErrorProps> = (props) => (
-	<NextErrorComponent statusCode={props.statusCode} />
+const CustomErrorComponent: NextPage<ErrorProps> = ({ statusCode }) => (
+	<NextErrorComponent statusCode={statusCode} />
 );
 
 CustomErrorComponent.getInitialProps = async (contextData) => {

@@ -12,7 +12,7 @@ const makeBaseRepo = <T>(EntityModel: Model<T>) => {
 
 	const countDocuments = async (filter: FilterQuery<T> = {}): Promise<number> => EntityModel.countDocuments(filter);
 
-	const find = async (filter: FilterQuery<T>, options: QueryOptions<T> = {}, projection?: ProjectionType<T>): Promise<LeanResultType.Document[]> => {
+	const find = async (filter: FilterQuery<T>, options: QueryOptions<T> = {}, projection?: ProjectionType<T>): Promise<T[]> => {
 		const { populate, sort } = options;
 		const query = EntityModel.find(filter, projection);
 		if (sort) query.sort(sort);
@@ -21,7 +21,7 @@ const makeBaseRepo = <T>(EntityModel: Model<T>) => {
 		return query.populate([populate]).lean();
 	};
 
-	const findOne = async (filter: FilterQuery<T>, options: PopulateOption = {}, projection?: ProjectionType<T>): Promise<Entity | null> => {
+	const findOne = async (filter: FilterQuery<T>, options: PopulateOption = {}, projection?: ProjectionType<T>): Promise<T | null> => {
 		const { populate } = options;
 		const query = EntityModel.findOne(filter, projection);
 		if (!populate) return query.lean();
@@ -29,7 +29,7 @@ const makeBaseRepo = <T>(EntityModel: Model<T>) => {
 		return query.populate([populate]).lean();
 	};
 
-	const findById = async (_id: Types.ObjectId, options: QueryOptions<T> = {}, projection?: ProjectionType<T>): Promise<Entity | null> => {
+	const findById = async (_id: Types.ObjectId, options: QueryOptions<T> = {}, projection?: ProjectionType<T>): Promise<T | null> => {
 		return EntityModel.findById(_id, projection, options);
 	};
 
@@ -37,11 +37,11 @@ const makeBaseRepo = <T>(EntityModel: Model<T>) => {
 		return EntityModel.create(data);
 	};
 
-	const findByIdAndUpdate = async (_id: Types.ObjectId, data: UpdateQuery<T>, options: QueryOptions<T> = {}): Promise<Entity | null> => {
+	const findByIdAndUpdate = async (_id: Types.ObjectId, data: UpdateQuery<T>, options: QueryOptions<T> = {}): Promise<T | null> => {
 		return EntityModel.findByIdAndUpdate(_id, data, options);
 	};
 
-	const findOneAndUpdate = async (filter: FilterQuery<T>, data: UpdateQuery<T>): Promise<Entity | null> => {
+	const findOneAndUpdate = async (filter: FilterQuery<T>, data: UpdateQuery<T>): Promise<T | null> => {
 		return EntityModel.findOneAndUpdate(filter, data);
 	};
 
@@ -53,7 +53,7 @@ const makeBaseRepo = <T>(EntityModel: Model<T>) => {
 		return EntityModel.deleteMany(filter, options);
 	};
 
-	const bulkWrite = async (data: Array<any>, options: MongooseBulkWriteOptions = {}) => {
+	const bulkWrite = async (data: Array<AnyBulkWriteOperation>, options: MongooseBulkWriteOptions = {}) => {
 		return EntityModel.bulkWrite(data, options);
 	};
 

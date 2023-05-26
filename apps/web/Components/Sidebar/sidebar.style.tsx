@@ -7,14 +7,14 @@ const styles = createStyles(({ token }) => ({
 			color: token.colorBorder,
 			border: `1px solid transparent`,
 			transition: '0s',
-			fontSize: 12.6,
+			fontSize: 13,
 			svg: { width: '18.6px', marginBottom: 3, color: '#FFF !important' },
 			'.ant-menu-title-content': {
-				marginLeft: token.margin - 2,
+				marginLeft: token.marginSM,
 			},
 			'&.ant-menu-item-selected': {
 				color: token.colorBgBase,
-				backgroundColor: `${token.colorPrimary} !important`,
+				backgroundColor: `${token['blue-6']} !important`,
 				borderColor: `transparent !important`,
 			},
 			'&.ant-menu-item-active': {
@@ -25,7 +25,7 @@ const styles = createStyles(({ token }) => ({
 		},
 
 		'li.ant-menu-submenu': {
-			fontSize: 12.6,
+			fontSize: 13,
 			color: token.colorBorder,
 			svg: { width: '18.6px', marginLeft: 1, color: '#FFF !important' },
 			'&:hover': {

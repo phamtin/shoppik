@@ -1,6 +1,5 @@
 import { inferAsyncReturnType } from '@trpc/server';
 import { CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
-import mongo from '../Loaders/mongo';
 
 export interface UserRequest {
 	id?: string;
@@ -12,8 +11,7 @@ export function createContext({ req, res }: CreateFastifyContextOptions) {
 		id: '1',
 		name: 'tin' ?? 'anonymous',
 	};
-	const db = mongo;
-	return { db, user };
+	return { req, res, user };
 }
 
 export type Context = inferAsyncReturnType<typeof createContext>;
