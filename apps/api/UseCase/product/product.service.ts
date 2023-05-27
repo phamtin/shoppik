@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 import makeProductRepo from '../../Repository/product.repo';
-import systemLog from 'Pkgs/systemLog';
+import systemLog from '../../Pkgs/systemLog';
 
 export default function makeProductService() {
 	const productRepo = makeProductRepo();

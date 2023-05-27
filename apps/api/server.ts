@@ -15,7 +15,7 @@ const Fastify: FastifyInstance = fastify({
 	},
 });
 
-await Fastify.register(fastifyEnv, options)
+Fastify.register(fastifyEnv, options)
 	.register(cors, {
 		origin: true,
 	})

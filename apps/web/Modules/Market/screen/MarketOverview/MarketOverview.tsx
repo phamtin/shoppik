@@ -24,9 +24,9 @@ const MarketOverviewScreen = ({ products }: MarketProp) => {
 
 	const { data, error } = trpc.market.getmarket.useQuery({ price: 1200 });
 
-	if (!data) return <> </>;
+	// if (!data) return <> </>;
 
-	if (data.length) {
+	if (data?.length) {
 		console.log(data[0]);
 	}
 

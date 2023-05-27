@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 import { publicProcedure, router } from '../trpc';
-import { marketService } from 'UseCase';
-import systemLog from 'Pkgs/systemLog';
+import { marketService } from '../../UseCase';
+import systemLog from '../../Pkgs/systemLog';
 import { Product, z_Product } from '../../Model/product/product.entity';
 
 export const getMarketRequest = z.object({

@@ -2,7 +2,7 @@ import makeBaseRepo from './base';
 import ProductModel from '../Model/product/product.model';
 
 const createProduct = (id?: string): string => {
-	return id | '';
+	return '';
 };
 
 const getProducts = (id?: string): boolean => {
