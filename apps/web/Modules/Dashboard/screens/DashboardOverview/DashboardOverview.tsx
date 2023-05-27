@@ -1,12 +1,12 @@
 import useStyles from './DashboardOverview.style';
 import ProductCard from '@/Modules/Market/components/ProductCard/ProductCard';
-import {Chart} from 'react-iconly';
+import { Chart } from 'react-iconly';
 import InfoItem from '@/Modules/Market/components/InfoItem/InfoItem';
 import CardHeader from '../../components/CardHeader/CardHeader';
 import Banner from '../../components/Banner/Banner';
 
 const DashboardOverview = () => {
-	const {styles} = useStyles();
+	const { styles } = useStyles();
 
 	return (
 		<div className={styles.wrapper}>

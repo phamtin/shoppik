@@ -1,6 +1,6 @@
-import {createStyles} from 'antd-style';
+import { createStyles } from 'antd-style';
 
-export default createStyles(({token}) => ({
+export default createStyles(({ token }) => ({
 	wrapper: {
 		display: 'flex',
 		justifyContent: 'space-between',
@@ -8,9 +8,14 @@ export default createStyles(({token}) => ({
 
 		'.infoSection': {
 			display: 'flex',
-
+			'@media screen and (max-width: 1160px)': {
+				justifyContent: 'space-between',
+			},
 			'.info': {
 				marginLeft: token.marginSM,
+				'@media screen and (max-width: 1160px)': {
+					marginLeft: token.marginMD,
+				},
 
 				'.action': {
 					fontSize: token.fontSizeHeading5,
@@ -21,15 +26,22 @@ export default createStyles(({token}) => ({
 					fontSize: `-${token.marginXXS}px`,
 					marginBottom: 0,
 				},
+				'.rightChild': {
+					display: 'none',
+					'@media screen and (max-width: 1160px)': {
+						display: 'inline',
+					},
+				},
 			},
 		},
 
-		'rightSection': {
-			backgroundColor: 'red',
-		},
-
-		'.ant-typography': {
-			marginBottom: 0,
+		'.rightChildOutside': {
+			'@media screen and (max-width: 1160px)': {
+				display: 'none',
+			},
+			'.ant-typography': {
+				marginBottom: 0,
+			},
 		},
 	},
 }));

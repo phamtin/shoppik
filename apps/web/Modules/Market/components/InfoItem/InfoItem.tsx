@@ -46,9 +46,10 @@ const InfoItem = ({
                 <div className="info">
                     <Typography.Paragraph className="action">{title}</Typography.Paragraph>
                     <Typography.Paragraph className="title">{content}</Typography.Paragraph>
+                    <div className="rightChild">{renderRightChild()}</div>
                 </div>
             </div>
-            {renderRightChild()}
+            <div className="rightChildOutside">{renderRightChild()}</div>
         </div>
     );
 };
