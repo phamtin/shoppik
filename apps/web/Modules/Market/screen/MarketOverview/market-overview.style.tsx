@@ -11,7 +11,7 @@ export default createStyles(({ token }) => ({
 		'.buttonFilter': {
 			display: 'flex',
 			borderWidth: 1,
-			borderColor: token.colorTextQuaternary,
+			borderColor: token.colorTextTertiary,
 			alignItems: 'center',
 			'.paragraph': {
 				marginBottom: 0,
