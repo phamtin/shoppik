@@ -24,7 +24,7 @@ class RedisCache {
 					port: 6379,
 				});
 				// this.instance = new Redis({
-				// 	host: 'localhost',
+				// 	host: process.env.REDIS_HOST,
 				// 	port: 6379,
 				// });
 				await this.instance.set('PING', 'PONG');

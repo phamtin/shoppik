@@ -1,5 +1,5 @@
 {
-  "name": "veneno",
+  "name": "api",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -10,7 +10,7 @@
     "start": "node dist/index",
     "check:types": "tsc --noEmit",
     "lint": "eslint . ",
-    "lint:fix": "eslint . --fix",
+    "lint:fix": "eslint",
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json"
   },
   "keywords": [

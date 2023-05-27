@@ -18,7 +18,7 @@ const schema = {
 		},
 		API_PORT: {
 			type: 'string',
-			default: '8000',
+			default: '9000',
 		},
 	},
 };

@@ -1,12 +1,12 @@
 {
-	"name": "@nodex/centenario-turpopack",
+	"name": "web",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
 		"dev": "next lint && next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint --fix",
+		"lint": "next lint",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\""
 	},
 	"dependencies": {

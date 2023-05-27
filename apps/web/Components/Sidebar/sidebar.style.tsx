@@ -8,7 +8,8 @@ const styles = createStyles(({ token }) => ({
 			border: `1px solid transparent`,
 			transition: '0s',
 			fontSize: 13,
-			svg: { width: '18.6px', marginBottom: 3, color: '#FFF !important' },
+			marginBottom: `${token.marginXXS}px !important`,
+			svg: { width: '18.6px', marginBottom: 1, color: '#FFF !important' },
 			'.ant-menu-title-content': {
 				marginLeft: token.marginSM,
 			},

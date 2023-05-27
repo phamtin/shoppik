@@ -27,11 +27,11 @@ function Dot({ color }: { color: string }) {
 }
 
 const items: MenuProps['items'] = [
-	getItem('Dashboard', 'shoppik', <Home set="bold" />),
-	getItem('Market', 'market', <Chart set="bold" />),
-	getItem('Activity', 'activity', <Activity set="bold" />),
-	getItem('Messengers', 'messengers', <Message set="bold" />),
-	getItem('My store', 'sub2', <Bag set="bold" />, [
+	getItem('Dashboard', 'shoppik', <Home />),
+	getItem('Market', 'market', <Chart />),
+	getItem('Activity', 'activity', <Activity />),
+	getItem('Messengers', 'messengers', <Message />),
+	getItem('My store', 'sub2', <Bag />, [
 		getItem('Overssview', 'overview', <Dot color="orangered" />),
 		getItem('Partners', 'partners', <Dot color="orange" />),
 		getItem('Statistic', 'statistic', <Dot color="#acff1e" />),

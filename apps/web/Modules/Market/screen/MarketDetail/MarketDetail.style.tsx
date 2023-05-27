@@ -9,7 +9,7 @@ export default createStyles(({ token }) => ({
 	wrapperSection: {
 		display: 'flex',
 		'.left': {
-			flex: '0 1 60% ',
+			flex: '0 1 68%',
 			'@media screen and (max-width: 991.8px)': {
 				flex: '0 1 44% !important',
 			},
