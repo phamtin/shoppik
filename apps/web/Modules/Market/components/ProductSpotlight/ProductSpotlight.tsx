@@ -3,13 +3,15 @@ import { Chart } from 'react-iconly';
 import { Button, Col, Row, Typography } from 'ui/components/Core';
 import InfoItem from '@/Modules/Market/components/InfoItem/InfoItem';
 import useStyles from './product-spotlight.style';
+
 const { Title, Paragraph, Text } = Typography;
 
 interface ProductSpotLightProps {
-	title?: string;
+	title: string;
 }
 
 const ProductSpotLight = (props: ProductSpotLightProps) => {
+	const { title } = props;
 	const { styles } = useStyles(props);
 
 	return (
@@ -29,7 +31,7 @@ const ProductSpotLight = (props: ProductSpotLightProps) => {
 				<Col xs={24} lg={12}>
 					<div className="productInfo">
 						<Title level={3} className="productName">
-							Project Sun-Glass
+							{title}
 						</Title>
 						<Paragraph className="productDesc">
 							A collection of 10,000 utility-enabled PFPs that feature a richly diverse
@@ -59,7 +61,7 @@ const ProductSpotLight = (props: ProductSpotLightProps) => {
 								className="productButton"
 								icon={<Chart />}
 							>
-								&nbsp;&nbsp;Place Bid
+								Place Bid
 							</Button>
 						</div>
 					</div>

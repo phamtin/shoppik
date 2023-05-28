@@ -21,7 +21,7 @@ const customThemeIPad = {
 	wireframe: false,
 	sizeStep: 3,
 	sizeUnit: 4,
-	fontSize: 11.4,
+	fontSize: 12,
 };
 
 export default trpc.withTRPC(function App({ Component, pageProps }: AppProps) {
