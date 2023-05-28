@@ -17,7 +17,7 @@ const MarketDetail = () => {
 
 			<div className={styles.wrapperSection}>
 				<div className="left">
-					<ProductSpotLight />
+					<ProductSpotLight title="Project Sun-Glass" />
 					<RevelantProducts />
 				</div>
 				<div className="right">

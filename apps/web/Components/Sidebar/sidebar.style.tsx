@@ -1,6 +1,7 @@
+import { SiderProps } from 'ui/components/Core';
 import { createStyles } from 'antd-style';
 
-const styles = createStyles(({ token }) => ({
+const styles = createStyles(({ token }, props: SiderProps) => ({
 	wrapper: {
 		'li.ant-menu-item': {
 			display: 'block',
@@ -9,9 +10,10 @@ const styles = createStyles(({ token }) => ({
 			transition: '0s',
 			fontSize: 13,
 			marginBottom: `${token.marginXXS}px !important`,
-			svg: { width: '18.6px', marginBottom: 1, color: '#FFF !important' },
-			'.ant-menu-title-content': {
-				marginLeft: token.marginSM,
+			svg: {
+				width: '18.6px',
+				marginBottom: 2,
+				color: '#FFF !important',
 			},
 			'&.ant-menu-item-selected': {
 				color: token.colorBgBase,
@@ -52,7 +54,7 @@ const styles = createStyles(({ token }) => ({
 		display: 'flex',
 		alignItems: 'end',
 		marginTop: token.marginLG,
-		marginLeft: token.marginSM,
+		marginLeft: props.collapsed ? token.marginSM : token.marginMD,
 		h4: {
 			color: token.colorBgBase,
 			marginBottom: 0,

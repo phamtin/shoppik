@@ -13,18 +13,24 @@ function Dot({ color }: { color: string }) {
 		<span
 			style={{
 				display: 'inline-block',
-				height: '7px',
-				width: '7px',
-				marginRight: '3px',
+				height: '6px',
+				width: '6px',
+				marginRight: '8px',
 				marginBottom: '1px',
 				background: `${color}`,
 				borderRadius: '100%',
 			}}
-		>
-			{' '}
-		</span>
+		/>
 	);
 }
+
+const myStoreUrl = {
+	overview: 'overview',
+	partners: 'partners',
+	statistic: 'statistic',
+	performance: 'performance',
+	seo: 'seo',
+};
 
 const items: MenuProps['items'] = [
 	getItem('Dashboard', 'shoppik', <Home />),
@@ -32,11 +38,11 @@ const items: MenuProps['items'] = [
 	getItem('Activity', 'activity', <Activity />),
 	getItem('Messengers', 'messengers', <Message />),
 	getItem('My store', 'sub2', <Bag />, [
-		getItem('Overssview', 'overview', <Dot color="orangered" />),
-		getItem('Partners', 'partners', <Dot color="orange" />),
-		getItem('Statistic', 'statistic', <Dot color="#acff1e" />),
-		getItem('Performance', 'performance', <Dot color="#367df8" />),
-		getItem('SEO management', 'seo-management', <Dot color="#c136f8" />),
+		getItem('Overview', myStoreUrl.overview, <Dot color="orangered" />),
+		getItem('Partners', myStoreUrl.partners, <Dot color="orange" />),
+		getItem('Statistic', myStoreUrl.statistic, <Dot color="#acff1e" />),
+		getItem('Performance', myStoreUrl.performance, <Dot color="#367df8" />),
+		getItem('SEO management', myStoreUrl.seo, <Dot color="#c136f8" />),
 	]),
 ];
 
@@ -49,7 +55,10 @@ const Sidebar: React.FC<SidebarProp> = ({ collapsed }) => {
 	const router = useRouter();
 
 	const onGotoPage: MenuProps['onClick'] = (e) => {
-		router.replace('/'.concat(e.key));
+		if (e.key in myStoreUrl) {
+			return router.replace('/my-store/'.concat(e.key));
+		}
+		return router.replace('/'.concat(e.key));
 	};
 
 	return (

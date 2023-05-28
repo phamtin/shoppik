@@ -55,7 +55,9 @@ function NavBar() {
 				<NotiButton />
 				<div>
 					<Dropdown menu={{ items }} overlayStyle={{ width: 200 }}>
-						<Button onClick={(e) => e.preventDefault()}>Profile</Button>
+						<Button type="link" onClick={(e) => e.preventDefault()}>
+							Profile
+						</Button>
 					</Dropdown>
 				</div>
 			</Space>
