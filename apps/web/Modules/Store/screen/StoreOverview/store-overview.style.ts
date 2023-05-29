@@ -21,5 +21,16 @@ export default createStyles(({ token }) => ({
 				backgroundColor: token.colorBgLayout,
 			},
 		},
+
+		'.floatAction': {
+			position: 'absolute',
+			right: 24,
+			bottom: 100,
+			width: 240,
+			padding: token.paddingXS,
+			borderRadius: token.borderRadiusLG,
+			backgroundColor: '#FFF',
+			boxShadow: '1px 3px 18px #c1c1c1',
+		},
 	},
 }));

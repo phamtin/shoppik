@@ -18,7 +18,9 @@
     "build:docker:prod": "docker build ./apps/api -t veneno --build-arg APP_ENV=production",
     "turbo": "latest"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "turbo": "^1.8.3"
+  },
   "engines": {
     "node": ">=18.15.0"
   },

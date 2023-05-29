@@ -3,6 +3,8 @@ import { createStyles } from 'antd-style';
 
 const styles = createStyles(({ token }, props: SiderProps) => ({
 	wrapper: {
+		position: 'relative',
+
 		'li.ant-menu-item': {
 			display: 'block',
 			color: token.colorBorder,

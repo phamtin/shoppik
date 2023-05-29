@@ -5,7 +5,7 @@ export default createStyles(({ token }, state: { collapsed: boolean }) => ({
 		width: state.collapsed ? 0 : 350,
 		height: 'calc(100vh - 100px)',
 		position: 'relative',
-		padding: token.padding,
+		padding: state.collapsed ? token.paddingSM : token.padding,
 		borderRadius: state.collapsed ? token.borderRadius : token.borderRadius * 2,
 		overflowY: 'auto',
 		boxShadow: 'rgba(0, 0, 0, 0.15) -1px 3px 18px 0px',
@@ -15,7 +15,7 @@ export default createStyles(({ token }, state: { collapsed: boolean }) => ({
 		'.collapeBtn': {
 			position: 'absolute',
 			top: 384,
-			right: state.collapsed ? -3 : -6,
+			right: -6,
 			border: state.collapsed ? 'none' : `1px solid ${token.colorTextPlaceholder}`,
 			span: {
 				marginRight: 4,
@@ -39,6 +39,7 @@ export default createStyles(({ token }, state: { collapsed: boolean }) => ({
 		marginBottom: token.marginXXS,
 		'.storeAva': {
 			borderRadius: token.borderRadius * 2,
+			overflow: 'hidden',
 		},
 	},
 	subcription: {
@@ -78,6 +79,14 @@ export default createStyles(({ token }, state: { collapsed: boolean }) => ({
 					width: '40%',
 				},
 			},
+		},
+	},
+	infoTableInfo: {
+		'.ant-descriptions-header': {
+			marginBottom: token.marginSM,
+		},
+		'td, th': {
+			padding: `${token.paddingXS}px !important`,
 		},
 	},
 }));
