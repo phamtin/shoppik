@@ -2,7 +2,7 @@ import { createStyles } from 'antd-style';
 
 export default createStyles(({ token }) => ({
 	wrapper: {
-		width: '96%',
+		width: '97%',
 		maxWidth: 1920,
 		margin: '16px auto 0 auto',
 	},
@@ -20,7 +20,7 @@ export default createStyles(({ token }) => ({
 			background: token.colorBgBase,
 			marginLeft: token.marginLG,
 			padding: token.padding,
-			borderRadius: token.borderRadiusLG * 2,
+			borderRadius: token.borderRadiusLG * 2 - 4,
 			boxShadow: ' rgba(0, 0, 0, 0.15) 2px 4px 15px 0px',
 		},
 	},
