@@ -1,18 +1,13 @@
 import { useState, memo, PropsWithChildren } from 'react';
 
+import { Button, Layout } from 'ui/components/Core';
+import { ArrowLeft } from 'react-iconly';
 import Sidebar from '@/Components/Sidebar/Sidebar';
 import NavBar from '@/Components/Navbar/Navbar';
-import { Button, Layout } from 'ui/components/Core';
-
-import { ArrowLeftSquare } from 'react-iconly';
 
 const { Sider, Content } = Layout;
 
-const siderStyle = {
-	backgroundColor: '#0a0a0a',
-	transition: '0s',
-};
-interface RootLayoutProps extends PropsWithChildren {}
+type RootLayoutProps = PropsWithChildren;
 
 const RootLayout = ({ children }: RootLayoutProps) => {
 	const [collapsed, setCollapsed] = useState(false);
@@ -21,23 +16,34 @@ const RootLayout = ({ children }: RootLayoutProps) => {
 
 	return (
 		<Layout style={{ height: '100vh' }}>
-			<Button
-				type="primary"
+			<Sider
+				collapsedWidth={58}
+				width={230}
 				style={{
-					position: 'absolute',
-					padding: '3px 5px',
-					zIndex: 2,
-					bottom: 12,
-					left: 12,
+					position: 'relative',
+					backgroundColor: '#0a0a0a',
+					transition: '0s',
+					overflow: 'hidden',
 				}}
-				onClick={toggleCollapsed}
+				collapsed={collapsed}
 			>
-				<ArrowLeftSquare />
-			</Button>
-			<Sider collapsedWidth={58} width={230} style={siderStyle} collapsed={collapsed}>
 				<Sidebar collapsed={collapsed} />
+				<Button
+					size="large"
+					style={{
+						position: 'absolute',
+						bottom: '10px',
+						left: '9px',
+						padding: '8px 9px',
+						border: 'none',
+						backgroundColor: '#2a2a2a',
+						borderRadius: 100,
+					}}
+					icon={<ArrowLeft set="light" primaryColor="#FFF" />}
+					onClick={toggleCollapsed}
+				/>
 			</Sider>
-			<Layout style={{ height: '100%', overflow: 'auto', backgroundColor: '#fff' }}>
+			<Layout style={{ height: '100%', overflow: 'auto', backgroundColor: '#FFF' }}>
 				<NavBar />
 				<Content>{children}</Content>
 			</Layout>

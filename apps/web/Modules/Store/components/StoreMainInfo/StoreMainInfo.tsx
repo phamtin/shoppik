@@ -88,8 +88,8 @@ const StoreMainInfo = ({ information }: StoreMainInfoProps) => {
 					</Descriptions>
 				</div>
 				<Divider style={{ margin: theme.margin }} />
-				<div className={styles.infoTable}>
-					<Descriptions title={<small>Contact Infor</small>} column={{ sm: 1 }}>
+				<div className={styles.infoTableInfo}>
+					<Descriptions bordered title={<small>Contact Infor</small>} column={{ sm: 1 }}>
 						<Descriptions.Item label="Phone">+84 576 352 0041</Descriptions.Item>
 						<Descriptions.Item label="Instagram">twitter.store</Descriptions.Item>
 						<Descriptions.Item label="Facebook">tin.pham22</Descriptions.Item>
