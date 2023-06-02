@@ -8,11 +8,14 @@
 		"project": "./tsconfig.json"
 	},
 	"rules": {
-		"no-multiple-empty-lines": 2
+		"no-multiple-empty-lines": 2,
+		"@typescript-eslint/no-unsafe-member-access": "off",
+		"@typescript-eslint/no-unsafe-call": "off",
+		"@typescript-eslint/no-unsafe-assignment": "off"
 	},
 	"overrides": [
 		{
-			"files": ["./Repository/*.ts"],
+			"files": ["*.repo.ts"],
 			"rules": {
 				"@typescript-eslint/explicit-function-return-type": "error"
 			},

@@ -1,5 +1,5 @@
 import { AnyBulkWriteOperation } from 'mongodb';
-import LeanResultType, { Document, Model, Types, PipelineStage, MongooseBulkWriteOptions } from 'mongoose';
+import LeanResultType, { Model, Types, PipelineStage, MongooseBulkWriteOptions } from 'mongoose';
 
 type FilterQuery<T> = LeanResultType.FilterQuery<T>;
 type QueryOptions<T> = LeanResultType.QueryOptions<T>;
@@ -15,7 +15,7 @@ const makeBaseRepo = <T>(EntityModel: Model<T>) => {
 	const find = async (filter: FilterQuery<T>, options: QueryOptions<T> = {}, projection?: ProjectionType<T>): Promise<T[]> => {
 		const { populate, sort } = options;
 		const query = EntityModel.find(filter, projection);
-		if (sort) query.sort(sort);
+		if (sort) await query.sort(sort as string);
 		if (!populate) return query.lean();
 		if (populate instanceof Array) return query.populate(populate).lean();
 		return query.populate([populate]).lean();
@@ -33,8 +33,8 @@ const makeBaseRepo = <T>(EntityModel: Model<T>) => {
 		return EntityModel.findById(_id, projection, options);
 	};
 
-	const create = async (data: FilterQuery<T>): Promise<Document> => {
-		return EntityModel.create(data);
+	const create = async (data: FilterQuery<T>): Promise<T> => {
+		return await EntityModel.create(data);
 	};
 
 	const findByIdAndUpdate = async (_id: Types.ObjectId, data: UpdateQuery<T>, options: QueryOptions<T> = {}): Promise<T | null> => {

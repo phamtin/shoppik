@@ -11,7 +11,7 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 const getBaseUrl = () => {
-	return process.env.NEXT_API;
+	return process.env.NEXT_PUBLIC_API_URL;
 };
 
 export const trpc = createTRPCNext<AppRouter>({

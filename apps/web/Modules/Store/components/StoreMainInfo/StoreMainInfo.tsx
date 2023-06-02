@@ -12,9 +12,10 @@ import {
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'react-iconly';
 import useStyle from './store-main-info.style';
+import { Store } from '@/../api/Model/store/store.entity';
 
 interface StoreMainInfoProps {
-	information: string;
+	information: Store | undefined;
 }
 
 const StoreMainInfo = ({ information }: StoreMainInfoProps) => {
@@ -45,7 +46,7 @@ const StoreMainInfo = ({ information }: StoreMainInfoProps) => {
 							height="80"
 						/>
 						<div className={styles.subcription}>
-							<Typography.Title level={5}>{information}</Typography.Title>
+							<Typography.Title level={5}>Twitter Store</Typography.Title>
 							<Typography.Text className="subTitle1">
 								Social Network Platform
 							</Typography.Text>
@@ -60,7 +61,7 @@ const StoreMainInfo = ({ information }: StoreMainInfoProps) => {
 				<div className={styles.descriptionArea}>
 					<Typography.Paragraph>
 						Twitter is an American microblogging and social network service, Live you
-						fukcking life with the hype of people.
+						fucking life with the hype of people.
 					</Typography.Paragraph>
 				</div>
 				<div className={styles.tags}>

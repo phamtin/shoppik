@@ -1,25 +1,54 @@
 import mongoose from 'mongoose';
 
-import { Store, STATUS } from './store.entity';
+import { Store as StoreModel, STORE_STATUS } from './store.entity';
 
-const { ObjectId } = mongoose.Types;
+const { ObjectId } = mongoose.Schema.Types;
 
-const storeSchema = new mongoose.Schema<Store>(
+const storeSchema = new mongoose.Schema<StoreModel>(
 	{
 		name: { type: String, required: true },
-		ownerId: { type: ObjectId, ref: 'User', required: true },
-		status: { enum: Object.values(STATUS) },
-		products: [
-			{
-				type: ObjectId,
-				ref: 'Product',
+		slug: { type: String, required: true },
+		tradeName: { type: String, required: true },
+		description: { type: String, maxlength: 2048, required: true },
+		ownerId: { type: ObjectId, ref: 'Account', required: true },
+		following: [{ type: ObjectId, ref: 'Account', required: true }],
+		followers: [{ type: ObjectId, ref: 'Account', required: true }],
+		tags: [{ type: ObjectId, ref: 'Tag', required: true }],
+		avatar: { type: String, required: true },
+		landingPageUrl: { type: String, required: true },
+
+		rating: {
+			score: {
+				type: Number,
+				default: 5,
 			},
-		],
-		deletedAt: { type: Date, default: undefined },
+			reviews: {
+				type: Number,
+				default: 0,
+			},
+			responseTime: {
+				type: Number,
+				default: 99, //	percent
+			},
+		},
+
+		contact: {
+			phone: {
+				type: [String],
+				required: true,
+			},
+			youtubeLink: String,
+			facebookLink: String,
+			instagramLink: String,
+		},
+
+		storeStatus: { type: String, enum: Object.values(STORE_STATUS) },
+		isDeleted: { type: Boolean, default: false },
+		DeletedAt: { type: Date, default: undefined },
 	},
-	{ timestamps: true },
+	{ timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
-const Store = mongoose.model<Store>('Store', storeSchema);
+const StoreModel = mongoose.model<StoreModel>('Store', storeSchema);
 
-export default Store;
+export default StoreModel;

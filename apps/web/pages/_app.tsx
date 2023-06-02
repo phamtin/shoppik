@@ -14,6 +14,8 @@ const customTheme = {
 	wireframe: false,
 	sizeStep: 4,
 	sizeUnit: 4,
+	colorPrimary: '#0659ff',
+
 	fontSize: 13.2,
 };
 const customThemeIPad = {
@@ -22,6 +24,7 @@ const customThemeIPad = {
 	sizeStep: 3,
 	sizeUnit: 4,
 	fontSize: 12,
+	colorPrimary: '#0659ff',
 };
 
 export default trpc.withTRPC(function App({ Component, pageProps }: AppProps) {

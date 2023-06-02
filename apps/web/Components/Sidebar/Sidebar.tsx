@@ -65,7 +65,7 @@ const Sidebar: React.FC<SidebarProp> = ({ collapsed }) => {
 		<div className={styles.wrapper}>
 			<div className={styles.logo}>
 				<Image alt="logo main" width={36} height={32} src="/images/logo-main.png" />
-				{!collapsed && <Typography.Title level={4}>Shoppik</Typography.Title>}
+				{!collapsed && <Typography.Title level={4}>&nbsp;Shoppik</Typography.Title>}
 			</div>
 			<br />
 			<Menu

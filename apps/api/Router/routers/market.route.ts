@@ -12,7 +12,7 @@ export const getMarketResponse = z.array(z_Product).nullable();
 
 export const marketRouter = router({
 	getmarket: publicProcedure
-		.input(getMarketRequest)
+		// .input(getMarketRequest)
 		.output(getMarketResponse)
 		.query(async (queryParams) => {
 			const { ctx } = queryParams;
