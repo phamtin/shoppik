@@ -22,8 +22,8 @@ const RootLayout = ({ children }: RootLayoutProps) => {
 				style={{
 					position: 'relative',
 					backgroundColor: '#0a0a0a',
+					overflowX: 'hidden',
 					transition: '0s',
-					overflow: 'hidden',
 				}}
 				collapsed={collapsed}
 			>
@@ -36,8 +36,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
 						left: '9px',
 						padding: '8px 9px',
 						border: 'none',
-						backgroundColor: '#2a2a2a',
-						borderRadius: 100,
+						backgroundColor: '#0a0a0a',
 					}}
 					icon={<ArrowLeft set="light" primaryColor="#FFF" />}
 					onClick={toggleCollapsed}

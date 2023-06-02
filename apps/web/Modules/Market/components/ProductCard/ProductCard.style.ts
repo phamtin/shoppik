@@ -6,7 +6,7 @@ export default createStyles(({ token }) => ({
 		padding: token.paddingXS,
 		paddingBottom: token.paddingXXS,
 		width: 186,
-		minWidth: 186,
+		minWidth: 162,
 		marginBottom: token.marginXXL,
 		marginRight: token.marginXL,
 		backgroundColor: 'white',

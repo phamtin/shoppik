@@ -9,8 +9,8 @@ class MongoDb {
 
 	constructor(options: MongooseOptions) {
 		this.options = options || {};
-		this.url = 'mongodb://mongodb:27017';
-		// this.url = 'mongodb://localhost:27017';
+		this.url = 'mongodb://mongodb:27017'; //	Production
+		// this.url = 'mongodb://localhost:27017'; // Development
 		this._connect();
 	}
 

@@ -5,6 +5,7 @@ database
 Loaders
 Model
 Pkgs
-Router
-UseCase
+# Router
+# UseCase
 Utils
+*.config.js

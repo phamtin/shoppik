@@ -9,11 +9,11 @@ const ProductCard = () => {
 
 	return (
 		<div className={styles.wrapper}>
-			<Link href="/market/[id]" as={'/market/Sun-Glass'}>
+			<Link href="/market/[id]" as="/market/Sun-Glass">
 				<Card
 					bordered={false}
 					cover={
-						<Image alt="example" src="/images/product.png" width={180} height={160} />
+						<Image alt="example" src="/images/product.png" width={180} height={150} />
 					}
 				>
 					<Typography.Title className="title">Sun-Glass</Typography.Title>
