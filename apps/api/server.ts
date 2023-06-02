@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import fastify, { FastifyInstance } from 'fastify';
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 import cors from '@fastify/cors';
 import fastifyEnv from '@fastify/env';
 
 import { createContext } from './Router/context';
-import redis from './Loaders/redis';
+// import redis from './Loaders/redis';
 import { appRouter } from './Router/routers/_app';
 import options from './Loaders/env';
 
@@ -24,8 +25,7 @@ Fastify.register(fastifyEnv, options)
 		trpcOptions: { router: appRouter, createContext },
 	});
 
-Fastify.get('/ping', async () => {
-	await redis._set('airdrop', 100);
+Fastify.get('/ping', () => {
 	return 'Hello from very first tRPC !';
 });
 

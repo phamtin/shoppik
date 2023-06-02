@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Table, TableProps } from 'ui/components/Core';
 import { columnsTabOverview } from '../../constant/store.constant';
 import useStyle from './overview-tab.style';
@@ -40,6 +41,7 @@ const OverviewTab = () => {
 		<div className={styles.wrapper}>
 			<Table
 				bordered
+				size="middle"
 				columns={columnsTabOverview}
 				dataSource={dataOverviewTab}
 				onChange={onChange}
@@ -48,4 +50,4 @@ const OverviewTab = () => {
 	);
 };
 
-export default OverviewTab;
+export default memo(OverviewTab);

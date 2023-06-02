@@ -1,4 +1,7 @@
 {
+	"parserOptions": {
+		"parser": "@typescript-eslint/parser"
+	},
 	"compilerOptions": {
 		"baseUrl": ".",
 		"rootDir": "./",
@@ -18,7 +21,8 @@
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true
 	},
-	"include": ["./*"],
+	"ignorePatterns": [".eslintrc.js"],
+	"include": ["**/*.ts"],
 	"exclude": ["node_modules", ".vscode", ".turbo"],
 	"tsc-alias": {
 		"verbose": false,

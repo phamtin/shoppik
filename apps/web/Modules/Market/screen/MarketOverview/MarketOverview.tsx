@@ -22,7 +22,7 @@ const FilterComponent = ({ text, icon }: { text: string; icon: any }) => {
 const MarketOverviewScreen = ({ products }: MarketProp) => {
 	const { styles } = useStyle();
 
-	const { data, error } = trpc.market.getmarket.useQuery({ price: 1200 });
+	const { data, error } = trpc.market.getmarket.useQuery();
 
 	// if (!data) return <> </>;
 

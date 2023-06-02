@@ -1,15 +1,16 @@
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, memo, useState } from 'react';
 
 import { Avatar, FloatButton, List } from 'ui/components/Core';
 import StoreMainInfo from '../../components/StoreMainInfo/StoreMainInfo';
 import StoreMain from '../../components/StoreMain/StoreMain';
 import useStyle from './store-overview.style';
+import { trpc } from '@/lib/trpc/trpc';
 
 interface MarketProp extends PropsWithChildren {
 	store: string;
 }
 
-const data = [
+const actions = [
 	{
 		title: 'Create new campaign',
 	},
@@ -24,7 +25,7 @@ const data = [
 	},
 ];
 
-const MarketOverviewScreen = ({ store }: MarketProp) => {
+const StoreOverviewScreen = ({ store }: MarketProp) => {
 	const { styles } = useStyle({ store });
 	const [openFLoatMenu, setOpenFloatMenu] = useState<boolean>(false);
 
@@ -32,10 +33,32 @@ const MarketOverviewScreen = ({ store }: MarketProp) => {
 		return setOpenFloatMenu((prev) => !prev);
 	};
 
+	const mutation = trpc.store.createStore.useMutation();
+
+	// useEffect(() => {
+	// 	mutation.mutate({
+	// 		name: 'Twitter Store',
+	// 		tradeName: 'Social Network Platform',
+	// 		description:
+	// 			'Twitter is an American microblogging and social network service, Live you fukcking life with the hype of people.',
+	// 		avatar:
+	// 			'https://robohash.org/98751beeb2b3cb0117a50f800622c37b?set=set4&bgset=bg1&size=200x200',
+	// 		landingPageUrl: 'https://twitter.com',
+	// 		contact: {
+	// 			phone: ['+84 763 520 041'],
+	// 			instagramLink: 'twitter.store',
+	// 			facebookLink: 'tin.pham.22',
+	// 			youtubeLink: 'adorable.channel',
+	// 		},
+	// 		tags: ['646fa3cd01d88dcbe54bc1bf', '646fa3cd01d18dcbe54bc0bf'],
+	// 	});
+	// }, []);
+
 	return (
 		<div className={styles.wrapper}>
-			<StoreMainInfo information="Twitter Store" />
+			<StoreMainInfo information={mutation.data} />
 			<StoreMain id="1" />
+
 			<FloatButton
 				className="floatButton"
 				type="primary"
@@ -47,7 +70,7 @@ const MarketOverviewScreen = ({ store }: MarketProp) => {
 				<List
 					className="floatAction"
 					itemLayout="horizontal"
-					dataSource={data}
+					dataSource={actions}
 					renderItem={(item, index) => (
 						<List.Item>
 							<List.Item.Meta
@@ -67,4 +90,4 @@ const MarketOverviewScreen = ({ store }: MarketProp) => {
 	);
 };
 
-export default MarketOverviewScreen;
+export default memo(StoreOverviewScreen);

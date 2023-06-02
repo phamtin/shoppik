@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import makeProductService from '../product/product.service';
 import { Context } from '../../Router/context';
-import { getMarketRequest } from '../../Router/routers/market';
+import { getMarketRequest } from '../../Router/routers/market.route';
 
 export default function makeMarketService() {
 	const productService = makeProductService();

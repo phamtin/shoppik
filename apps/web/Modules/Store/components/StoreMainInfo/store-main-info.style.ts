@@ -2,20 +2,21 @@ import { createStyles } from 'antd-style';
 
 export default createStyles(({ token }, state: { collapsed: boolean }) => ({
 	wrapper: {
-		width: state.collapsed ? 0 : 350,
+		width: state.collapsed ? 0 : 354,
 		height: 'calc(100vh - 100px)',
 		position: 'relative',
-		padding: state.collapsed ? token.paddingSM : token.padding,
+		padding: state.collapsed ? `${token.padding}px ${token.paddingXS}px` : token.padding,
 		borderRadius: state.collapsed ? token.borderRadius : token.borderRadius * 2,
 		overflowY: 'auto',
-		boxShadow: 'rgba(0, 0, 0, 0.15) -1px 3px 18px 0px',
-		transition: '0.2s',
+		boxShadow: 'rgba(0, 0, 0, 0.15) -1px 3px 17px 0px',
+		transition: '0.3s',
 		overflowX: 'hidden',
+		background: token.colorBgBase,
 
 		'.collapeBtn': {
 			position: 'absolute',
 			top: 384,
-			right: -6,
+			right: state.collapsed ? -10 : -6,
 			border: state.collapsed ? 'none' : `1px solid ${token.colorTextPlaceholder}`,
 			span: {
 				marginRight: 4,
@@ -26,7 +27,6 @@ export default createStyles(({ token }, state: { collapsed: boolean }) => ({
 		'@media screen and (max-width: 991.8px)': {
 			position: 'absolute',
 			zIndex: 2,
-			background: token.colorBgBase,
 		},
 	},
 	wrapperThin: {
@@ -83,10 +83,10 @@ export default createStyles(({ token }, state: { collapsed: boolean }) => ({
 	},
 	infoTableInfo: {
 		'.ant-descriptions-header': {
-			marginBottom: token.marginSM,
+			marginBottom: token.marginXS,
 		},
 		'td, th': {
-			padding: `${token.paddingXS}px !important`,
+			padding: `${token.paddingXXS}px !important`,
 		},
 	},
 }));
