@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model StoreTag {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  Store   Store?  @relation(fields: [storeId], references: [id])
+  storeId String? @db.ObjectId
+}
+
+type StoreRating {
+  score        Int
+  reviews      Int
+  responseTime Int
+}
+
+type Contact {
+  phone         String[]
+  youtubeLink   String
+  facebookLink  String
+  instagramLink String
+}
+
+model Store {
+  id             String      @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  slug           String
+  tradeName      String
+  description    String
+  avatar         String
+  landingPageUrl String
+  ownerId        String      @db.ObjectId
+  followers      String[]    @db.ObjectId
+  following      String[]    @db.ObjectId
+  tags           StoreTag[]
+  isDeleted      Boolean
+  DeletedAt      DateTime
+  rating         StoreRating
+  contact        Contact
+}
