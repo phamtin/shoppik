@@ -8,7 +8,7 @@
 		"target": "es5",
 		"module": "ES6",
 		"moduleResolution": "node",
-		"lib": ["ES5"],
+		"lib": ["ES5", "DOM"],
 		"types": ["node"],
 		"allowSyntheticDefaultImports": true,
 		"sourceMap": true,
