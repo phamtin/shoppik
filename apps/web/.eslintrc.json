@@ -1,6 +1,6 @@
 {
 	"root": true,
-	"plugins": ["@typescript-eslint", "prettier"],
+	"plugins": ["prettier"],
 	"extends": ["next/core-web-vitals", "airbnb-typescript-prettier"],
 	"env": {
 		"browser": true,

@@ -26,8 +26,8 @@ const MarketOverviewScreen = ({ products }: MarketProp) => {
 
 	// if (!data) return <> </>;
 
-	if (data?.length) {
-		console.log(data[0]);
+	if (data) {
+		console.log(data);
 	}
 
 	return (

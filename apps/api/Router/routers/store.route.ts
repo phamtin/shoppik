@@ -1,8 +1,7 @@
 import { z } from 'zod';
 
-import { z_Store } from '../../Model/store/store.entity';
 import { publicProcedure, router } from '../trpc';
-import { storeService } from '../../UseCase';
+import { storeService } from '../../Service';
 
 export const createStoreRequest = z.object({
 	name: z.string(),
@@ -18,15 +17,17 @@ export const createStoreRequest = z.object({
 	}),
 	tags: z.array(z.string()).min(2),
 });
-export const createStoreResponse = z_Store;
+export const createStoreResponse = z.object({
+	success: z.number(),
+});
 
 export const storeRouter = router({
 	createStore: publicProcedure
 		.input(createStoreRequest)
 		.output(createStoreResponse)
 		.mutation(async (queryParams) => {
-			const createdStore = await storeService.createStore(queryParams.ctx, queryParams.input);
+			await storeService.createStore(queryParams.ctx, queryParams.input);
 
-			return createdStore;
+			return { success: 1 };
 		}),
 });

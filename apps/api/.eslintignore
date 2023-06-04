@@ -8,4 +8,5 @@ Pkgs
 # Router
 # UseCase
 Utils
+data
 *.config.js

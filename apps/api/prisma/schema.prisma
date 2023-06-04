@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
 datasource db {
@@ -10,17 +11,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model StoreTag {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
-  Store   Store?  @relation(fields: [storeId], references: [id])
-  storeId String? @db.ObjectId
+type StoreTag {
+  name String
+  slug String
 }
 
 type StoreRating {
-  score        Int
-  reviews      Int
-  responseTime Int
+  score        Int @default(5)
+  reviews      Int @default(0)
+  responseTime Int @default(99)
 }
 
 type Contact {
@@ -28,6 +27,13 @@ type Contact {
   youtubeLink   String
   facebookLink  String
   instagramLink String
+}
+
+enum StoreStatus {
+  ACTIVE
+  INACTIVE
+  CLOSED
+  DELETED
 }
 
 model Store {
@@ -42,8 +48,11 @@ model Store {
   followers      String[]    @db.ObjectId
   following      String[]    @db.ObjectId
   tags           StoreTag[]
-  isDeleted      Boolean
-  DeletedAt      DateTime
   rating         StoreRating
   contact        Contact
+  storeStatus    StoreStatus
+  createdAt      DateTime
+  updatedAt      DateTime?
+  isDeleted      Boolean
+  DeletedAt      DateTime?
 }

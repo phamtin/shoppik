@@ -1,11 +1,5 @@
+import { StoreStatus } from '@prisma/client';
 import { z } from 'zod';
-
-export enum STORE_STATUS {
-	ACTIVE = 'ACTIVE',
-	INACTIVE = 'INACTIVE',
-	CLOSED = 'CLOSED',
-	DELETED = 'DELETED',
-}
 
 export const z_Store = z.object({
 	id: z.string().nullable().optional(),
@@ -33,12 +27,12 @@ export const z_Store = z.object({
 		instagramLink: z.string(),
 	}),
 
-	storeStatus: z.nativeEnum(STORE_STATUS),
-	isDeleted: z.boolean(),
-	DeletedAt: z.date().nullable().optional(),
+	storeStatus: z.nativeEnum(StoreStatus),
 
 	createdAt: z.date(),
-	updatedAt: z.date(),
+	updatedAt: z.date().nullable().optional(),
+	isDeleted: z.boolean().nullable().optional(),
+	DeletedAt: z.date().nullable().optional(),
 });
 
 export type Store = z.infer<typeof z_Store>;
