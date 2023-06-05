@@ -8,8 +8,8 @@ import {
 	Typography,
 } from 'ui/components/Core';
 import { Filter, Search } from 'react-iconly';
-import useStyle from './navbar.style';
 import { getItem } from '@/Utils/common';
+import useStyle from './navbar.style';
 import NotiButton from './NotiButton/NotiButton';
 
 const { Header } = Layout;

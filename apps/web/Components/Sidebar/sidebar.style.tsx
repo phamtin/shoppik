@@ -6,14 +6,21 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 		position: 'relative',
 		transition: '0s',
 		padding: token.paddingXXS,
+		height: '100%',
+
+		'.ant-segmented': {
+			position: 'absolute',
+			bottom: 60,
+		},
 
 		'li.ant-menu-item': {
 			display: 'block',
 			color: '#969696',
 			fontSize: 13,
-			transition: '0s',
+			transition: '0s !important',
 			border: `1px solid transparent`,
-			marginBottom: `${token.marginXXS}px !important`,
+			marginBottom: `0px !important`,
+			marginTop: `0px !important`,
 			borderRadius: token.borderRadiusOuter * 3,
 			svg: {
 				width: '18.6px',
@@ -22,7 +29,7 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 			},
 			'&.ant-menu-item-selected': {
 				color: `${token.colorBgBase} !important`,
-				backgroundColor: `#1e2536 !important`,
+				backgroundColor: `#1d1d1d !important`,
 				borderColor: `transparent !important`,
 			},
 			'&.ant-menu-item-active': {
@@ -46,6 +53,8 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 
 		'ul.ant-menu-vertical': {
 			'li.ant-menu-item': {
+				marginBottom: `0px !important`,
+				marginTop: `0px !important`,
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
