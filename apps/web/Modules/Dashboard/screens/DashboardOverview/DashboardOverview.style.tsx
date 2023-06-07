@@ -2,11 +2,10 @@ import { createStyles } from 'antd-style';
 
 export default createStyles(({ token }) => ({
 	wrapper: {
-		margin: `${token.marginLG}px ${token.marginLG}px 0 ${token.marginLG}px`,
+		width: '97%',
+		maxWidth: 1920,
+		margin: '16px auto 0 auto',
 		display: 'flex',
-		// '@media screen and (max-width: 991px)': {
-		// 	flexDirection: 'column',
-		// },
 
 		'.leftWrapper': {
 			flex: '0 1 68%',
