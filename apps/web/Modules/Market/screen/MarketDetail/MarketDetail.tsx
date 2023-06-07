@@ -1,5 +1,4 @@
 import { Typography } from 'ui/components/Core';
-
 import DetailTitle from '@/Modules/Market/components/DetailTitle/DetailTitle';
 import ProductSpotLight from '@/Modules/Market/components/ProductSpotlight/ProductSpotlight';
 import RevelantProducts from '@/Modules/Market/components/RevelantProducts/RevelantProducts';

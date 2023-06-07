@@ -32,8 +32,8 @@ const RootLayout = ({ children }: RootLayoutProps) => {
 					size="large"
 					style={{
 						position: 'absolute',
-						bottom: '10px',
-						left: '9px',
+						bottom: '7px',
+						left: '8px',
 						padding: '8px 9px',
 						border: 'none',
 						backgroundColor: '#0a0a0a',

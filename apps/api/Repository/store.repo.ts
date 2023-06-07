@@ -1,19 +1,47 @@
-import makeBaseRepo from './base';
-import StoreModel from '../Model/store/store.model';
-import { Store } from '../Model/store/store.entity';
+import { PrismaClient, StoreStatus } from '@prisma/client';
+import { createStoreRequest } from '../Router/routers/store.route';
+import { ObjectId } from 'bson';
+import slugify from 'slugify';
+import { z } from 'zod';
 
-const getMyStore = (id?: string): boolean => {
-	return !!id;
-};
-
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const makeStoreRepo = () => {
+	const StorePrisma = new PrismaClient().store;
+
 	return Object.freeze({
-		getMyStore,
-		...makeBaseRepo<Store>(StoreModel),
+		...StorePrisma,
+
+		createStore: async (request: z.infer<typeof createStoreRequest>) => {
+			const store = await StorePrisma.create({
+				data: {
+					name: request.name,
+					tradeName: request.tradeName,
+					slug: slugify(request.name),
+					ownerId: new ObjectId().toString(),
+					description: request.description,
+					avatar: request.avatar,
+					landingPageUrl: request.landingPageUrl,
+					contact: request.contact,
+					storeStatus: StoreStatus.ACTIVE,
+					rating: {
+						score: 5,
+						reviews: 0,
+						responseTime: 99,
+					},
+					tags: [
+						{
+							name: 'Apple',
+							slug: 'apple',
+						},
+					],
+					isDeleted: false,
+					createdAt: new Date(),
+				},
+			});
+
+			return store;
+		},
 	});
 };
-
-export type IProductRepo = ReturnType<typeof makeStoreRepo>;
 
 export default makeStoreRepo;

@@ -2,11 +2,18 @@ version: "3"
 
 services:
   mongodb:
-    image: mongo:5.0.15
+    image: bitnami/mongodb:5.0.18
     restart: unless-stopped
     container_name: "mongodb"
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
+      - MONGODB_DATABASE=shoppik
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_ROOT_USER=rootuser
+      - MONGODB_ROOT_PASSWORD=rootpassword
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
     volumes:
-      - mongodb:/data/db
+      - ./apps/api/data/mongo:/bitnami/mongodb
     ports:
       - "27017:27017"
 
@@ -14,7 +21,7 @@ services:
     image: redis:7.0.9-alpine
     container_name: "redis"
     volumes:
-      - ./dev-volume/redis:/data
+      - ./apps/api/data/redis:/data
     restart: unless-stopped
     ports:
       - "6379:6379"

@@ -15,7 +15,7 @@ import useStyle from './store-main-info.style';
 import { Store } from '@/../api/Model/store/store.entity';
 
 interface StoreMainInfoProps {
-	information: Store | undefined;
+	information?: Store;
 }
 
 const StoreMainInfo = ({ information }: StoreMainInfoProps) => {
@@ -100,6 +100,10 @@ const StoreMainInfo = ({ information }: StoreMainInfoProps) => {
 			</div>
 		</div>
 	);
+};
+
+StoreMainInfo.defaultProps = {
+	information: 'default value',
 };
 
 export default StoreMainInfo;
