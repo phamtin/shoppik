@@ -31,7 +31,7 @@ export default trpc.withTRPC(function App({ Component, pageProps }: AppProps) {
 	const ua = useOs();
 	let theme = customTheme;
 
-	const isIpad = useMediaQuery('(max-width: 1180px)', true, {
+	const isIpad = useMediaQuery('(max-width: 991.8px)', true, {
 		getInitialValueInEffect: false,
 	});
 	// console.log({ isIpad, ua });

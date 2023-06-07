@@ -1,10 +1,9 @@
-import { Typography } from 'ui/components/Core';
-
 import DetailTitle from '@/Modules/Market/components/DetailTitle/DetailTitle';
 import ProductSpotLight from '@/Modules/Market/components/ProductSpotlight/ProductSpotlight';
 import RevelantProducts from '@/Modules/Market/components/RevelantProducts/RevelantProducts';
 
 import useStyle from './MarketDetail.style';
+import { Typography } from 'ui/components/Core';
 
 const { Text } = Typography;
 

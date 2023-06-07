@@ -33,7 +33,7 @@ const myStoreUrl = {
 };
 
 const items: MenuProps['items'] = [
-	getItem('Dashboard', 'shoppik', <Home />),
+	getItem('Dashboard', 'dashboard', <Home />),
 	getItem('Market', 'market', <Chart />),
 	getItem('Activity', 'activity', <Activity />),
 	getItem('Messengers', 'messengers', <Message />),
