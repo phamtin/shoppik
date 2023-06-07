@@ -1,5 +1,4 @@
 import { createTRPCNext } from '@trpc/next';
-import superjson from 'superjson';
 import { httpBatchLink, loggerLink } from '@trpc/client';
 import { inferReactQueryProcedureOptions } from '@trpc/react-query';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
@@ -27,7 +26,6 @@ export const trpc = createTRPCNext<AppRouter>({
 					url: `${getBaseUrl()}/trpc`,
 				}),
 			],
-			transformer: superjson,
 			queryClientConfig: {
 				defaultOptions: {
 					queries: {

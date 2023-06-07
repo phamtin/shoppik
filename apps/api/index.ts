@@ -1,6 +1,5 @@
 import Fastify from './server.js';
 import systemLog from './Pkgs/systemLog';
-import mongodb from './Loaders/mongo';
 
 function exitHandler(exit: boolean) {
 	if (exit) process.exit();
@@ -20,10 +19,6 @@ for (const signal of ['SIGINT', 'SIGTERM']) {
 }
 
 await (async () => {
-	let db = null;
-	if (!db) {
-		db = mongodb();
-	}
 	try {
 		await Fastify.ready();
 		await Fastify.listen({ port: process.env.API_PORT as never, host: '0.0.0.0' });

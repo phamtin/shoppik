@@ -10,6 +10,9 @@ services:
       - API_PORT=9000
       - API_HOST=${API_HOST}
       - LOG_LEVEL=${LOG_LEVEL}
+      - REDIS_PORT=6379
+      - REDIS_HOST=${localhost}
+      - DATABASE_URL=${DATABASE_URL}
     ports:
       - "9000:9000"
     restart: unless-stopped
@@ -18,11 +21,18 @@ services:
       - mongodb
 
   mongodb:
-    image: mongo:5.0.15
+    image: bitnami/mongodb:5.0.18
     restart: unless-stopped
     container_name: "mongodb"
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
+      - MONGODB_ROOT_USER=rootuser
+      - MONGODB_ROOT_PASSWORD=rootpassword
+      - MONGODB_DATABASE=shoppik
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
     volumes:
-      - mongodb:/data/db
+      - ./apps/api/data/mongodb:/bitnami/mongodb
     ports:
       - "27017:27017"
 
@@ -30,14 +40,14 @@ services:
     image: redis:7.0.9-alpine
     container_name: "redis"
     volumes:
-      - ./dev-volume/redis:/data
+      - ./apps/api/data/redis:/data
     restart: unless-stopped
     ports:
       - "6379:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       retries: 3
-      timeout: 5s
+      timeout: 6s
 
 volumes:
   mongodb: null

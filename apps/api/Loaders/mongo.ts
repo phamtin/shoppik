@@ -1,39 +1,27 @@
-import mongoose, { Mongoose, MongooseOptions } from 'mongoose';
-
+import fp from 'fastify-plugin';
+import { FastifyPluginAsync } from 'fastify';
+import { PrismaClient } from '@prisma/client';
 import systemLog from '../Pkgs/systemLog';
 
-class MongoDb {
-	instance: Mongoose | undefined = undefined;
-	options: MongooseOptions;
-	url: string = '';
-
-	constructor(options: MongooseOptions) {
-		this.options = options || {};
-		this.url = 'mongodb://mongodb:27017'; //	Production
-		// this.url = 'mongodb://localhost:27017'; // Development
-		this._connect();
-	}
-
-	async _connect() {
-		if (!this.instance) {
-			try {
-				this.instance = await mongoose.connect(this.url, { dbName: 'shoppik' });
-				systemLog.info('- Connected to MongoDB.');
-			} catch (e) {
-				this.instance = undefined;
-				this._close();
-				systemLog.error('Connect to MongoDB fail');
-				throw e;
-			}
-		}
-		return this.instance;
-	}
-
-	_close() {
-		return this.instance?.disconnect();
+// Use TypeScript module augmentation to declare the type of server.prisma to be PrismaClient
+declare module 'fastify' {
+	interface FastifyInstance {
+		prisma: PrismaClient;
 	}
 }
 
-const db = () => new MongoDb({});
+const prismaPlugin: FastifyPluginAsync = fp(async (server) => {
+	const prisma = new PrismaClient();
 
-export default db;
+	await prisma.$connect();
+
+	// Make Prisma Client available through the fastify server instance: server.prisma
+	server.decorate('prisma', prisma);
+
+	server.addHook('onClose', async (server) => {
+		await server.prisma.$disconnect();
+	});
+	systemLog.info('- Connected to Prisma');
+});
+
+export default prismaPlugin;
