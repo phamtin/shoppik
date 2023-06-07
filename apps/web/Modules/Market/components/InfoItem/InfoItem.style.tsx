@@ -4,7 +4,6 @@ export default createStyles(({ token }) => ({
 	wrapper: {
 		display: 'flex',
 		justifyContent: 'space-between',
-		alignItems: 'center',
 
 		'.infoSection': {
 			display: 'flex',
@@ -14,7 +13,7 @@ export default createStyles(({ token }) => ({
 
 				'.action': {
 					fontSize: token.fontSizeHeading5,
-					color: token.colorTextLabel,
+					color: token.colorTextBase,
 					marginBottom: 0,
 					lineHeight: 1.2,
 
@@ -39,7 +38,7 @@ export default createStyles(({ token }) => ({
 					},
 					'.rightSection': {
 						display: 'flex',
-						alignItems: 'center',
+						// alignItems: 'center',
 					},
 					'@media screen and (max-width: 1160px)': {
 						display: 'flex',

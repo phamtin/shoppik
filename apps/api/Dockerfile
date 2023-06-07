@@ -1,6 +1,5 @@
 FROM node:18.15.0-alpine
 
-ENV NODE_ENV production
 
 RUN npm --global install pnpm --force
 

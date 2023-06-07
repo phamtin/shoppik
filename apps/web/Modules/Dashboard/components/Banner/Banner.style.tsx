@@ -2,15 +2,27 @@ import { createStyles } from 'antd-style';
 
 export default createStyles(({ token }) => ({
 	bannerWrapper: {
-		backgroundColor: 'rgba(0,0,0,0.8)',
-		height: 194,
-		width: '100%',
-		borderRadius: token.borderRadiusLG * 3,
-		padding: `${token.paddingXL}px ${token.paddingXL}px`,
+		position: 'relative',
 		justifyContent: 'space-between',
 		display: 'flex',
+		height: 194,
+		width: '100%',
 		flexDirection: 'column',
 		marginBottom: token.marginXXL,
+
+		'.bannerBG': {
+			borderRadius: token.borderRadiusLG * 3,
+		},
+		'.info': {
+			position: 'absolute',
+			height: '100%',
+			padding: `${token.paddingLG}px`,
+			display: 'flex',
+			flexDirection: 'column',
+			'.infoText': {
+				marginBottom: 'auto',
+			},
+		},
 		'@media screen and (max-width: 991.8px)': {
 			height: 145,
 			padding: '20px 18px',
@@ -18,7 +30,7 @@ export default createStyles(({ token }) => ({
 
 		'.title': {
 			fontSize: token.fontSizeHeading2,
-			color: token.colorWhite,
+			color: token.colorBgBase,
 			marginBottom: token.marginXS,
 
 			'@media screen and (max-width: 991.8px)': {
@@ -27,7 +39,7 @@ export default createStyles(({ token }) => ({
 		},
 		'.desc': {
 			fontSize: token.fontSizeHeading5,
-			color: '#D4D4D4',
+			color: '#c1c1c1',
 			marginBottom: 0,
 		},
 		'.button': {

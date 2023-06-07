@@ -11,7 +11,7 @@ services:
       - API_HOST=${API_HOST}
       - LOG_LEVEL=${LOG_LEVEL}
       - REDIS_PORT=6379
-      - REDIS_HOST=${localhost}
+      - REDIS_HOST=localhost
       - DATABASE_URL=${DATABASE_URL}
     ports:
       - "9000:9000"
@@ -32,7 +32,7 @@ services:
       - MONGODB_REPLICA_SET_MODE=primary
       - MONGODB_REPLICA_SET_KEY=replicasetkey123
     volumes:
-      - ./apps/api/data/mongodb:/bitnami/mongodb
+      - ./apps/api/data/mongo:/bitnami/mongodb
     ports:
       - "27017:27017"
 
