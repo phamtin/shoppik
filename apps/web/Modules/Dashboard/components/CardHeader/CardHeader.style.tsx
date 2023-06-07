@@ -5,20 +5,19 @@ export default createStyles(({ token }) => ({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'space-between',
+		marginBottom: token.marginMD,
+
+		'.ant-typography': {
+			marginBottom: 0,
+		},
 
 		'.cardTitle': {
-			fontSize: token.fontSizeHeading3,
-			'@media screen and (max-width: 1160px)': {
-				fontSize: token.fontSizeHeading4,
-			},
+			fontSize: token.fontSizeHeading4,
 		},
 
 		'.cardViewAll': {
 			fontSize: token.fontSizeHeading5,
 			color: token.colorTextDisabled,
-			'@media screen and (max-width: 991.8px)': {
-				fontSize: token.fontSizeSM,
-			},
 		},
 	},
 }));

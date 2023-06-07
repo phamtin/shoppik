@@ -11,6 +11,7 @@ export default createStyles(({ token }) => ({
 		marginRight: token.marginXL,
 		backgroundColor: 'white',
 		boxShadow: ' rgba(0, 0, 0, 0.15) 2px 4px 15px 0px',
+
 		'.ant-card-body': {
 			padding: `0px 0px ${token.paddingXXS}px 0`,
 			'.title': {

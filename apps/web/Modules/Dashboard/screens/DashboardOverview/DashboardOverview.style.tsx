@@ -2,15 +2,16 @@ import { createStyles } from 'antd-style';
 
 export default createStyles(({ token }) => ({
 	wrapper: {
-		margin: '24px 42px 0 42px',
+		margin: `${token.marginLG}px ${token.marginLG}px 0 ${token.marginLG}px`,
 		display: 'flex',
+		// '@media screen and (max-width: 991px)': {
+		// 	flexDirection: 'column',
+		// },
 
 		'.leftWrapper': {
-			flex: 3,
+			flex: '0 1 68%',
 			marginRight: 27,
-			'@media screen and (max-width: 1550px)': {
-				flex: 2,
-			},
+			'@media screen and (max-width: 1550px)': {},
 
 			'.trendingWrapper': {
 				'.trendingCards': {
@@ -18,29 +19,9 @@ export default createStyles(({ token }) => ({
 					flexWrap: 'wrap',
 				},
 			},
-
-			'.topCollectionWrapper': {},
 		},
 		'.rightWrapper': {
-			flex: 1,
-			'@media screen and (max-width: 991px)': {
-				display: 'none',
-			},
-
-			'.bestSellerWrapper': {
-				padding: '30px 24px',
-				backgroundColor: token.colorBgBase,
-				boxShadow: `1px 2px 8px ${token.colorBorder}`,
-				borderRadius: 12,
-				marginBottom: 32,
-			},
-
-			'.recentViewWrapper': {
-				padding: '30px 24px',
-				backgroundColor: token.colorBgBase,
-				boxShadow: `1px 2px 8px ${token.colorBorder}`,
-				borderRadius: 12,
-			},
+			flex: '1 0',
 		},
 	},
 }));

@@ -8,28 +8,41 @@ export default createStyles(({ token }) => ({
 
 		'.infoSection': {
 			display: 'flex',
-			'@media screen and (max-width: 1160px)': {
-				justifyContent: 'space-between',
-			},
+
 			'.info': {
 				marginLeft: token.marginSM,
-				'@media screen and (max-width: 1160px)': {
-					marginLeft: token.marginMD,
-				},
 
 				'.action': {
 					fontSize: token.fontSizeHeading5,
-					color: token.colorTextDisabled,
+					color: token.colorTextLabel,
 					marginBottom: 0,
+					lineHeight: 1.2,
+
+					'@media screen and (max-width: 1160px)': {
+						fontSize: token.fontSizeHeading5 - 2,
+					},
 				},
 				'.title': {
-					fontSize: `-${token.marginXXS}px`,
-					marginBottom: 0,
+					fontSize: token.fontSizeHeading5 - 2,
+					color: token.colorTextDescription,
+					marginBottom: 2,
+					marginTop: -2,
+
+					'@media screen and (max-width: 1160px)': {
+						fontSize: token.fontSizeHeading5 - 4,
+					},
 				},
 				'.rightChild': {
 					display: 'none',
+					'.ant-typography': {
+						marginBottom: 0,
+					},
+					'.rightSection': {
+						display: 'flex',
+						alignItems: 'center',
+					},
 					'@media screen and (max-width: 1160px)': {
-						display: 'inline',
+						display: 'flex',
 					},
 				},
 			},
@@ -39,8 +52,15 @@ export default createStyles(({ token }) => ({
 			'@media screen and (max-width: 1160px)': {
 				display: 'none',
 			},
+
 			'.ant-typography': {
 				marginBottom: 0,
+			},
+
+			'.rightSection': {
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'flex-end',
 			},
 		},
 	},

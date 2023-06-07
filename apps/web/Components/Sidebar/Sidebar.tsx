@@ -1,14 +1,14 @@
-import {memo} from 'react';
+import { memo } from 'react';
 import Image from 'next/image';
-import {useRouter} from 'next/router';
-import {Home, Bag, Chart, Message, Activity} from 'react-iconly';
+import { useRouter } from 'next/router';
+import { Home, Bag, Chart, Message, Activity } from 'react-iconly';
 
-import {Menu, MenuProps, Typography} from 'ui/components/Core';
-import {getItem} from '@/Utils/common';
+import { Menu, MenuProps, Typography } from 'ui/components/Core';
+import { getItem } from '@/Utils/common';
 
 import useStyle from './sidebar.style';
 
-function Dot({color}: {color: string}) {
+function Dot({ color }: { color: string }) {
 	return (
 		<span
 			style={{
@@ -50,8 +50,8 @@ interface SidebarProp {
 	collapsed: boolean;
 }
 
-const Sidebar: React.FC<SidebarProp> = ({collapsed}) => {
-	const {styles} = useStyle({collapsed});
+const Sidebar: React.FC<SidebarProp> = ({ collapsed }) => {
+	const { styles } = useStyle({ collapsed });
 	const router = useRouter();
 
 	const onGotoPage: MenuProps['onClick'] = (e) => {
@@ -70,7 +70,7 @@ const Sidebar: React.FC<SidebarProp> = ({collapsed}) => {
 			<br />
 			<Menu
 				items={items}
-				style={{width: '100%', backgroundColor: '#0a0a0a'}}
+				style={{ width: '100%', backgroundColor: '#0a0a0a' }}
 				defaultSelectedKeys={['1']}
 				defaultOpenKeys={['sub1']}
 				mode="inline"
