@@ -28,8 +28,8 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 				color: token.colorBgLayout,
 			},
 			'&.ant-menu-item-selected': {
-				color: `${token.colorBgBase} !important`,
-				backgroundColor: `#1d1d1d !important`,
+				color: `${token['blue-5']} !important`,
+				backgroundColor: `#20223fcc !important`,
 				borderColor: `transparent !important`,
 			},
 			'&.ant-menu-item-active': {
