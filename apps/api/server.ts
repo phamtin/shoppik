@@ -5,9 +5,10 @@ import cors from '@fastify/cors';
 import fastifyEnv from '@fastify/env';
 
 import { createContext } from './Router/context';
-// import redis from './Loaders/redis';
 import { appRouter } from './Router/routers/_app';
 import options from './Loaders/env';
+
+export type { AppRouter } from './Router/routers/_app';
 
 const Fastify: FastifyInstance = fastify({
 	maxParamLength: 5000,
@@ -28,7 +29,5 @@ Fastify.register(fastifyEnv, options)
 Fastify.get('/ping', () => {
 	return 'Hello from very first tRPC !';
 });
-
-export type { AppRouter } from './Router/routers/_app';
 
 export default Fastify;
