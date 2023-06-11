@@ -39,8 +39,9 @@ export default createStyles(({ token }) => ({
 			marginBottom: 0,
 		},
 		'.ant-card-cover': {
+			borderRadius: token.borderRadiusLG + 2,
+			overflow: 'hidden',
 			'> span': {
-				borderRadius: token.borderRadiusSM * 2 + 2,
 				overflow: 'hidden',
 			},
 		},

@@ -1,7 +1,15 @@
 import fp from 'fastify-plugin';
 import { FastifyPluginAsync } from 'fastify';
 import { PrismaClient } from '@prisma/client';
-import systemLog from '../Pkgs/systemLog';
+
+declare global {
+	var prisma: PrismaClient | undefined;
+}
+
+const prisma = globalThis.prisma || new PrismaClient();
+if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
+
+export { prisma };
 
 // Use TypeScript module augmentation to declare the type of server.prisma to be PrismaClient
 declare module 'fastify' {
@@ -11,8 +19,6 @@ declare module 'fastify' {
 }
 
 const prismaPlugin: FastifyPluginAsync = fp(async (server) => {
-	const prisma = new PrismaClient();
-
 	await prisma.$connect();
 
 	// Make Prisma Client available through the fastify server instance: server.prisma
@@ -21,7 +27,6 @@ const prismaPlugin: FastifyPluginAsync = fp(async (server) => {
 	server.addHook('onClose', async (server) => {
 		await server.prisma.$disconnect();
 	});
-	systemLog.info('- Connected to Prisma');
 });
 
 export default prismaPlugin;

@@ -1,14 +1,8 @@
-import {
-	Button,
-	Dropdown,
-	Input,
-	Layout,
-	MenuProps,
-	Space,
-	Typography,
-} from 'ui/components/Core';
+import { Button, Input, Layout, Modal, Space, Typography } from 'ui/components/Core';
 import { Filter, Search } from 'react-iconly';
-import { getItem } from '@/Utils/common';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
+import SigninModal from '@/Modules/Auth/components/SigninModal/SigninModal';
 import useStyle from './navbar.style';
 import NotiButton from './NotiButton/NotiButton';
 
@@ -16,21 +10,10 @@ const { Header } = Layout;
 const { Text } = Typography;
 
 function NavBar() {
+	const { data: session } = useSession();
 	const { styles, theme } = useStyle();
 
-	const items: MenuProps['items'] = [
-		getItem(<Text>Charts</Text>, 'sub3'),
-		getItem(<Text>Actions</Text>, 'sub4'),
-
-		getItem(
-			'Group',
-			'grp',
-			null,
-			[getItem('Option 13', '13'), getItem('Option 14', '14')],
-			'group',
-		),
-		getItem(<Text>Log out</Text>, 'sub5'),
-	];
+	console.log('NavBar:', session);
 
 	return (
 		<Header className={styles.wrapper}>
@@ -53,13 +36,8 @@ function NavBar() {
 			</div>
 			<Space size="small">
 				<NotiButton />
-				<div>
-					<Dropdown menu={{ items }} overlayStyle={{ width: 200 }}>
-						<Button type="link" onClick={(e) => e.preventDefault()}>
-							Profile
-						</Button>
-					</Dropdown>
-				</div>
+
+				<SigninModal session={session} />
 			</Space>
 		</Header>
 	);

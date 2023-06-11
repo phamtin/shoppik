@@ -1,9 +1,11 @@
+'use client';
+
 import { PropsWithChildren } from 'react';
 import { Button, Col, Row, Typography } from 'ui/components/Core';
 import { Activity, Chart, Home } from 'react-iconly';
+import { trpc } from '@/lib/trpc/trpc';
 import useStyle from './market-overview.style';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import { trpc } from '@/lib/trpc/trpc';
 
 interface MarketProp extends PropsWithChildren {
 	products: any[];

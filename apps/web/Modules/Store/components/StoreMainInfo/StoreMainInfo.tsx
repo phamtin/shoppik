@@ -12,10 +12,9 @@ import {
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'react-iconly';
 import useStyle from './store-main-info.style';
-import { Store } from '@/../api/Model/store/store.entity';
 
 interface StoreMainInfoProps {
-	information?: Store;
+	information?: any;
 }
 
 const StoreMainInfo = ({ information }: StoreMainInfoProps) => {
@@ -29,7 +28,6 @@ const StoreMainInfo = ({ information }: StoreMainInfoProps) => {
 	return (
 		<div className={styles.wrapper}>
 			<Button
-				className="collapeBtn"
 				shape="circle"
 				icon={collapsed ? <ChevronRight set="light" /> : <ChevronLeft set="light" />}
 				onClick={toggleCollapse}
@@ -100,10 +98,6 @@ const StoreMainInfo = ({ information }: StoreMainInfoProps) => {
 			</div>
 		</div>
 	);
-};
-
-StoreMainInfo.defaultProps = {
-	information: 'default value',
 };
 
 export default StoreMainInfo;

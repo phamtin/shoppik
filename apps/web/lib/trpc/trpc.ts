@@ -1,11 +1,11 @@
+'use client';
+
 import { createTRPCNext } from '@trpc/next';
 import { httpBatchLink, loggerLink } from '@trpc/client';
-import { inferReactQueryProcedureOptions } from '@trpc/react-query';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 
 import type { AppRouter } from '../../../api/server';
 
-export type ReactQueryOptions = inferReactQueryProcedureOptions<AppRouter>;
 export type RouterInputs = inferRouterInputs<AppRouter>;
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
