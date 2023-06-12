@@ -24,6 +24,9 @@ export const trpc = createTRPCNext<AppRouter>({
 				}),
 				httpBatchLink({
 					url: `${getBaseUrl()}/trpc`,
+					fetch(url, options) {
+						return fetch(url, { ...options, credentials: 'include' });
+					},
 				}),
 			],
 			queryClientConfig: {

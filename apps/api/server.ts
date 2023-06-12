@@ -19,7 +19,8 @@ const Fastify: FastifyInstance = fastify({
 
 Fastify.register(fastifyEnv, options)
 	.register(cors, {
-		origin: true,
+		origin: '*',
+		methods: ['POST', 'GET', 'DELETE', 'PATCH', 'PUT'],
 	})
 	.register(fastifyTRPCPlugin, {
 		prefix: '/trpc',
