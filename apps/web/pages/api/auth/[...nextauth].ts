@@ -24,20 +24,28 @@ export const authOptions: AuthOptions = {
 	secret: process.env.NEXTAUTH_SECRET,
 	callbacks: {
 		async jwt({ token, account }) {
-			const res = await fetch('http://localhost:9000/trpc/auth/signin', {
-				method: 'POST',
-				body: JSON.stringify(account),
-			});
+			let cc;
+			if (account) {
+				const res = await fetch('http://localhost:9000/trpc/auth.signin', {
+					method: 'POST',
+					body: JSON.stringify({
+						email: token.email,
+						googleToken: account.access_token,
+						provider: 'GOOGLE',
+						fullname: token.name,
+						avatar: token.picture,
+					}),
+				});
+				cc = await res.json();
+				console.log(cc);
+			}
 
 			// Persist the OAuth access_token to the token right after signin
-			return {
-				...token,
-				id_token: account?.id_token,
-			};
+			return { ...token, ...cc };
 		},
 		async session({ session, token }) {
 			// Send properties to the client, like an access_token from a provider.
-			return { ...session, id_token: token.id_token };
+			return { ...session, ...token };
 		},
 	},
 };
