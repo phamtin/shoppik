@@ -8,10 +8,6 @@ const schema = {
 			type: 'string',
 			default: 'development',
 		},
-		LOG_LEVEL: {
-			type: 'string',
-			default: 'debug',
-		},
 		API_HOST: {
 			type: 'string',
 			default: 'localhost',

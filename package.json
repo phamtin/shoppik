@@ -16,6 +16,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "build:docker:prod": "docker build ./apps/api -t veneno",
+    "docker:up:prod": "docker compose -f docker-compose.yaml up",
     "turbo": "latest"
   },
   "devDependencies": {

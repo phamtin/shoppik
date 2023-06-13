@@ -6,7 +6,7 @@ const styles = createStyles(({ token }) => ({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		height: 56,
-		padding: `0 ${token.paddingLG * 2}px`,
+		padding: `0 ${token.paddingXL}px`,
 		backgroundColor: token.colorBgBase,
 		boxShadow: `1px 2px 8px ${token.colorBorder}`,
 

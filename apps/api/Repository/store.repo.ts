@@ -1,8 +1,9 @@
-import { PrismaClient, StoreStatus } from '@prisma/client';
-import { createStoreRequest } from '../Router/routers/store.route';
-import { ObjectId } from 'bson';
-import slugify from 'slugify';
 import { z } from 'zod';
+import slugify from 'slugify';
+import { ObjectId } from 'bson';
+import { PrismaClient, StoreStatus } from '@prisma/client';
+
+import { createStoreRequest } from '../Router/routers/store.route';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const makeStoreRepo = () => {

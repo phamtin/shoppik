@@ -2,46 +2,48 @@ version: "3"
 
 services:
   api:
-    # image: veneno:latest
     build:
       context: .
       dockerfile: ./apps/api/Dockerfile
     environment:
       - API_PORT=9000
       - API_HOST=${API_HOST}
-      - LOG_LEVEL=${LOG_LEVEL}
       - REDIS_PORT=6379
       - REDIS_HOST=localhost
       - DATABASE_URL=${DATABASE_URL}
     ports:
       - "9000:9000"
-    restart: unless-stopped
+    restart: always
     depends_on:
+      # - mongodb
       - redis
-      - mongodb
 
-  mongodb:
-    image: bitnami/mongodb:5.0.18
-    restart: unless-stopped
-    container_name: "mongodb"
-    environment:
-      - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
-      - MONGODB_ROOT_USER=rootuser
-      - MONGODB_ROOT_PASSWORD=rootpassword
-      - MONGODB_DATABASE=shoppik
-      - MONGODB_REPLICA_SET_MODE=primary
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
-    volumes:
-      - ./apps/api/data/mongo:/bitnami/mongodb
-    ports:
-      - "27017:27017"
+  # mongodb:
+  #   image: bitnami/mongodb:5.0.18
+  #   restart: always
+  #   container_name: "mongodb"
+  #   environment:
+  #     - MONGODB_INITDB_ROOT_USERNAME=mongo
+  #     - MONGODB_INITDB_ROOT_PASSWORD=example
+  #     - MONGODB_INITDB_DATABASE=mongo
+  #     - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
+  #     - MONGODB_ROOT_USER=rootuser
+  #     - MONGODB_ROOT_PASSWORD=rootpassword
+  #     - MONGODB_DATABASE=shoppik
+  #     - MONGODB_REPLICA_SET_HOST=127.0.0.1
+  #     - MONGODB_REPLICA_SET_MODE=primary
+  #     - MONGODB_REPLICA_SET_KEY=replicasetkey123
+  #   volumes:
+  #     - mongodb:/bitnami/mongodb
+  #   ports:
+  #     - "27017:27017"
 
   redis:
-    image: redis:7.0.9-alpine
+    image: redis:7.2-rc2-alpine
     container_name: "redis"
     volumes:
       - ./apps/api/data/redis:/data
-    restart: unless-stopped
+    restart: always
     ports:
       - "6379:6379"
     healthcheck:

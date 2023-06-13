@@ -12,9 +12,7 @@ export type { AppRouter } from './Router/routers/_app';
 
 const Fastify: FastifyInstance = fastify({
 	maxParamLength: 5000,
-	logger: {
-		level: 'error',
-	},
+	logger: { level: 'error' },
 });
 
 Fastify.register(fastifyEnv, options)
@@ -25,6 +23,8 @@ Fastify.register(fastifyEnv, options)
 		prefix: '/trpc',
 		trpcOptions: { router: appRouter, createContext },
 	});
+// .register(prismaPlugin)
+// .then(() => systemLog.info('- Connected to Prisma'));
 
 Fastify.get('/ping', () => {
 	return 'Hello from very first tRPC !';

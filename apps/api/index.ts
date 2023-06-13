@@ -23,7 +23,7 @@ await (async () => {
 		await Fastify.ready();
 		await Fastify.listen({ port: process.env.API_PORT as never, host: '0.0.0.0' });
 
-		systemLog.info('- Shoppik API boosted at: 9000');
+		systemLog.info(`- Shoppik API boosted at: 9000`);
 		systemLog.info('------------------------------');
 	} catch (error) {
 		Fastify.log.error(error);

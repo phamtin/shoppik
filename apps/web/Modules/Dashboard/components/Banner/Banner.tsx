@@ -13,7 +13,7 @@ const Banner = () => {
 				src="/images/data/banner_bg.jpg"
 				alt="banner_bg"
 				height={194}
-				width="100%"
+				width={900}
 				className="bannerBG"
 			/>
 			<div className="info">

@@ -6,7 +6,6 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 		position: 'relative',
 		transition: '0s',
 		padding: token.paddingXXS,
-		height: '100%',
 
 		'.ant-segmented': {
 			position: 'absolute',
@@ -21,7 +20,7 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 			border: `1px solid transparent`,
 			marginBottom: `0px !important`,
 			marginTop: `0px !important`,
-			borderRadius: token.borderRadiusOuter * 3,
+			borderRadius: token.borderRadiusOuter * 2,
 			svg: {
 				width: '18.6px',
 				marginBottom: 2,
@@ -29,7 +28,7 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 			},
 			'&.ant-menu-item-selected': {
 				color: `${token['blue-5']} !important`,
-				backgroundColor: `#20223fcc !important`,
+				backgroundColor: `#262838cc !important`,
 				borderColor: `transparent !important`,
 			},
 			'&.ant-menu-item-active': {
@@ -68,8 +67,8 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 	logo: {
 		display: 'flex',
 		alignItems: 'end',
-		marginTop: token.marginLG,
-		marginLeft: props.collapsed ? token.marginXS : token.marginSM,
+		marginTop: props.collapsed ? token.marginMD - 2 : 0,
+		marginLeft: props.collapsed ? token.marginXS - 1 : token.marginSM,
 		h4: {
 			color: token.colorBgBase,
 			marginBottom: 0,

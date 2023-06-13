@@ -3,6 +3,4 @@ data
 *.env
 .env.prod
 ./dist
-public/images/*
 !public/images/.gitkeep
-dev-volume

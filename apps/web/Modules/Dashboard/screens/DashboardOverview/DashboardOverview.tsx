@@ -1,5 +1,7 @@
-import useStyles from './DashboardOverview.style';
+'use client';
+
 import ProductCard from '@/Modules/Market/components/ProductCard/ProductCard';
+import useStyles from './DashboardOverview.style';
 import CardHeader from '../../components/CardHeader/CardHeader';
 import Banner from '../../components/Banner/Banner';
 import BestSeller from '../../components/BestSeller/BestSeller';

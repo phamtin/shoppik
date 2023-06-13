@@ -1,3 +1,5 @@
+'use client';
+
 import {
 	Button,
 	Popconfirm,
@@ -21,7 +23,7 @@ const HomePage = () => {
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
-			render: (text: string) => <a>{text}</a>,
+			render: (text: string) => <a href="/">{text}</a>,
 		},
 		{
 			title: 'Age',
@@ -58,8 +60,8 @@ const HomePage = () => {
 			key: 'action',
 			render: (_, record) => (
 				<Space size="middle">
-					<a>Invite {record.name}</a>
-					<a>Delete</a>
+					<a href="/">Invite {record.name}</a>
+					<a href="/">Delete</a>
 				</Space>
 			),
 		},
@@ -94,8 +96,8 @@ const HomePage = () => {
 			<Popconfirm
 				title="Delete the task"
 				description="Are you sure to delete this task?"
-				onConfirm={() => {}}
-				onCancel={() => {}}
+				onConfirm={() => false}
+				onCancel={() => false}
 				okText="Yes"
 				cancelText="No"
 			>

@@ -2,15 +2,69 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
 datasource db {
   provider = "mongodb"
-  url      = env("DATABASE_URL")
+  url      =  env("DATABASE_URL")
 }
 
+//  =============================================== AUTH MODULE =====================================================
+
+enum Roles {
+  ADMIN
+  CUSTOMER
+  OWNER
+}
+
+enum SigninMethod {
+  GOOGLE
+  TELEGRAM
+}
+
+model Role {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       Roles
+  permission String[]  @default([])
+  createdAt  DateTime
+  updatedAt  DateTime?
+}
+
+model Customer {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String    @db.ObjectId
+  createdAt DateTime
+  updatedAt DateTime?
+}
+
+model Owner {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String    @db.ObjectId
+  storeId   String[]  @db.ObjectId
+  createdAt DateTime
+  updatedAt DateTime?
+}
+
+model Account {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  roleId       String[]     @db.ObjectId
+  email        String
+  fullname     String
+  phoneNumber  String
+  birthday     String
+  avatar       String
+  postalCode   String
+  isConfirm    Boolean
+  signinMethod SigninMethod
+  createdAt    DateTime
+  updatedAt    DateTime?
+  isDeleted    Boolean?
+  DeletedAt    DateTime?
+}
+
+//  =============================================== STORE MODULE =====================================================
 type StoreTag {
   name String
   slug String
