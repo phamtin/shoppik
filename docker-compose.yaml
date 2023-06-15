@@ -1,4 +1,4 @@
-version: "3"
+version: "3.1"
 
 services:
   api:
@@ -10,7 +10,7 @@ services:
       - API_HOST=${API_HOST}
       - REDIS_PORT=6379
       - REDIS_HOST=localhost
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=mongodb://rootuser:rootpassword@mongodb:27017/shoppik?directConnection=true&authSource=admin
     ports:
       - "9000:9000"
     restart: always
@@ -18,23 +18,39 @@ services:
       # - mongodb
       - redis
 
+  mongodb:
+    image: bitnami/mongodb:5.0.18
+    restart: unless-stopped
+    container_name: "mongodb"
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
+      - MONGODB_ROOT_USER=rootuser
+      - MONGODB_ROOT_PASSWORD=rootpassword
+      - MONGODB_DATABASE=shoppik
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+    volumes:
+      - ./apps/api/data/mongo:/bitnami/mongodb
+    ports:
+      - "27017:27017"
   # mongodb:
-  #   image: bitnami/mongodb:5.0.18
+  #   image: prismagraphql/mongo-single-replica:4.4.3-bionic
   #   restart: always
-  #   container_name: "mongodb"
   #   environment:
-  #     - MONGODB_INITDB_ROOT_USERNAME=mongo
-  #     - MONGODB_INITDB_ROOT_PASSWORD=example
-  #     - MONGODB_INITDB_DATABASE=mongo
-  #     - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
-  #     - MONGODB_ROOT_USER=rootuser
-  #     - MONGODB_ROOT_PASSWORD=rootpassword
-  #     - MONGODB_DATABASE=shoppik
-  #     - MONGODB_REPLICA_SET_HOST=127.0.0.1
-  #     - MONGODB_REPLICA_SET_MODE=primary
-  #     - MONGODB_REPLICA_SET_KEY=replicasetkey123
-  #   volumes:
-  #     - mongodb:/bitnami/mongodb
+  #     - MONGO_INITDB_ROOT_USERNAME:rootuser
+  #     - MONGO_INITDB_ROOT_PASSWORD:rootpassword
+  #     - MONGO_INITDB_DATABASE:shoppik
+  #     # - MONGO_REPLICA_HOST:localhost
+  #     # - MONGO_INITDB_PORT:27017
+  #     # - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
+  #     # - MONGODB_ROOT_USER=rootuser
+  #     # - MONGODB_ROOT_PASSWORD=rootpassword
+  #     # - MONGODB_DATABASE=shoppik
+  #     # - MONGODB_REPLICA_SET_HOST=127.0.0.1
+  #     # - MONGODB_REPLICA_SET_MODE=primary
+  #     # - MONGODB_REPLICA_SET_KEY=replicasetkey123
+  #   # volumes:
+  #   #   - mongodb:/bitnami/mongodb
   #   ports:
   #     - "27017:27017"
 
@@ -50,8 +66,7 @@ services:
       test: ["CMD", "redis-cli", "ping"]
       retries: 3
       timeout: 6s
-
-volumes:
-  mongodb: null
-  # bullmq:
-  #     driver: bridge
+# volumes:
+# mongodb: null
+# bullmq:
+#     driver: bridge

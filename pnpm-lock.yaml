@@ -62,9 +62,6 @@ importers:
       pino-pretty:
         specifier: ^10.0.0
         version: 10.0.0
-      prisma:
-        specifier: ^4.15.0
-        version: 4.15.0
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
@@ -96,6 +93,9 @@ importers:
       prettier:
         specifier: ^2.8.7
         version: 2.8.8
+      prisma:
+        specifier: ^4.15.0
+        version: 4.15.0
       tsx:
         specifier: ^3.12.7
         version: 3.12.7
@@ -1169,7 +1169,6 @@ packages:
   /@prisma/engines@4.15.0:
     resolution: {integrity: sha512-FTaOCGs0LL0OW68juZlGxFtYviZa4xdQj/rQEdat2txw0s3Vu/saAPKjNVXfIgUsGXmQ72HPgNr6935/P8FNAA==}
     requiresBuild: true
-    dev: false
 
   /@rc-component/color-picker@1.2.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-IitJ6RWGHs7btI1AqzGPrehr5bueWLGDUyMKwDwvFunfSDo/o8g/95kUG55vC5EYLM0ZJ3SDfw45OrW5KAx3oA==}
@@ -4572,7 +4571,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@prisma/engines': 4.15.0
-    dev: false
 
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}

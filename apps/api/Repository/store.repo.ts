@@ -4,6 +4,7 @@ import { ObjectId } from 'bson';
 import { PrismaClient, StoreStatus } from '@prisma/client';
 
 import { createStoreRequest } from '../Router/routers/store.route';
+import systemLog from '../Pkgs/systemLog';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const makeStoreRepo = () => {
@@ -13,6 +14,7 @@ const makeStoreRepo = () => {
 		...StorePrisma,
 
 		createStore: async (request: z.infer<typeof createStoreRequest>) => {
+			systemLog.info(StorePrisma);
 			const store = await StorePrisma.create({
 				data: {
 					name: request.name,
