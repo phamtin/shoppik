@@ -8,7 +8,8 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = "mongodb://rootuser:rootpassword@mongodb:27017/shoppik?directConnection=true&authSource=admin"
+  //	todo: WTF Cannot set complex string in Okteto env, lead to leaking this fucking way
+  url      = "mongodb+srv://tinpham:n6PgPOmj4i3nKQb3@cluster0.jyi5oeo.mongodb.net/shoppik?retryWrites=true&w=majority"
 }
 
 //  =============================================== AUTH MODULE =====================================================
@@ -47,6 +48,14 @@ model Owner {
   updatedAt DateTime?
 }
 
+type Session {
+  accessToken  String
+  exp          Int
+  iat          Int
+  scope        String
+  signinMethod SigninMethod
+}
+
 model Account {
   id           String       @id @default(auto()) @map("_id") @db.ObjectId
   roleId       String[]     @db.ObjectId
@@ -57,6 +66,7 @@ model Account {
   avatar       String
   postalCode   String
   isConfirm    Boolean
+  sessions     Session[]
   signinMethod SigninMethod
   createdAt    DateTime
   updatedAt    DateTime?

@@ -1,3 +1,5 @@
+'server-only';
+
 import { getBaseUrl } from '@/lib/trpc/trpc';
 import NextAuth, { AuthOptions } from 'next-auth';
 
@@ -23,14 +25,18 @@ export const authOptions: AuthOptions = {
 		async jwt({ token, account }) {
 			let user;
 			if (account) {
+				console.log(account);
+
 				const res = await fetch(`${getBaseUrl()}/trpc/auth.signin`, {
 					method: 'POST',
 					body: JSON.stringify({
 						email: token.email,
-						googleToken: account.access_token,
-						provider: 'GOOGLE',
-						fullname: token.name,
 						avatar: token.picture,
+						fullname: token.name,
+						scope: account.scope,
+						expiresAt: account.expires_at,
+						accessToken: account.id_token,
+						provider: 'GOOGLE',
 					}),
 				});
 				user = await res.json();
@@ -38,7 +44,6 @@ export const authOptions: AuthOptions = {
 			return { ...token, ...user };
 		},
 		async session({ session, token }) {
-			console.log({ ...session, ...token });
 			return { ...session, ...token };
 		},
 	},

@@ -45,10 +45,7 @@ export default createStyles(({ token }, state: { collapsed: boolean }) => ({
 	subcription: {
 		marginTop: -3,
 		marginLeft: token.marginSM,
-		h5: {
-			marginBottom: -1,
-			color: token.colorTextBase,
-		},
+		h5: { marginTop: 0, marginBottom: -1, color: token.colorTextBase },
 		'.subTitle1': {
 			fontSize: token.fontSize,
 			color: token.colorTextTertiary,

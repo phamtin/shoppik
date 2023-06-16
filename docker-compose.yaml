@@ -10,29 +10,29 @@ services:
       - API_HOST=${API_HOST}
       - REDIS_PORT=6379
       - REDIS_HOST=localhost
-      - DATABASE_URL=mongodb://rootuser:rootpassword@mongodb:27017/shoppik?directConnection=true&authSource=admin
+      - DATABASE_URL=${DATABASE_URL}
     ports:
       - "9000:9000"
     restart: always
     depends_on:
-      - mongodb
+      # - mongodb
       - redis
 
-  mongodb:
-    image: bitnami/mongodb:5.0.18
-    restart: unless-stopped
-    container_name: "mongodb"
-    environment:
-      - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
-      - MONGODB_ROOT_USER=rootuser
-      - MONGODB_ROOT_PASSWORD=rootpassword
-      - MONGODB_DATABASE=shoppik
-      - MONGODB_REPLICA_SET_MODE=primary
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
-    volumes:
-      - ./apps/api/data/mongo:/bitnami/mongodb
-    ports:
-      - "27017:27017"
+  # mongodb:
+  #   image: bitnami/mongodb:5.0.18
+  #   restart: unless-stopped
+  #   container_name: "mongodb"
+  #   environment:
+  #     - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
+  #     - MONGODB_ROOT_USER=rootuser
+  #     - MONGODB_ROOT_PASSWORD=rootpassword
+  #     - MONGODB_DATABASE=shoppik
+  #     - MONGODB_REPLICA_SET_MODE=primary
+  #     - MONGODB_REPLICA_SET_KEY=replicasetkey123
+  #   volumes:
+  #     - ./apps/api/data/mongo:/bitnami/mongodb
+  #   ports:
+  #     - "27017:27017"
 
   redis:
     image: redis:7.2-rc2-alpine

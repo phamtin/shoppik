@@ -1,7 +1,5 @@
-import { UserRepo } from '../../Repository';
-
 import makeUserService from './user.service';
 
-const userService = makeUserService(UserRepo);
+const userService = makeUserService();
 
 export default userService;

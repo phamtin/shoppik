@@ -22,8 +22,7 @@
 		"forceConsistentCasingInFileNames": true
 	},
 	// "ignorePatterns": [".eslintrc.js"],
-	"include": ["./*"],
-	// "include": ["**/*.ts"],
+	"include": ["**/*.ts"],
 	"exclude": ["node_modules", ".vscode", ".turbo"],
 	"tsc-alias": {
 		"verbose": false,

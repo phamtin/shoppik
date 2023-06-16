@@ -31,7 +31,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 					{session?.user?.email ? 'Profile' : 'Sign in'}
 				</Button>
 			</div>
-			<Modal open={open} width={480} centered onCancel={toggleOpen} footer={[]}>
+			<Modal open={open} width={400} centered onCancel={toggleOpen} footer={[]}>
 				<div className={styles.wrapper}>
 					<Image width={72} height={60} alt="logo" src="/images/logo-main.png" />
 					<Typography.Title level={4}>Welcome back, Shoppiker</Typography.Title>
@@ -39,7 +39,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 						Signin to join the community of designer, seller,..
 					</Typography.Text>
 					<Button
-						style={{ width: 410 }}
+						style={{ width: 340 }}
 						danger
 						size="large"
 						onClick={onHandleSigninGoogle}

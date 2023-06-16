@@ -1,13 +1,11 @@
-import { Button, Input, Layout, Modal, Space, Typography } from 'ui/components/Core';
+import { Button, Input, Layout, Space } from 'ui/components/Core';
 import { Filter, Search } from 'react-iconly';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
 import SigninModal from '@/Modules/Auth/components/SigninModal/SigninModal';
 import useStyle from './navbar.style';
 import NotiButton from './NotiButton/NotiButton';
 
 const { Header } = Layout;
-const { Text } = Typography;
 
 function NavBar() {
 	const { data: session } = useSession();

@@ -4,6 +4,10 @@ const schema = {
 	type: 'object',
 	required: ['NODE_ENV', 'API_HOST', 'API_PORT'],
 	properties: {
+		DATABASE_URL: {
+			type: 'string',
+			default: '',
+		},
 		NODE_ENV: {
 			type: 'string',
 			default: 'development',

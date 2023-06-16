@@ -28,6 +28,7 @@ const StoreMainInfo = ({ information }: StoreMainInfoProps) => {
 	return (
 		<div className={styles.wrapper}>
 			<Button
+				className="collapeBtn"
 				shape="circle"
 				icon={collapsed ? <ChevronRight set="light" /> : <ChevronLeft set="light" />}
 				onClick={toggleCollapse}

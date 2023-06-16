@@ -7,11 +7,12 @@ import { SigninMethod } from '@prisma/client';
 
 const signinRequest = z.object({
 	email: z.string(),
-	googleToken: z.string(),
+	accessToken: z.string(),
 	provider: z.nativeEnum(SigninMethod),
 	fullname: z.string(),
 	avatar: z.string(),
-	phoneNumber: z.string().optional(),
+	expiresAt: z.number(),
+	scope: z.string(),
 });
 export type SigninRequest = z.infer<typeof signinRequest>;
 const signinResponse = z.object({

@@ -15,9 +15,9 @@ export const apiRouter = router({
 				})
 				.nullish(),
 		)
-		.query(({ input, ctx }) => {
+		.query(() => {
 			return {
-				text: `hello ${input?.username ?? ctx.user?.name ?? 'world'}`,
+				text: `hello world`,
 			};
 		}),
 });

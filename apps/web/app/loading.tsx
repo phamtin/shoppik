@@ -6,7 +6,7 @@ const Loading = () => {
 	return (
 		<Row>
 			<Col offset={11} style={{ marginTop: 200 }}>
-				<Spin size="large" tip="How's your day?" />
+				<Spin size="large" />
 			</Col>
 		</Row>
 	);

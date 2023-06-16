@@ -1,4 +1,4 @@
-// import { TRPCError } from '@trpc/server';
+import jwt from 'jsonwebtoken';
 import { PrismaClient, Roles, SigninMethod } from '@prisma/client';
 
 import { SigninRequest, SigninResponse } from '../../Router/routers/auth.route';
@@ -13,21 +13,20 @@ export default function makeAuthService() {
 
 		let res: SigninResponse = { accountId: '', fullname: '', email: '', role: '', prodiver: SigninMethod.GOOGLE, avatar: '', token: 'abc123' };
 
-		const customerRole = await rolePrisma.findFirst({
+		const jwtPayload = jwt.decode(request.accessToken, { complete: true });
+		console.log(jwtPayload?.payload);
+
+		let customerRole = await rolePrisma.findFirst({
 			where: {
 				name: Roles.CUSTOMER,
 			},
 		});
 		if (!customerRole) {
-			await rolePrisma.create({ data: { name: Roles.CUSTOMER, createdAt: new Date() } });
-			// throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: "Can't register new customer" });
+			customerRole = await rolePrisma.create({ data: { name: Roles.CUSTOMER, createdAt: new Date() } }); //	Should have the Db Seed here
 		}
 
-		const user = await prisma.findFirst({
-			where: {
-				email: request.email,
-			},
-		});
+		const user = await prisma.findFirst({ where: { email: request.email } });
+
 		if (user?.id) {
 			res = {
 				accountId: user.id,
@@ -47,7 +46,7 @@ export default function makeAuthService() {
 				roleId: [customerRole.id],
 				email: request.email,
 				fullname: request.fullname,
-				phoneNumber: request.phoneNumber ?? '',
+				phoneNumber: '',
 				postalCode: '',
 				birthday: '',
 				avatar: request.avatar,

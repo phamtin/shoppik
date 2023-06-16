@@ -1,35 +1,35 @@
 {
-  "root": true,
-  "plugins": ["prettier"],
-  "extends": ["next/core-web-vitals", "airbnb-typescript-prettier"],
-  "env": {
-    "browser": true,
-    "es6": true
-  },
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 2020,
-    "sourceType": "module"
-  },
-  "rules": {
-    "no-console": "warn",
-    "react-hooks/exhaustive-deps": "error",
-    "brace-style": "error",
-    "prefer-template": "error",
-    "radix": "error",
-    "space-before-blocks": "error",
-    "import/prefer-default-export": "off",
-    "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-unused-vars": "warn",
-    "import/no-relative-packages": "off",
-    "import/extensions": "off",
-    "import/no-unresolved": "off",
-    "react/function-component-definition": "off",
-    "react/jsx-props-no-spreading": "off",
-    "react/require-default-props": "off"
-  }
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["prettier"],
+	"extends": ["next/core-web-vitals", "airbnb-typescript-prettier"],
+	"env": {
+		"browser": true,
+		"es6": true
+	},
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"ecmaVersion": 2020,
+		"sourceType": "module"
+	},
+	"rules": {
+		"no-console": "warn",
+		"react-hooks/exhaustive-deps": "error",
+		"brace-style": "error",
+		"prefer-template": "error",
+		"radix": "error",
+		"space-before-blocks": "error",
+		"import/prefer-default-export": "off",
+		"react/jsx-uses-react": "off",
+		"react/react-in-jsx-scope": "off",
+		"@typescript-eslint/no-unused-vars": "error",
+		"import/no-relative-packages": "off",
+		"import/extensions": "off",
+		"import/no-unresolved": "off",
+		"react/function-component-definition": "off",
+		"react/jsx-props-no-spreading": "error",
+		"react/require-default-props": "off"
+	}
 }

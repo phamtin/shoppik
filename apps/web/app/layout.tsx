@@ -13,10 +13,6 @@ import { trpc } from '@/lib/trpc/trpc';
 
 const { Content } = Layout;
 
-const metadata = {
-	title: 'Shoppik',
-	description: 'Shoppik - the universal of design & shop',
-};
 const customTheme = {
 	borderRadius: 8,
 	sizeStep: 4,
