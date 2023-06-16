@@ -5,7 +5,7 @@ import { authService } from '../../Service';
 import { TRPCError } from '@trpc/server';
 import { SigninMethod } from '@prisma/client';
 
-export const signinRequest = z.object({
+const signinRequest = z.object({
 	email: z.string(),
 	googleToken: z.string(),
 	provider: z.nativeEnum(SigninMethod),
@@ -13,7 +13,8 @@ export const signinRequest = z.object({
 	avatar: z.string(),
 	phoneNumber: z.string().optional(),
 });
-export const signinResponse = z.object({
+export type SigninRequest = z.infer<typeof signinRequest>;
+const signinResponse = z.object({
 	token: z.string(),
 	email: z.string(),
 	accountId: z.string(),
@@ -22,6 +23,7 @@ export const signinResponse = z.object({
 	avatar: z.string(),
 	fullname: z.string(),
 });
+export type SigninResponse = z.infer<typeof signinResponse>;
 
 export const authRouter = router({
 	signin: publicProcedure

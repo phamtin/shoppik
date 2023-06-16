@@ -15,7 +15,7 @@ services:
       - "9000:9000"
     restart: always
     depends_on:
-      # - mongodb
+      - mongodb
       - redis
 
   mongodb:
@@ -33,26 +33,6 @@ services:
       - ./apps/api/data/mongo:/bitnami/mongodb
     ports:
       - "27017:27017"
-  # mongodb:
-  #   image: prismagraphql/mongo-single-replica:4.4.3-bionic
-  #   restart: always
-  #   environment:
-  #     - MONGO_INITDB_ROOT_USERNAME:rootuser
-  #     - MONGO_INITDB_ROOT_PASSWORD:rootpassword
-  #     - MONGO_INITDB_DATABASE:shoppik
-  #     # - MONGO_REPLICA_HOST:localhost
-  #     # - MONGO_INITDB_PORT:27017
-  #     # - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
-  #     # - MONGODB_ROOT_USER=rootuser
-  #     # - MONGODB_ROOT_PASSWORD=rootpassword
-  #     # - MONGODB_DATABASE=shoppik
-  #     # - MONGODB_REPLICA_SET_HOST=127.0.0.1
-  #     # - MONGODB_REPLICA_SET_MODE=primary
-  #     # - MONGODB_REPLICA_SET_KEY=replicasetkey123
-  #   # volumes:
-  #   #   - mongodb:/bitnami/mongodb
-  #   ports:
-  #     - "27017:27017"
 
   redis:
     image: redis:7.2-rc2-alpine

@@ -7,10 +7,10 @@ services:
     container_name: "mongodb"
     environment:
       - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
-      - MONGODB_DATABASE=shoppik
-      - MONGODB_REPLICA_SET_MODE=primary
       - MONGODB_ROOT_USER=rootuser
       - MONGODB_ROOT_PASSWORD=rootpassword
+      - MONGODB_DATABASE=shoppik
+      - MONGODB_REPLICA_SET_MODE=primary
       - MONGODB_REPLICA_SET_KEY=replicasetkey123
     volumes:
       - ./apps/api/data/mongo:/bitnami/mongodb

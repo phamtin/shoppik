@@ -1,18 +1,17 @@
-import { z } from 'zod';
-import { TRPCError } from '@trpc/server';
+// import { TRPCError } from '@trpc/server';
 import { PrismaClient, Roles, SigninMethod } from '@prisma/client';
 
-import { signinRequest, signinResponse } from '../../Router/routers/auth.route';
+import { SigninRequest, SigninResponse } from '../../Router/routers/auth.route';
 import systemLog from '../../Pkgs/systemLog';
 
 export default function makeAuthService() {
 	const prisma = new PrismaClient().account;
 	const rolePrisma = new PrismaClient().role;
 
-	async function signinGoogle(request: z.infer<typeof signinRequest>): Promise<z.infer<typeof signinResponse>> {
+	async function signinGoogle(request: SigninRequest): Promise<SigninResponse> {
 		systemLog.info(`Signin Google email ${request.email} - START`);
 
-		let res: z.infer<typeof signinResponse> = { accountId: '', fullname: '', email: '', role: '', prodiver: SigninMethod.GOOGLE, avatar: '', token: 'abc123' };
+		let res: SigninResponse = { accountId: '', fullname: '', email: '', role: '', prodiver: SigninMethod.GOOGLE, avatar: '', token: 'abc123' };
 
 		const customerRole = await rolePrisma.findFirst({
 			where: {
@@ -20,7 +19,8 @@ export default function makeAuthService() {
 			},
 		});
 		if (!customerRole) {
-			throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: "Can't register new customer" });
+			await rolePrisma.create({ data: { name: Roles.CUSTOMER, createdAt: new Date() } });
+			// throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: "Can't register new customer" });
 		}
 
 		const user = await prisma.findFirst({
