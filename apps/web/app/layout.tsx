@@ -1,15 +1,16 @@
 'use client';
 
 import { PropsWithChildren } from 'react';
-import { Nunito } from 'next/font/google';
-import NavBar from '@/Components/Navbar/Navbar';
 import { SessionProvider } from 'next-auth/react';
+import { ConfigProvider, Layout } from '@shoppik/ui/components/Core';
+import NavBar from '@/Components/Navbar/Navbar';
 
 import EmptyState from '@/Components/EmptyState/EmptyState';
-import { ConfigProvider, Layout } from 'ui/components/Core';
 import { useMediaQuery } from '@/Hooks/useMediaQuery';
 import Sidebar from '@/Components/Sidebar/Sidebar';
 import { trpc } from '@/lib/trpc/trpc';
+
+import './globals.css';
 
 const { Content } = Layout;
 
@@ -28,8 +29,7 @@ const customThemeIPad = {
 	colorPrimary: '#0b5dff',
 };
 
-const cc = { height: '100%', overflow: 'auto', backgroundColor: '#FFF' };
-const font = Nunito({ subsets: ['latin'] });
+const cc = { height: '100%', overflow: 'auto', backgroundColor: '#FFFFFF' };
 
 export default trpc.withTRPC(function RootLayout({ children }: PropsWithChildren) {
 	let theme = customTheme;
@@ -40,10 +40,14 @@ export default trpc.withTRPC(function RootLayout({ children }: PropsWithChildren
 
 	if (isIpad) theme = customThemeIPad;
 
+	const renderEmptyIndicator = () => {
+		return <EmptyState />;
+	};
+
 	return (
 		<html lang="en">
-			<body className={font.className} style={{ margin: '0px' }}>
-				<ConfigProvider theme={{ token: theme }} renderEmpty={() => <EmptyState />}>
+			<body>
+				<ConfigProvider theme={{ token: theme }} renderEmpty={renderEmptyIndicator}>
 					<Layout style={{ height: '100vh' }}>
 						<SessionProvider refetchOnWindowFocus={process.env.NODE_ENV === 'production'}>
 							<Sidebar />

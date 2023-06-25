@@ -2,7 +2,7 @@
 
 import { PropsWithChildren, useEffect, memo, useState } from 'react';
 
-import { Avatar, FloatButton, List } from 'ui/components/Core';
+import { Avatar, FloatButton, List } from '@shoppik/ui/components/Core';
 import { trpc } from '@/lib/trpc/trpc';
 import StoreMainInfo from '../../components/StoreMainInfo/StoreMainInfo';
 import StoreMain from '../../components/StoreMain/StoreMain';

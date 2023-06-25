@@ -1,22 +1,20 @@
 'use client';
 
-import EmptyState from '@/Components/EmptyState/EmptyState';
-import { useEffect } from 'react';
+import { Col, Row, Space } from '@shoppik/ui/components/Core';
 
 interface ErrorStateProps {
 	error: Error;
 }
 
-const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
-	useEffect(() => {
-		console.error(error);
-	}, [error]);
-
+const ErrorState: React.FC<ErrorStateProps> = () => {
 	return (
-		<>
-			<p>Uh oh.. Something went wrong!</p>
-			<EmptyState />
-		</>
+		<Row>
+			<Col offset={9}>
+				<Space align="center" direction="vertical">
+					<p>Uh oh.. Something went wrong 🥶</p>
+				</Space>
+			</Col>
+		</Row>
 	);
 };
 

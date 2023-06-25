@@ -12,6 +12,15 @@ datasource db {
   url      = "mongodb+srv://tinpham:n6PgPOmj4i3nKQb3@cluster0.jyi5oeo.mongodb.net/shoppik?retryWrites=true&w=majority"
 }
 
+generator zod {
+  provider               = "pnpm zod-prisma-types"
+  output                 = "./generated"
+  createInputTypes       = false
+  coerceDate             = false
+  addSelectType          = false
+  addInputTypeValidation           = true
+}
+
 //  =============================================== AUTH MODULE =====================================================
 
 enum Roles {
@@ -50,9 +59,11 @@ model Owner {
 
 type Session {
   accessToken  String
-  exp          Int
   iat          Int
+  exp          Int
+  sub          String
   scope        String
+  locale       String
   signinMethod SigninMethod
 }
 
@@ -61,7 +72,7 @@ model Account {
   roleId       String[]     @db.ObjectId
   email        String
   fullname     String
-  phoneNumber  String
+  phoneNumber  String /// @zod.string.min(9, { message: "min error" }).max(10, { message: "max error" })
   birthday     String
   avatar       String
   postalCode   String
@@ -69,9 +80,9 @@ model Account {
   sessions     Session[]
   signinMethod SigninMethod
   createdAt    DateTime
-  updatedAt    DateTime?
+  updatedAt    DateTime? /// @zod.date({ invalid_type_error: "wrong date type" })
   isDeleted    Boolean?
-  DeletedAt    DateTime?
+  deletedAt    DateTime?
 }
 
 //  =============================================== STORE MODULE =====================================================
@@ -113,7 +124,7 @@ model Store {
   following      String[]    @db.ObjectId
   tags           StoreTag[]
   rating         StoreRating
-  contact        Contact
+  contact        Contact 
   storeStatus    StoreStatus
   createdAt      DateTime
   updatedAt      DateTime?

@@ -13,6 +13,12 @@ export const getBaseUrl = () => {
 	return process.env.NEXT_PUBLIC_API_URL;
 };
 
+let headerToken = 'cc2';
+
+export const setHeaderToken = (token: string) => {
+	headerToken = token;
+};
+
 export const trpc = createTRPCNext<AppRouter>({
 	config() {
 		return {
@@ -24,6 +30,11 @@ export const trpc = createTRPCNext<AppRouter>({
 				}),
 				httpBatchLink({
 					url: `${getBaseUrl()}/trpc`,
+					headers: () => {
+						return {
+							authorization: `API ${headerToken}`,
+						};
+					},
 				}),
 			],
 			queryClientConfig: {

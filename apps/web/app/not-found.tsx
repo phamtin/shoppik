@@ -1,4 +1,6 @@
-import { Button, Typography } from 'ui/components/Core';
+'use client';
+
+import { Button, Typography } from '@shoppik/ui/components/Core';
 import Image from 'next/image';
 import Link from 'next/link';
 

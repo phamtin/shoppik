@@ -1,4 +1,4 @@
-import { Button, Input, Layout, Space } from 'ui/components/Core';
+import { Button, Input, Layout, Space } from '@shoppik/ui/components/Core';
 import { Filter, Search } from 'react-iconly';
 import { useSession } from 'next-auth/react';
 import SigninModal from '@/Modules/Auth/components/SigninModal/SigninModal';

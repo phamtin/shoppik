@@ -1,11 +1,9 @@
 'use client';
 
-import { ArrowLeft, Home, Bag, Chart, Message, Activity } from 'react-iconly';
-
-import { Button, Layout, Menu, MenuProps, Typography } from 'ui/components/Core';
-
 import { memo, useState } from 'react';
 import Image from 'next/image';
+import { ArrowLeft, Home, Bag, Chart, Message, Activity } from 'react-iconly';
+import { Button, Layout, Menu, MenuProps, Typography } from '@shoppik/ui/components/Core';
 import { useRouter } from 'next/navigation';
 import { getItem } from '@/Utils/common';
 
@@ -13,21 +11,19 @@ import useStyle from './sidebar.style';
 
 const { Sider } = Layout;
 
-function Dot({ color }: { color: string }) {
-	return (
-		<span
-			style={{
-				display: 'inline-block',
-				height: '6px',
-				width: '6px',
-				marginRight: '8px',
-				marginBottom: '1px',
-				background: `${color}`,
-				borderRadius: '100%',
-			}}
-		/>
-	);
-}
+const Dot = ({ color }: { color: string }) => (
+	<span
+		style={{
+			display: 'inline-block',
+			height: '6px',
+			width: '6px',
+			marginRight: '8px',
+			marginBottom: '1px',
+			background: `${color}`,
+			borderRadius: '100%',
+		}}
+	/>
+);
 
 const myStoreUrl = {
 	overview: 'overview',
@@ -77,6 +73,7 @@ const Sidebar: React.FC<SidebarProp> = () => {
 				position: 'relative',
 				backgroundColor: '#0a0a0a',
 				overflowX: 'hidden',
+				paddingTop: 18,
 				transition: '0s',
 			}}
 			collapsed={collapsed}

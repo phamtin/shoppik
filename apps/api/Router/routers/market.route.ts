@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 import { publicProcedure, router } from '../trpc';
-import systemLog from '../../Pkgs/systemLog';
 
 export const getMarketRequest = z.object({
 	price: z.number(),
@@ -14,8 +13,7 @@ export const marketRouter = router({
 		.output(getMarketResponse)
 		.query((queryParams) => {
 			const { ctx } = queryParams;
-			systemLog.info('Get market successfully: ');
-			systemLog.info(ctx.user.id);
+			ctx.systemLog.info('Get market successfully: ');
 
 			return true;
 		}),

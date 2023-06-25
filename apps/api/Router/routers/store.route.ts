@@ -1,9 +1,10 @@
 import { z } from 'zod';
 
-import { publicProcedure, router } from '../trpc';
-import { storeService } from '../../Service';
+import { authenticatedProcedure, publicProcedure, router } from '../trpc';
+import StoreService from 'Service/store/store.service';
+import { StoreSchema } from '@shoppik/prisma/generated';
 
-export const createStoreRequest = z.object({
+const createStoreRequest = z.object({
 	name: z.string(),
 	tradeName: z.string(),
 	description: z.string(),
@@ -17,17 +18,40 @@ export const createStoreRequest = z.object({
 	}),
 	tags: z.array(z.string()).min(2),
 });
-export const createStoreResponse = z.object({
+
+const createStoreResponse = z.object({
 	success: z.number(),
 });
+
+const getMyStoreRequest = z.object({
+	storeId: z.string().optional(),
+});
+
+const getMyStoreResponse = z.object({
+	data: z.array(StoreSchema),
+});
+
+export type CreateStoreRequest = z.infer<typeof createStoreRequest>;
+export type CreateStoreResponse = z.infer<typeof createStoreResponse>;
+export type GetMyStoreRequest = z.infer<typeof getMyStoreRequest>;
+export type GetMyStoreResponse = z.infer<typeof getMyStoreResponse>;
 
 export const storeRouter = router({
 	createStore: publicProcedure
 		.input(createStoreRequest)
 		.output(createStoreResponse)
-		.mutation(async (queryParams) => {
-			await storeService.createStore(queryParams.ctx, queryParams.input);
+		.mutation(async ({ ctx, input }) => {
+			await StoreService.createStore(ctx, input);
 
 			return { success: 1 };
+		}),
+
+	getMyStore: authenticatedProcedure
+		.input(getMyStoreRequest)
+		.output(getMyStoreResponse)
+		.query(async ({ ctx, input }) => {
+			const stores = await StoreService.getMyStore(ctx, input);
+
+			return stores;
 		}),
 });

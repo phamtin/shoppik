@@ -1,6 +1,6 @@
 {
-  "name": "my-turborepo",
-  "version": "0.0.0",
+  "name": "shoppik",
+  "version": "0.1.0",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -18,9 +18,6 @@
     "build:docker:prod": "docker build ./apps/api -t veneno",
     "docker:up:prod": "docker compose -f docker-compose.yaml up",
     "turbo": "latest"
-  },
-  "devDependencies": {
-    "turbo": "^1.8.3"
   },
   "engines": {
     "node": ">=18.15.0"

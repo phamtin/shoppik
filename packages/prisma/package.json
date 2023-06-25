@@ -1,0 +1,25 @@
+{
+    "name": "@shoppik/prisma",
+    "version": "0.1.0",
+    "description": "",
+    "main": "./index.ts",
+    "type": "module",
+    "scripts": {
+        "db:generate": "pnpm prisma generate",
+        "db:push": "pnpm prisma db push"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@prisma/client": "^4.16.1",
+        "zod": "^3.21.4",
+        "zod-prisma-types": "^2.7.4"
+    },
+    "devDependencies": {
+        "@types/node": "^20.3.1",
+        "dotenv": "^16.3.1",
+        "prisma": "^4.16.1",
+        "typescript": "5.0.4"
+    }
+}

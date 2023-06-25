@@ -31,6 +31,7 @@ export default createStyles(({ token }) => ({
 			},
 
 			'.productName': {
+				fontWeight: 500,
 				marginBottom: token.marginXXS,
 			},
 			'.productDesc': {

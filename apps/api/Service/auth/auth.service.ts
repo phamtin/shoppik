@@ -1,47 +1,65 @@
+import { TRPCError } from '@trpc/server';
 import jwt from 'jsonwebtoken';
-import { PrismaClient, Roles, SigninMethod } from '@prisma/client';
+import { Roles, SigninMethod } from '@shoppik/prisma';
 
 import { SigninRequest, SigninResponse } from '../../Router/routers/auth.route';
-import systemLog from '../../Pkgs/systemLog';
+import { Context } from '../../Router/context';
+import { generateEncryptedJwt } from '../../Router/middleware';
 
-export default function makeAuthService() {
-	const prisma = new PrismaClient().account;
-	const rolePrisma = new PrismaClient().role;
+const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<SigninResponse> => {
+	ctx.systemLog.info(`Signin Google email ${request.email} - START`);
 
-	async function signinGoogle(request: SigninRequest): Promise<SigninResponse> {
-		systemLog.info(`Signin Google email ${request.email} - START`);
+	const authRepo = ctx.prisma.account;
+	const roleRepo = ctx.prisma.role;
 
-		let res: SigninResponse = { accountId: '', fullname: '', email: '', role: '', prodiver: SigninMethod.GOOGLE, avatar: '', token: 'abc123' };
+	let res: SigninResponse = {
+		accountId: '',
+		fullname: '',
+		email: '',
+		role: '',
+		prodiver: SigninMethod.GOOGLE,
+		avatar: '',
+		encryptedJwt: '',
+	};
 
-		const jwtPayload = jwt.decode(request.accessToken, { complete: true });
-		console.log(jwtPayload?.payload);
+	//	Jwt payload returned from OAuth
+	const jwtPayload = jwt.decode(request.accessToken, {
+		complete: true,
+	});
 
-		let customerRole = await rolePrisma.findFirst({
-			where: {
-				name: Roles.CUSTOMER,
+	if (!jwtPayload || !jwtPayload.payload) {
+		throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid credentails' });
+	}
+
+	let customerRole = await roleRepo.findFirst({
+		where: {
+			name: Roles.CUSTOMER,
+		},
+	});
+
+	if (!customerRole) {
+		customerRole = await roleRepo.create({
+			data: {
+				name: Roles.CUSTOMER, //	Should have the Db Seed here
+				createdAt: new Date(),
 			},
 		});
-		if (!customerRole) {
-			customerRole = await rolePrisma.create({ data: { name: Roles.CUSTOMER, createdAt: new Date() } }); //	Should have the Db Seed here
-		}
+	}
 
-		const user = await prisma.findFirst({ where: { email: request.email } });
+	let authenticatedUser = await authRepo.findFirst({ where: { email: request.email } });
 
-		if (user?.id) {
-			res = {
-				accountId: user.id,
-				fullname: user.fullname,
-				email: user.email,
-				role: customerRole.name,
-				avatar: request.avatar,
-				prodiver: SigninMethod.GOOGLE,
-				token: 'abc123',
-			};
-			return res;
-		}
-
-		//	Create new User
-		const createdUser = await prisma.create({
+	if (authenticatedUser?.id) {
+		res = {
+			accountId: authenticatedUser.id,
+			fullname: authenticatedUser.fullname,
+			email: authenticatedUser.email,
+			role: customerRole.name,
+			avatar: request.avatar,
+			prodiver: SigninMethod.GOOGLE,
+			encryptedJwt: '',
+		};
+	} else {
+		authenticatedUser = await authRepo.create({
 			data: {
 				roleId: [customerRole.id],
 				email: request.email,
@@ -56,20 +74,37 @@ export default function makeAuthService() {
 				isDeleted: false,
 			},
 		});
-		res = {
-			accountId: createdUser.id,
-			fullname: createdUser.fullname,
-			email: createdUser.email,
-			role: customerRole.name,
-			avatar: request.avatar,
-			prodiver: SigninMethod.GOOGLE,
-			token: 'abc123',
-		};
-
-		systemLog.info(`Signin Google email ${request.email} - END`);
-
-		return res;
 	}
+	const encryptedJwt = generateEncryptedJwt(
+		{
+			accountId: authenticatedUser.id,
+			email: authenticatedUser.email,
+			fullname: authenticatedUser.fullname,
+			role: JSON.stringify(authenticatedUser.roleId),
+		},
+		'accessTokenPrivateKey',
+		{ expiresIn: 60 },
+	);
 
-	return Object.freeze({ signinGoogle });
-}
+	res = {
+		accountId: authenticatedUser.id,
+		fullname: authenticatedUser.fullname,
+		email: authenticatedUser.email,
+		role: customerRole.name,
+		avatar: request.avatar,
+		prodiver: SigninMethod.GOOGLE,
+		encryptedJwt: encryptedJwt,
+	};
+
+	console.log({ res });
+
+	ctx.systemLog.info(`Signin Google email ${request.email} - END`);
+
+	return res;
+};
+
+const AuthService = {
+	signinGoogle,
+};
+
+export default AuthService;

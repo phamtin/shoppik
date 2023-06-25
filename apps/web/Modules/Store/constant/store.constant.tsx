@@ -1,4 +1,4 @@
-import { TableColumnsType } from 'ui/components/Core';
+import { TableColumnsType } from '@shoppik/ui/components/Core';
 
 export const columnsTabOverview: TableColumnsType<any> = [
 	{

@@ -1,4 +1,4 @@
-import { Tabs, TabsProps } from 'ui/components/Core';
+import { Tabs, TabsProps } from '@shoppik/ui/components/Core';
 import useStyle from './store-main.style';
 import OverviewTab from '../OverviewTab/OverviewTab';
 

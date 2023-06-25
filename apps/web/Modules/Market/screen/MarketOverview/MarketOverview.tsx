@@ -1,7 +1,7 @@
 'use client';
 
 import { PropsWithChildren } from 'react';
-import { Button, Col, Row, Typography } from 'ui/components/Core';
+import { Button, Col, Row, Typography } from '@shoppik/ui/components/Core';
 import { Activity, Chart, Home } from 'react-iconly';
 import { trpc } from '@/lib/trpc/trpc';
 import useStyle from './market-overview.style';

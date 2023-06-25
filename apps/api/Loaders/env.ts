@@ -2,23 +2,27 @@ import 'dotenv/config';
 
 const schema = {
 	type: 'object',
-	required: ['NODE_ENV', 'API_HOST', 'API_PORT'],
+	required: ['ACCESS_TOKEN_PUBLIC_KEY', 'ACCESS_TOKEN_PRIVATE_KEY', 'NODE_ENV', 'API_HOST', 'API_PORT', 'AUTH_SECRET'],
 	properties: {
-		DATABASE_URL: {
-			type: 'string',
-			default: '',
-		},
 		NODE_ENV: {
 			type: 'string',
 			default: 'development',
 		},
-		API_HOST: {
+		AUTH_SECRET: {
 			type: 'string',
-			default: 'localhost',
+			default: 'AUTH_SECRET',
 		},
 		API_PORT: {
 			type: 'string',
 			default: '9000',
+		},
+		ACCESS_TOKEN_PRIVATE_KEY: {
+			type: 'string',
+			default: 'ACCESS_TOKEN_PRIVATE_KEY',
+		},
+		ACCESS_TOKEN_PUBLIC_KEY: {
+			type: 'string',
+			default: 'ACCESS_TOKEN_PRIVATE_KEY',
 		},
 	},
 };

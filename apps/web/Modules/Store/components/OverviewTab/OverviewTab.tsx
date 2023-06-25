@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Table, TableProps } from 'ui/components/Core';
+import { Table, TableProps } from '@shoppik/ui/components/Core';
 import { columnsTabOverview } from '../../constant/store.constant';
 import useStyle from './overview-tab.style';
 

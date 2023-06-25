@@ -1,11 +1,11 @@
 'use client';
 
-import { Col, Row, Spin } from 'ui/components/Core';
+import { Col, Row, Spin } from '@shoppik/ui/components/Core';
 
 const Loading = () => {
 	return (
 		<Row>
-			<Col offset={11} style={{ marginTop: 200 }}>
+			<Col offset={11} style={{ marginTop: 400 }}>
 				<Spin size="large" />
 			</Col>
 		</Row>

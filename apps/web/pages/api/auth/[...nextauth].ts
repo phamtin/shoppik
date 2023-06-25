@@ -1,9 +1,24 @@
 'server-only';
 
-import { getBaseUrl } from '@/lib/trpc/trpc';
+import { SigninMethodType } from '@shoppik/prisma/generated';
 import NextAuth, { AuthOptions } from 'next-auth';
-
 import GoogleProvider from 'next-auth/providers/google';
+import { getBaseUrl, setHeaderToken } from '@/lib/trpc/trpc';
+
+// const verifyJwt = <T>(encryptedJwt: string): T | null => {
+// 	console.log('token', encryptedJwt);
+
+// 	try {
+// 		const publicKey = Buffer.from(
+// 			process.env.ACCESS_TOKEN_PUBLIC_KEY as string,
+// 			'base64',
+// 		).toString('ascii');
+// 		return jwt.verify(encryptedJwt, publicKey) as T;
+// 	} catch (error) {
+// 		console.log(error);
+// 		return null;
+// 	}
+// };
 
 export const authOptions: AuthOptions = {
 	providers: [
@@ -22,26 +37,27 @@ export const authOptions: AuthOptions = {
 	session: { strategy: 'jwt', maxAge: 60 },
 	secret: process.env.NEXTAUTH_SECRET,
 	callbacks: {
-		async jwt({ token, account }) {
-			let user;
-			if (account) {
-				console.log(account);
+		async signIn({ account, user }) {
+			if (!account) return false;
 
-				const res = await fetch(`${getBaseUrl()}/trpc/auth.signin`, {
-					method: 'POST',
-					body: JSON.stringify({
-						email: token.email,
-						avatar: token.picture,
-						fullname: token.name,
-						scope: account.scope,
-						expiresAt: account.expires_at,
-						accessToken: account.id_token,
-						provider: 'GOOGLE',
-					}),
-				});
-				user = await res.json();
-			}
-			return { ...token, ...user };
+			const res = await fetch(`${getBaseUrl()}/trpc/auth.signin`, {
+				method: 'POST',
+				body: JSON.stringify({
+					email: user.email,
+					avatar: user.image,
+					fullname: user.name,
+					scope: account.scope,
+					expiresAt: account.expires_at,
+					accessToken: account.id_token,
+					provider: 'GOOGLE' as SigninMethodType,
+				}),
+			});
+
+			const jsonRes = await res.json();
+
+			setHeaderToken(jsonRes.result?.data?.encryptedJwt);
+
+			return true;
 		},
 		async session({ session, token }) {
 			return { ...session, ...token };
