@@ -8,6 +8,7 @@ const isAuthed = t.middleware(({ next, ctx }) => {
 	const currentUser = ctx.user;
 
 	if (!currentUser) {
+		ctx.systemLog.error('Invalid credentials');
 		throw new TRPCError({ code: 'UNAUTHORIZED' });
 	}
 

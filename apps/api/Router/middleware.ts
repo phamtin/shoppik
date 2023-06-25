@@ -1,4 +1,3 @@
-import { TRPCError } from '@trpc/server';
 import jwt, { SignOptions } from 'jsonwebtoken';
 
 import { CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
@@ -25,7 +24,7 @@ export const deserializeUser = ({ req }: CreateFastifyContextOptions): UserReque
 			return notAuthenticated;
 		}
 		const decoded: any = verifyJwt(encryptedJwt, 'accessTokenPublicKey');
-		console.log('decoded Jwt headers: ', decoded);
+		console.log('decoded Jwt in header: ', decoded);
 
 		if (!decoded || !decoded.id || !decoded.email || !decoded.lastname || !decoded.firstname || decoded.role.length === 0) {
 			return notAuthenticated;
@@ -38,11 +37,8 @@ export const deserializeUser = ({ req }: CreateFastifyContextOptions): UserReque
 			lastname: decoded.lastname,
 			role: decoded.role,
 		};
-	} catch (e: any) {
-		throw new TRPCError({
-			code: 'BAD_REQUEST',
-			message: e.message,
-		});
+	} catch (e) {
+		return null;
 	}
 };
 
@@ -59,7 +55,6 @@ const verifyJwt = <T>(token: string, key: 'accessTokenPublicKey'): T | null => {
 
 		return jwt.verify(token, publicKey) as T;
 	} catch (error) {
-		console.log(error);
 		return null;
 	}
 };

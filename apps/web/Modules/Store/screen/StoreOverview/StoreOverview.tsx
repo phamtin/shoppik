@@ -57,6 +57,10 @@ const StoreOverviewScreen = ({ store }: MarketProp) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	if (mutation.isError) {
+		throw new Error(mutation.error.data?.code);
+	}
+
 	return (
 		<div className={styles.wrapper}>
 			<StoreMainInfo />

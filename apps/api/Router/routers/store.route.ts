@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import { authenticatedProcedure, publicProcedure, router } from '../trpc';
-import StoreService from 'Service/store/store.service';
+import { authenticatedProcedure, router } from '../trpc';
+import StoreService from '../../Service/store/store.service';
 import { StoreSchema } from '@shoppik/prisma/generated';
 
 const createStoreRequest = z.object({
@@ -37,7 +37,7 @@ export type GetMyStoreRequest = z.infer<typeof getMyStoreRequest>;
 export type GetMyStoreResponse = z.infer<typeof getMyStoreResponse>;
 
 export const storeRouter = router({
-	createStore: publicProcedure
+	createStore: authenticatedProcedure
 		.input(createStoreRequest)
 		.output(createStoreResponse)
 		.mutation(async ({ ctx, input }) => {

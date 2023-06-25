@@ -3,7 +3,7 @@ import { TRPCError } from '@trpc/server';
 import { SigninMethod } from '@shoppik/prisma';
 
 import { publicProcedure, router } from '../trpc';
-import AuthService from 'Service/auth/auth.service';
+import AuthService from '../../Service/auth/auth.service';
 
 const signinRequest = z.object({
 	email: z.string(),
@@ -14,7 +14,6 @@ const signinRequest = z.object({
 	expiresAt: z.number(),
 	scope: z.string(),
 });
-export type SigninRequest = z.infer<typeof signinRequest>;
 const signinResponse = z.object({
 	encryptedJwt: z.string(),
 	email: z.string(),
@@ -24,6 +23,8 @@ const signinResponse = z.object({
 	avatar: z.string(),
 	fullname: z.string(),
 });
+
+export type SigninRequest = z.infer<typeof signinRequest>;
 export type SigninResponse = z.infer<typeof signinResponse>;
 
 export const authRouter = router({

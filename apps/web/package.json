@@ -17,6 +17,7 @@
 		"@trpc/next": "^10.32.0",
 		"@trpc/server": "^10.32.0",
 		"antd-style": "^3.3.0",
+		"cookies-next": "^2.1.2",
 		"dayjs": "^1.11.8",
 		"jsonwebtoken": "^9.0.0",
 		"mobile-detect": "^1.4.5",

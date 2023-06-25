@@ -37,7 +37,7 @@
 	--card-border-rgb: 131, 134, 135;
 }
 * {
-	animation-duration: 0.3s !important;
+	/* animation-duration: 0.3s !important; */
 }
 
 @media (prefers-color-scheme: dark) {

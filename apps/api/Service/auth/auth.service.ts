@@ -22,7 +22,7 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 		encryptedJwt: '',
 	};
 
-	//	Jwt payload returned from OAuth
+	//	Jwt payload returned from OAuth Provider
 	const jwtPayload = jwt.decode(request.accessToken, {
 		complete: true,
 	});
@@ -96,8 +96,7 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 		encryptedJwt: encryptedJwt,
 	};
 
-	console.log({ res });
-
+	ctx.systemLog.info(res);
 	ctx.systemLog.info(`Signin Google email ${request.email} - END`);
 
 	return res;

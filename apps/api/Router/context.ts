@@ -15,8 +15,11 @@ export interface UserRequest {
 
 export function createContext({ req, res }: CreateFastifyContextOptions) {
 	let user: UserRequest | null = null;
+	const prisma = prismaAdapter;
 
-	if (!req.url.includes('/trpc/auth.signin')) {
+	if (req.url.includes('/trpc/auth.signin')) {
+		return { req, res, user, systemLog, prisma };
+	} else {
 		user = deserializeUser({ req, res });
 	}
 
@@ -27,8 +30,6 @@ export function createContext({ req, res }: CreateFastifyContextOptions) {
 	// 	lastname: 'Pham',
 	// 	role: ['OWNER'],
 	// };
-
-	const prisma = prismaAdapter;
 
 	return { req, res, user, systemLog, prisma };
 }
