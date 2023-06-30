@@ -13,9 +13,9 @@
 	"dependencies": {
 		"@shoppik/prisma": "workspace:*",
 		"@shoppik/ui": "workspace:*",
-		"@trpc/client": "^10.32.0",
-		"@trpc/next": "^10.32.0",
-		"@trpc/server": "^10.32.0",
+		"@trpc/client": "^10.33.0",
+		"@trpc/next": "^10.33.0",
+		"@trpc/server": "^10.33.0",
 		"antd-style": "^3.3.0",
 		"cookies-next": "^2.1.2",
 		"dayjs": "^1.11.8",

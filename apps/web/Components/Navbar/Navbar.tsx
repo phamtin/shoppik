@@ -11,8 +11,6 @@ function NavBar() {
 	const { data: session } = useSession();
 	const { styles, theme } = useStyle();
 
-	console.log('NavBar:', session);
-
 	return (
 		<Header className={styles.wrapper}>
 			<div className="left">

@@ -14,6 +14,7 @@ export interface UserRequest {
 }
 
 export function createContext({ req, res }: CreateFastifyContextOptions) {
+	console.log('req.headers.cookie', req.headers.cookie);
 	let user: UserRequest | null = null;
 	const prisma = prismaAdapter;
 

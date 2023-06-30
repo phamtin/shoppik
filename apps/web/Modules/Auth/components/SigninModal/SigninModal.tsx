@@ -17,9 +17,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 	const [open, setOpenModalOpen] = useState(false);
 
 	const onHandleSigninGoogle = () => {
-		signIn('google').then((r) => {
-			console.log('Signin google res', r);
-		});
+		signIn('google');
 	};
 
 	const toggleOpen = () => setOpenModalOpen((prev) => !prev);
@@ -28,11 +26,11 @@ const SigninModal = ({ session }: SigninModalProps) => {
 		<>
 			<div>
 				{session?.user?.email ? (
-					<div style={{ marginTop: 26 }}>
+					<div style={{ marginTop: 28 }}>
 						<Image
 							alt="authenticated profile image"
-							height={40}
-							width={40}
+							height={36}
+							width={36}
 							src={session.user.image as string}
 						/>
 					</div>

@@ -17,8 +17,6 @@ const MarketDetail = (props: MarketDetail) => {
 	const { id } = props;
 	const { styles } = useStyle();
 
-	console.log('id', id);
-
 	return (
 		<div className={styles.wrapper}>
 			<DetailTitle title="Market Detail" />

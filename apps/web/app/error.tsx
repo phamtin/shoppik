@@ -1,15 +1,13 @@
 'use client';
 
-import NotAuthenticated from '@/Components/NotAuthenticated/NotAuthenticated';
 import { Col, Row, Space } from '@shoppik/ui/components/Core';
+import NotAuthenticated from '@/Components/NotAuthenticated/NotAuthenticated';
 
 interface ErrorStateProps {
 	error: Error;
 }
 
 const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
-	console.log('error = ', error);
-
 	if (error.message === 'UNAUTHORIZED') {
 		return (
 			<div>

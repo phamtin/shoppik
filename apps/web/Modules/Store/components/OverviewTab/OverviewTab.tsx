@@ -33,8 +33,8 @@ const dataOverviewTab = [
 const OverviewTab = () => {
 	const { styles } = useStyle();
 
-	const onChange: TableProps<any>['onChange'] = (pagination, filters, sorter, extra) => {
-		console.log('params', pagination, filters, sorter, extra);
+	const onChange: TableProps<any>['onChange'] = () => {
+		console.error('CC');
 	};
 
 	return (

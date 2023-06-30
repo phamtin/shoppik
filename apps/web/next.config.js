@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	transpilePackages: ['@shoppik/ui'],
 	reactStrictMode: false,
 	compiler: {
 		styledComponents: true,
