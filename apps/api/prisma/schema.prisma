@@ -8,17 +8,17 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  //	todo: WTF Cannot set complex string in Okteto env, lead to leaking this fucking way
+  // todo: WTF Cannot set complex string in Okteto env, lead to leaking this fucking way
   url      = "mongodb+srv://tinpham:n6PgPOmj4i3nKQb3@cluster0.jyi5oeo.mongodb.net/shoppik?retryWrites=true&w=majority"
 }
 
 generator zod {
   provider               = "pnpm zod-prisma-types"
-  output                 = "./generated"
+  output                 = "../../../packages/schema/generated"
   createInputTypes       = false
   coerceDate             = false
   addSelectType          = false
-  addInputTypeValidation           = true
+  addInputTypeValidation = true
 }
 
 //  =============================================== AUTH MODULE =====================================================

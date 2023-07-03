@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { authenticatedProcedure, router } from '../trpc';
 import StoreService from '../../Service/store/store.service';
-import { StoreSchema } from '@shoppik/prisma/generated';
+import { StoreSchema } from '@shoppik/schema';
 
 const createStoreRequest = z.object({
 	name: z.string(),

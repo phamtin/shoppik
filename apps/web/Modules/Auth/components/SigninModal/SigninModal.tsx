@@ -26,7 +26,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 		<>
 			<div>
 				{session?.user?.email ? (
-					<div style={{ marginTop: 28 }}>
+					<div style={{ marginTop: 27 }}>
 						<Image
 							alt="authenticated profile image"
 							height={36}

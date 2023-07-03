@@ -6,6 +6,7 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 		position: 'relative',
 		transition: '0s',
 		padding: token.paddingXXS,
+		fontWeight: 500,
 
 		'.ant-segmented': {
 			position: 'absolute',
@@ -27,7 +28,7 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 				color: token.colorBgLayout,
 			},
 			'&.ant-menu-item-selected': {
-				color: `${token.colorBgBase} !important`,
+				color: `${token.blue5} !important`,
 				backgroundColor: `#0a0a0a !important`,
 				border: `2px solid ${token.blue6} !important`,
 				'&:hover': {
@@ -36,8 +37,7 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 				},
 			},
 			'&.ant-menu-item-active': {
-				color: '#969696!important',
-				backgroundColor: `#1a1a1a !important`,
+				color: `${token.colorBgBase} !important`,
 			},
 		},
 
