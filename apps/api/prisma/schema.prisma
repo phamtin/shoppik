@@ -63,7 +63,6 @@ type Session {
   exp          Int
   sub          String
   scope        String
-  locale       String
   signinMethod SigninMethod
 }
 
@@ -71,9 +70,12 @@ model Account {
   id           String       @id @default(auto()) @map("_id") @db.ObjectId
   roleId       String[]     @db.ObjectId
   email        String
-  fullname     String
+  firstname    String /// @zod.string.min(1, { message: "min error" }).max(50, { message: "max error" })
+  lastname     String /// @zod.string.min(1, { message: "min error" }).max(50, { message: "max error" })
+  fullname     String /// @zod.string.min(4, { message: "min error" }).max(50, { message: "max error" })
   phoneNumber  String /// @zod.string.min(9, { message: "min error" }).max(10, { message: "max error" })
   birthday     String
+  locale       String
   avatar       String
   postalCode   String
   isConfirm    Boolean
@@ -124,7 +126,7 @@ model Store {
   following      String[]    @db.ObjectId
   tags           StoreTag[]
   rating         StoreRating
-  contact        Contact 
+  contact        Contact
   storeStatus    StoreStatus
   createdAt      DateTime
   updatedAt      DateTime?

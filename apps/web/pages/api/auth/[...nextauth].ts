@@ -1,15 +1,15 @@
 'server-only';
 
-import { setCookie } from 'cookies-next';
 import { NextApiRequest, NextApiResponse } from 'next';
+import dayjs from 'dayjs';
+import { setCookie } from 'cookies-next';
 import GoogleProvider from 'next-auth/providers/google';
 import NextAuth, { AuthOptions, SessionStrategy } from 'next-auth';
 
 import { SigninMethodSchema } from '@shoppik/schema';
-import dayjs from 'dayjs';
 import { getBaseUrl } from '@/lib/trpc/trpc';
 
-export const authOptions = (req: NextApiRequest, res: NextApiResponse): AuthOptions => {
+export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOptions => {
 	return {
 		providers: [
 			GoogleProvider({
@@ -31,6 +31,7 @@ export const authOptions = (req: NextApiRequest, res: NextApiResponse): AuthOpti
 				if (!account) return false;
 				const response = await fetch(`${getBaseUrl()}/trpc/auth.signin`, {
 					method: 'POST',
+					credentials: 'include',
 					body: JSON.stringify({
 						email: user.email,
 						avatar: user.image,
@@ -50,7 +51,6 @@ export const authOptions = (req: NextApiRequest, res: NextApiResponse): AuthOpti
 					path: '/',
 					maxAge: 60,
 					httpOnly: true,
-					sameSite: 'strict',
 					expires: dayjs().add(60, 'second').toDate(),
 					secure: process.env.NODE_ENV !== 'development',
 				});

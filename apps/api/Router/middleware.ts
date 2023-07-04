@@ -12,11 +12,9 @@ type EncryptedJwtPayload = {
 
 export const deserializeUser = ({ req }: CreateFastifyContextOptions): UserRequest | null => {
 	try {
-		let encryptedJwt;
-		if (req.headers?.authorization?.startsWith('API')) {
-			encryptedJwt = req.headers.authorization.split(' ')[1];
-		}
-		console.log('req.headers.authorization: ', req.headers.authorization);
+		const cookieArray = req.headers.cookie?.split(';');
+		const accessTokenKeyValue = cookieArray?.find((el) => el.includes('accessToken'));
+		const encryptedJwt = accessTokenKeyValue?.split('=')[1];
 
 		const notAuthenticated = null;
 
@@ -24,18 +22,19 @@ export const deserializeUser = ({ req }: CreateFastifyContextOptions): UserReque
 			return notAuthenticated;
 		}
 		const decoded: any = verifyJwt(encryptedJwt, 'accessTokenPublicKey');
-		console.log('decoded Jwt in header: ', decoded);
+		const parsedRoles = JSON.parse((decoded?.role as string) ?? '');
 
-		if (!decoded || !decoded.id || !decoded.email || !decoded.lastname || !decoded.firstname || decoded.role.length === 0) {
+		if (!decoded || !decoded.accountId || !decoded.email || !decoded.role || parsedRoles.length === 0) {
 			return notAuthenticated;
 		}
 
 		return {
-			id: decoded.id,
+			accountId: decoded.accountId,
 			email: decoded.email,
+			fullname: decoded.fullname,
 			firstname: decoded.firstname,
 			lastname: decoded.lastname,
-			role: decoded.role,
+			role: parsedRoles,
 		};
 	} catch (e) {
 		return null;
@@ -51,7 +50,7 @@ export const generateEncryptedJwt = (payload: EncryptedJwtPayload, key: 'accessT
 
 const verifyJwt = <T>(token: string, key: 'accessTokenPublicKey'): T | null => {
 	try {
-		const publicKey = Buffer.from(process.env.ACCESS_TOKEN_PUBLIC_KEY as string, 'base64').toString('ascii');
+		const publicKey = Buffer.from(process.env.ACCESS_TOKEN_PRIVATE_KEY as string, 'base64').toString('ascii');
 
 		return jwt.verify(token, publicKey) as T;
 	} catch (error) {

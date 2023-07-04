@@ -6,6 +6,13 @@ import { SigninRequest, SigninResponse } from '../../Router/routers/auth.route';
 import { generateEncryptedJwt } from '../../Router/middleware';
 import { Context } from '../../Router/context';
 
+type AppJwtPayload = {
+	name: string;
+	given_name: string;
+	family_name: string;
+	locale: string;
+};
+
 const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<SigninResponse> => {
 	ctx.systemLog.info(`Signin Google email ${request.email} - START`);
 
@@ -15,6 +22,8 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 	let res: SigninResponse = {
 		accountId: '',
 		fullname: '',
+		firstname: '',
+		lastname: '',
 		email: '',
 		role: '',
 		prodiver: SigninMethod.GOOGLE,
@@ -52,6 +61,8 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 		res = {
 			accountId: authenticatedUser.id,
 			fullname: authenticatedUser.fullname,
+			firstname: authenticatedUser.firstname,
+			lastname: authenticatedUser.lastname,
 			email: authenticatedUser.email,
 			role: customerRole.name,
 			avatar: request.avatar,
@@ -59,11 +70,15 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 			encryptedJwt: '',
 		};
 	} else {
+		const jwt = jwtPayload.payload as AppJwtPayload;
 		authenticatedUser = await authRepo.create({
 			data: {
 				roleId: [customerRole.id],
 				email: request.email,
-				fullname: request.fullname,
+				fullname: jwt.given_name,
+				firstname: jwt.given_name,
+				lastname: jwt.family_name,
+				locale: jwt.locale,
 				phoneNumber: '',
 				postalCode: '',
 				birthday: '',
@@ -89,6 +104,8 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 	res = {
 		accountId: authenticatedUser.id,
 		fullname: authenticatedUser.fullname,
+		firstname: authenticatedUser.firstname,
+		lastname: authenticatedUser.lastname,
 		email: authenticatedUser.email,
 		role: customerRole.name,
 		avatar: request.avatar,

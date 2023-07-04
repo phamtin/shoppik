@@ -14,7 +14,7 @@ const styles = createStyles(({ token }) => ({
 		},
 
 		'.background': {
-			width: 250,
+			width: 220,
 			textAlign: 'center',
 			padding: token.paddingLG,
 			borderRadius: token.borderRadiusLG,

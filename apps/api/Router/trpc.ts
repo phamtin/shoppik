@@ -12,9 +12,9 @@ const isAuthed = t.middleware(({ next, ctx }) => {
 		throw new TRPCError({ code: 'UNAUTHORIZED' });
 	}
 
-	const { id, email, role, firstname, lastname } = currentUser;
+	const { accountId, email, role } = currentUser;
 
-	if (!id || !email || !role || !firstname || !lastname) {
+	if (!accountId || !email || !role) {
 		throw new TRPCError({ code: 'UNAUTHORIZED' });
 	}
 
