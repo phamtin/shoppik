@@ -23,8 +23,6 @@ Fastify.register(fastifyEnv, options)
 		prefix: '/trpc',
 		trpcOptions: { router: appRouter, createContext },
 	});
-// .register(prismaPlugin)
-// .then(() => systemLog.info('- Connected to Prisma'));
 
 Fastify.get('/ping', () => {
 	return 'Hello from very first tRPC !';

@@ -1,4 +1,6 @@
-import { Typography } from 'ui/components/Core';
+'use client';
+
+import { Typography } from '@shoppik/ui/components/Core';
 import DetailTitle from '@/Modules/Market/components/DetailTitle/DetailTitle';
 import ProductSpotLight from '@/Modules/Market/components/ProductSpotlight/ProductSpotlight';
 import RevelantProducts from '@/Modules/Market/components/RevelantProducts/RevelantProducts';
@@ -7,7 +9,12 @@ import useStyle from './MarketDetail.style';
 
 const { Text } = Typography;
 
-const MarketDetail = () => {
+interface MarketDetail {
+	id: string;
+}
+
+const MarketDetail = (props: MarketDetail) => {
+	const { id } = props;
 	const { styles } = useStyle();
 
 	return (
@@ -16,7 +23,7 @@ const MarketDetail = () => {
 
 			<div className={styles.wrapperSection}>
 				<div className="left">
-					<ProductSpotLight title="Project Sun-Glass" />
+					<ProductSpotLight title={id} />
 					<RevelantProducts />
 				</div>
 				<div className="right">

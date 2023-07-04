@@ -1,7 +1,6 @@
-import { MenuProps, Typography } from 'ui/components/Core';
+import { MenuProps } from '@shoppik/ui/components/Core';
 
 type MenuItem = Required<MenuProps>['items'][number];
-const { Text } = Typography;
 
 export function getItem(
 	label: React.ReactNode,

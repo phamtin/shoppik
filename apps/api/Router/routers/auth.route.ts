@@ -1,9 +1,9 @@
 import { z } from 'zod';
-
-import { publicProcedure, router } from '../trpc';
-import { authService } from '../../Service';
 import { TRPCError } from '@trpc/server';
 import { SigninMethod } from '@prisma/client';
+
+import { publicProcedure, router } from '../trpc';
+import AuthService from '../../Service/auth/auth.service';
 
 const signinRequest = z.object({
 	email: z.string(),
@@ -14,9 +14,8 @@ const signinRequest = z.object({
 	expiresAt: z.number(),
 	scope: z.string(),
 });
-export type SigninRequest = z.infer<typeof signinRequest>;
 const signinResponse = z.object({
-	token: z.string(),
+	encryptedJwt: z.string(),
 	email: z.string(),
 	accountId: z.string(),
 	role: z.string(),
@@ -24,6 +23,8 @@ const signinResponse = z.object({
 	avatar: z.string(),
 	fullname: z.string(),
 });
+
+export type SigninRequest = z.infer<typeof signinRequest>;
 export type SigninResponse = z.infer<typeof signinResponse>;
 
 export const authRouter = router({
@@ -37,7 +38,7 @@ export const authRouter = router({
 					message: 'Unavailabel signin method',
 				});
 			}
-			const signinRes = authService.signinGoogle(params.input);
+			const signinRes = AuthService.signinGoogle(params.ctx, params.input);
 			return signinRes;
 		}),
 });

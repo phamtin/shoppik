@@ -1,5 +1,11 @@
 import { memo, ReactNode, useEffect, useState } from 'react';
-import { Button, Dropdown, List, Segmented, Typography } from 'ui/components/Core';
+import {
+	Button,
+	Dropdown,
+	List,
+	Segmented,
+	Typography,
+} from '@shoppik/ui/components/Core';
 import { Notification } from 'react-iconly';
 
 import useStyle from './noti-button.style';

@@ -2,7 +2,7 @@ import { createStyles } from 'antd-style';
 
 export default createStyles(({ token }) => ({
 	wrapper: {
-		// borderRadius: token.borderRadius * 2,
+		borderRadius: token.borderRadius * 2,
 		padding: token.paddingXS,
 		paddingBottom: token.paddingXXS,
 		width: 186,
@@ -11,18 +11,13 @@ export default createStyles(({ token }) => ({
 		marginRight: token.marginXL,
 		backgroundColor: 'white',
 		boxShadow: ' rgba(0, 0, 0, 0.15) 2px 4px 15px 0px',
-		borderRadius: 0,
-		'@supports (mask-image: paint(smooth-corners))': {
-			borderRadius: 0,
-			maskImage: 'paint(smooth-corners)',
-			' --smooth-corners': 5,
-		},
 
 		'.ant-card-body': {
 			padding: `0px 0px ${token.paddingXXS}px 0`,
 			'.title': {
 				fontSize: token.fontSizeHeading5,
-				marginBottom: token.marginXS,
+				marginTop: token.marginXXS,
+				marginBottom: token.marginXXS,
 			},
 			'.desc': {
 				fontSize: token.fontSizeSM,

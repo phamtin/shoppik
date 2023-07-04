@@ -3,7 +3,6 @@
 .git
 .gitignore
 .project
-.vs
 .vscode
 .circleci/
 

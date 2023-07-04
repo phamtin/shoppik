@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Avatar, List, Skeleton } from 'ui/components/Core';
+import { Avatar, List, Skeleton } from '@shoppik/ui/components/Core';
 
 function NotiItem({ item }: any) {
 	return (

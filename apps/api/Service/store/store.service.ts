@@ -1,22 +1,30 @@
-import { z } from 'zod';
-
-import { createStoreRequest } from '../../Router/routers/store.route';
-import makeStoreRepo from '../../Repository/store.repo';
+import { CreateStoreRequest, GetMyStoreRequest, GetMyStoreResponse } from '../../Router/routers/store.route';
+import StoreRepo from '../../Repository/store.repo';
 import { Context } from '../../Router/context';
-import systemLog from '../../Pkgs/systemLog';
 
-export default function makeProductService() {
-	const storeRepo = makeStoreRepo();
+const createStore = async (ctx: Context, request: CreateStoreRequest) => {
+	ctx.systemLog.info('createStore - START');
 
-	async function createStore(ctx: Context, request: z.infer<typeof createStoreRequest>) {
-		systemLog.info('createStore - START');
+	const newStore = await StoreRepo.createStore(ctx, request);
 
-		const newStore = await storeRepo.createStore(request);
+	ctx.systemLog.info('createStore - END');
 
-		systemLog.info('createStore - END');
+	return newStore;
+};
 
-		return newStore;
-	}
+const getMyStore = async (ctx: Context, request: GetMyStoreRequest): Promise<GetMyStoreResponse> => {
+	ctx.systemLog.info('getMyStore - START');
 
-	return Object.freeze({ createStore });
-}
+	const newStore = StoreRepo.getMyStore(ctx, request);
+
+	ctx.systemLog.info('getMyStore - END');
+
+	return newStore;
+};
+
+const StoreService = {
+	createStore,
+	getMyStore,
+};
+
+export default StoreService;

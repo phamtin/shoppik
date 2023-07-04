@@ -24,6 +24,11 @@ export const trpc = createTRPCNext<AppRouter>({
 				}),
 				httpBatchLink({
 					url: `${getBaseUrl()}/trpc`,
+					headers() {
+						return {
+							cookie: 'cc',
+						};
+					},
 				}),
 			],
 			queryClientConfig: {

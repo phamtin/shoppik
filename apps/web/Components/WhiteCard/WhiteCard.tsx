@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
-import { Button, Typography } from 'ui/components/Core';
+import { useRouter } from 'next/navigation';
+import { Button, Typography } from '@shoppik/ui/components/Core';
 import Image from 'next/image';
 import useStyles from './white-card.style';
 

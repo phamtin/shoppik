@@ -1,52 +1,71 @@
 'server-only';
 
-import { getBaseUrl } from '@/lib/trpc/trpc';
-import NextAuth, { AuthOptions } from 'next-auth';
-
+import { setCookie } from 'cookies-next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import GoogleProvider from 'next-auth/providers/google';
+import NextAuth, { AuthOptions, SessionStrategy } from 'next-auth';
 
-export const authOptions: AuthOptions = {
-	providers: [
-		GoogleProvider({
-			clientId: process.env.GOOGLE_CLIENT_ID as string,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-			authorization: {
-				params: {
-					prompt: 'consent',
-					access_type: 'offline',
-					response_type: 'code',
+import { SigninMethodSchema } from '@shoppik/schema';
+import dayjs from 'dayjs';
+import { getBaseUrl } from '@/lib/trpc/trpc';
+
+export const authOptions = (req: NextApiRequest, res: NextApiResponse): AuthOptions => {
+	return {
+		providers: [
+			GoogleProvider({
+				clientId: process.env.GOOGLE_CLIENT_ID as string,
+				clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+				authorization: {
+					params: {
+						prompt: 'consent',
+						access_type: 'offline',
+						response_type: 'code',
+					},
 				},
-			},
-		}),
-	],
-	session: { strategy: 'jwt', maxAge: 60 },
-	secret: process.env.NEXTAUTH_SECRET,
-	callbacks: {
-		async jwt({ token, account }) {
-			let user;
-			if (account) {
-				console.log(account);
-
-				const res = await fetch(`${getBaseUrl()}/trpc/auth.signin`, {
+			}),
+		],
+		session: { strategy: 'jwt' as SessionStrategy, maxAge: 60 },
+		secret: process.env.NEXTAUTH_SECRET,
+		callbacks: {
+			async signIn({ account, user }: any) {
+				if (!account) return false;
+				const response = await fetch(`${getBaseUrl()}/trpc/auth.signin`, {
 					method: 'POST',
 					body: JSON.stringify({
-						email: token.email,
-						avatar: token.picture,
-						fullname: token.name,
+						email: user.email,
+						avatar: user.image,
+						fullname: user.name,
 						scope: account.scope,
 						expiresAt: account.expires_at,
 						accessToken: account.id_token,
-						provider: 'GOOGLE',
+						provider: SigninMethodSchema.Enum.GOOGLE,
 					}),
 				});
-				user = await res.json();
-			}
-			return { ...token, ...user };
+				const accessToken = (await response.json()).result?.data?.encryptedJwt;
+
+				// Setting http-only cookie
+				setCookie('accessToken', accessToken, {
+					req,
+					res,
+					path: '/',
+					maxAge: 60,
+					httpOnly: true,
+					sameSite: 'strict',
+					expires: dayjs().add(60, 'second').toDate(),
+					secure: process.env.NODE_ENV !== 'development',
+				});
+				return true;
+			},
+
+			async session({ session, token }: any) {
+				return { ...session, ...token };
+			},
 		},
-		async session({ session, token }) {
-			return { ...session, ...token };
-		},
-	},
+	};
 };
 
-export default NextAuth(authOptions);
+const handler = (req: NextApiRequest, res: NextApiResponse) => {
+	return NextAuth(req, res, authOptions(req, res));
+};
+
+export default handler;

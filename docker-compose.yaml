@@ -1,13 +1,12 @@
-version: "3.1"
+version: "3"
 
 services:
   api:
     build:
       context: .
-      dockerfile: ./apps/api/Dockerfile
+      dockerfile: ./Dockerfile
     environment:
       - API_PORT=9000
-      - API_HOST=${API_HOST}
       - REDIS_PORT=6379
       - REDIS_HOST=localhost
       - DATABASE_URL=${DATABASE_URL}
