@@ -5,24 +5,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import GoogleProvider from 'next-auth/providers/google';
 import NextAuth, { AuthOptions, SessionStrategy } from 'next-auth';
 
-import { SigninMethodType } from '@shoppik/prisma/generated';
+import { SigninMethodSchema } from '@shoppik/schema';
 import dayjs from 'dayjs';
 import { getBaseUrl } from '@/lib/trpc/trpc';
-
-// const verifyJwt = <T>(encryptedJwt: string): T | null => {
-// 	console.log('token', encryptedJwt);
-
-// 	try {
-// 		const publicKey = Buffer.from(
-// 			process.env.ACCESS_TOKEN_PUBLIC_KEY as string,
-// 			'base64',
-// 		).toString('ascii');
-// 		return jwt.verify(encryptedJwt, publicKey) as T;
-// 	} catch (error) {
-// 		console.log(error);
-// 		return null;
-// 	}
-// };
 
 export const authOptions = (req: NextApiRequest, res: NextApiResponse): AuthOptions => {
 	return {
@@ -53,7 +38,7 @@ export const authOptions = (req: NextApiRequest, res: NextApiResponse): AuthOpti
 						scope: account.scope,
 						expiresAt: account.expires_at,
 						accessToken: account.id_token,
-						provider: 'GOOGLE' as SigninMethodType,
+						provider: SigninMethodSchema.Enum.GOOGLE,
 					}),
 				});
 				const accessToken = (await response.json()).result?.data?.encryptedJwt;

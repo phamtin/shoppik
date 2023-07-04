@@ -1,10 +1,10 @@
 import { TRPCError } from '@trpc/server';
 import jwt from 'jsonwebtoken';
-import { Roles, SigninMethod } from '@shoppik/prisma';
+import { Roles, SigninMethod } from '@prisma/client';
 
 import { SigninRequest, SigninResponse } from '../../Router/routers/auth.route';
-import { Context } from '../../Router/context';
 import { generateEncryptedJwt } from '../../Router/middleware';
+import { Context } from '../../Router/context';
 
 const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<SigninResponse> => {
 	ctx.systemLog.info(`Signin Google email ${request.email} - START`);

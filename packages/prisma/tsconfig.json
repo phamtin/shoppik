@@ -1,7 +1,0 @@
-{
-  "compilerOptions": {
-    "esModuleInterop": true
-  },
-  "include": ["."],
-  "exclude": ["dist", "build", "node_modules"]
-}

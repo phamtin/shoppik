@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
-import { SigninMethod } from '@shoppik/prisma';
+import { SigninMethod } from '@prisma/client';
 
 import { publicProcedure, router } from '../trpc';
 import AuthService from '../../Service/auth/auth.service';
