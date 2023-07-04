@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "eslint . && tsx watch --ignore ./Dockerfile ./index .env",
-    "start": "node --loader tsx dist/index",
+    "start": "tsx dist/index",
     "check:types": "tsc --noEmit",
     "lint": "eslint . ",
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json"
