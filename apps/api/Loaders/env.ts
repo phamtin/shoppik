@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 const schema = {
 	type: 'object',
-	required: ['ACCESS_TOKEN_PUBLIC_KEY', 'ACCESS_TOKEN_PRIVATE_KEY', 'NODE_ENV', 'API_HOST', 'API_PORT', 'AUTH_SECRET'],
+	required: ['ACCESS_TOKEN_PUBLIC_KEY', 'ACCESS_TOKEN_PRIVATE_KEY', 'NODE_ENV', 'API_PORT', 'AUTH_SECRET'],
 	properties: {
 		NODE_ENV: {
 			type: 'string',

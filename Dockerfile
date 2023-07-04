@@ -1,6 +1,7 @@
 FROM node:18.15.0-alpine
 
 RUN npm --global install pnpm --force
+RUN npm --global install tsx --force
 
 WORKDIR /shoppikDocker
 
@@ -20,4 +21,4 @@ RUN pnpm run build
 
 EXPOSE 9000
 
-CMD ["node", "apps/api/dist/index.js"]
+CMD ["tsx", "apps/api/dist/index.js"]
