@@ -22,6 +22,8 @@ const signinResponse = z.object({
 	prodiver: z.nativeEnum(SigninMethod),
 	avatar: z.string(),
 	fullname: z.string(),
+	firstname: z.string(),
+	lastname: z.string(),
 });
 
 export type SigninRequest = z.infer<typeof signinRequest>;

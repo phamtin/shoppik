@@ -27,12 +27,15 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 				marginBottom: 2,
 				color: token.colorBgLayout,
 			},
+			'span.ant-menu-title-content': {
+				marginBottom: 2,
+			},
 			'&.ant-menu-item-selected': {
 				color: `${token.blue5} !important`,
 				backgroundColor: `#0a0a0a !important`,
 				border: `2px solid ${token.blue6} !important`,
 				'&:hover': {
-					color: `${token.colorBgBase} !important`,
+					color: `${token['blue-5']} !important`,
 					backgroundColor: `inherit !important`,
 				},
 			},

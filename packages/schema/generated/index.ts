@@ -16,7 +16,7 @@ export const CustomerScalarFieldEnumSchema = z.enum(['id','userId','createdAt','
 
 export const OwnerScalarFieldEnumSchema = z.enum(['id','userId','storeId','createdAt','updatedAt']);
 
-export const AccountScalarFieldEnumSchema = z.enum(['id','roleId','email','fullname','phoneNumber','birthday','avatar','postalCode','isConfirm','signinMethod','createdAt','updatedAt','isDeleted','deletedAt']);
+export const AccountScalarFieldEnumSchema = z.enum(['id','roleId','email','firstname','lastname','fullname','phoneNumber','birthday','locale','avatar','postalCode','isConfirm','signinMethod','createdAt','updatedAt','isDeleted','deletedAt']);
 
 export const StoreScalarFieldEnumSchema = z.enum(['id','name','slug','tradeName','description','avatar','landingPageUrl','ownerId','followers','following','storeStatus','createdAt','updatedAt','isDeleted','DeletedAt']);
 
@@ -90,9 +90,12 @@ export const AccountSchema = z.object({
   id: z.string(),
   roleId: z.string().array(),
   email: z.string(),
-  fullname: z.string(),
+  firstname: z.string().min(1, { message: "min error" }).max(50, { message: "max error" }),
+  lastname: z.string().min(1, { message: "min error" }).max(50, { message: "max error" }),
+  fullname: z.string().min(4, { message: "min error" }).max(50, { message: "max error" }),
   phoneNumber: z.string().min(9, { message: "min error" }).max(10, { message: "max error" }),
   birthday: z.string(),
+  locale: z.string(),
   avatar: z.string(),
   postalCode: z.string(),
   isConfirm: z.boolean(),
@@ -146,7 +149,6 @@ export const SessionSchema = z.object({
   exp: z.number().int(),
   sub: z.string(),
   scope: z.string(),
-  locale: z.string(),
 })
 
 export type Session = z.infer<typeof SessionSchema>
