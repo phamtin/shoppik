@@ -35,7 +35,8 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 	const jwtPayload = jwt.decode(request.accessToken, {
 		complete: true,
 	});
-
+	ctx.systemLog.info('jwtPayload');
+	ctx.systemLog.info(jwtPayload);
 	if (!jwtPayload || !jwtPayload.payload) {
 		throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid credentails' });
 	}

@@ -15,6 +15,7 @@ export const deserializeUser = ({ req }: CreateFastifyContextOptions): UserReque
 		const cookieArray = req.headers.cookie?.split(';');
 		const accessTokenKeyValue = cookieArray?.find((el) => el.includes('accessToken'));
 		const encryptedJwt = accessTokenKeyValue?.split('=')[1];
+		console.log('accessTokenKeyValue', req.headers.cookie);
 
 		const notAuthenticated = null;
 

@@ -15,7 +15,7 @@ export const getBaseUrl = () => {
 };
 
 export const trpc = createTRPCNext<AppRouter>({
-	config() {
+	config({ ctx }) {
 		return {
 			links: [
 				loggerLink({
@@ -27,7 +27,7 @@ export const trpc = createTRPCNext<AppRouter>({
 					url: `${getBaseUrl()}/trpc`,
 					headers() {
 						return {
-							cookies: 'cc',
+							cookie: ctx?.req?.headers.cookie,
 						};
 					},
 					fetch(url, options) {
