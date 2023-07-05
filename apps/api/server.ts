@@ -18,13 +18,12 @@ const Fastify: FastifyInstance = fastify({
 Fastify.register(fastifyEnv, options)
 	.register(cors, {
 		origin: true,
+		credentials: true,
 	})
 	.register(fastifyTRPCPlugin, {
 		prefix: '/trpc',
 		trpcOptions: { router: appRouter, createContext },
 	});
-// .register(prismaPlugin)
-// .then(() => systemLog.info('- Connected to Prisma'));
 
 Fastify.get('/ping', () => {
 	return 'Hello from very first tRPC !';

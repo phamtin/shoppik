@@ -1,4 +1,4 @@
-import { Typography } from 'ui/components/Core';
+import { Typography } from '@shoppik/ui/components/Core';
 import useStyles from './CardHeader.style';
 
 interface CardHeaderProps {

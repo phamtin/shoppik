@@ -7,7 +7,7 @@ import {
 	Table,
 	TableColumnsType,
 	Tag,
-} from 'ui/components/Core';
+} from '@shoppik/ui/components/Core';
 
 const HomePage = () => {
 	interface DataType {

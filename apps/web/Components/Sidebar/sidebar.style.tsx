@@ -1,4 +1,4 @@
-import { SiderProps } from 'ui/components/Core';
+import { SiderProps } from '@shoppik/ui/components/Core';
 import { createStyles } from 'antd-style';
 
 const styles = createStyles(({ token }, props: SiderProps) => ({
@@ -6,6 +6,7 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 		position: 'relative',
 		transition: '0s',
 		padding: token.paddingXXS,
+		fontWeight: 500,
 
 		'.ant-segmented': {
 			position: 'absolute',
@@ -26,15 +27,20 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 				marginBottom: 2,
 				color: token.colorBgLayout,
 			},
+			'span.ant-menu-title-content': {
+				marginBottom: 2,
+			},
 			'&.ant-menu-item-selected': {
-				color: `${token['blue-5']} !important`,
-				backgroundColor: `#262838cc !important`,
-				borderColor: `transparent !important`,
+				color: `${token.blue5} !important`,
+				backgroundColor: `#0a0a0a !important`,
+				border: `2px solid ${token.blue6} !important`,
+				'&:hover': {
+					color: `${token['blue-5']} !important`,
+					backgroundColor: `inherit !important`,
+				},
 			},
 			'&.ant-menu-item-active': {
-				color: '#969696!important',
-				backgroundColor: `transparent`,
-				border: `1px solid #5a5a5a`,
+				color: `${token.colorBgBase} !important`,
 			},
 		},
 
@@ -45,7 +51,7 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 			svg: { width: '18.6px', marginLeft: 1, color: `${token.colorBgLayout} !important` },
 			'&:hover': {
 				'span, i, svg': {
-					color: token.colorBorder,
+					color: '#969696',
 				},
 			},
 		},
@@ -67,11 +73,11 @@ const styles = createStyles(({ token }, props: SiderProps) => ({
 	logo: {
 		display: 'flex',
 		alignItems: 'end',
-		marginTop: props.collapsed ? token.marginMD - 2 : 0,
+		marginTop: props.collapsed ? 0 : 0,
 		marginLeft: props.collapsed ? token.marginXS - 1 : token.marginSM,
 		h4: {
 			color: token.colorBgBase,
-			marginBottom: 0,
+			marginBottom: '0px !important',
 			marginLeft: token.marginXXS,
 		},
 	},

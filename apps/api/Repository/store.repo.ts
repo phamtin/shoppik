@@ -1,50 +1,54 @@
-import { z } from 'zod';
 import slugify from 'slugify';
 import { ObjectId } from 'bson';
-import { PrismaClient, StoreStatus } from '@prisma/client';
 
-import { createStoreRequest } from '../Router/routers/store.route';
-import systemLog from '../Pkgs/systemLog';
+import { CreateStoreRequest, GetMyStoreRequest, CreateStoreResponse, GetMyStoreResponse } from '../Router/routers/store.route';
+import { Context } from '../Router/context';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const makeStoreRepo = () => {
-	const StorePrisma = new PrismaClient().store;
+const createStore = async (ctx: Context, request: CreateStoreRequest): Promise<CreateStoreResponse> => {
+	const db = ctx.prisma.store;
 
-	return Object.freeze({
-		...StorePrisma,
-
-		createStore: async (request: z.infer<typeof createStoreRequest>) => {
-			systemLog.info(StorePrisma);
-			const store = await StorePrisma.create({
-				data: {
-					name: request.name,
-					tradeName: request.tradeName,
-					slug: slugify(request.name),
-					ownerId: new ObjectId().toString(),
-					description: request.description,
-					avatar: request.avatar,
-					landingPageUrl: request.landingPageUrl,
-					contact: request.contact,
-					storeStatus: StoreStatus.ACTIVE,
-					rating: {
-						score: 5,
-						reviews: 0,
-						responseTime: 99,
-					},
-					tags: [
-						{
-							name: 'Apple',
-							slug: 'apple',
-						},
-					],
-					isDeleted: false,
-					createdAt: new Date(),
+	await db.create({
+		data: {
+			name: request.name,
+			tradeName: request.tradeName,
+			slug: slugify(request.name),
+			ownerId: new ObjectId().toString(),
+			description: request.description,
+			avatar: request.avatar,
+			landingPageUrl: request.landingPageUrl,
+			contact: request.contact,
+			storeStatus: 'ACTIVE',
+			rating: {
+				score: 5,
+				reviews: 0,
+				responseTime: 99,
+			},
+			tags: [
+				{
+					name: 'Apple',
+					slug: 'apple',
 				},
-			});
-
-			return store;
+			],
+			isDeleted: false,
+			createdAt: new Date(),
 		},
 	});
+
+	return { success: 1 };
 };
 
-export default makeStoreRepo;
+const getMyStore = async (ctx: Context, request: GetMyStoreRequest): Promise<GetMyStoreResponse> => {
+	const storerepo = ctx.prisma.store;
+
+	const store = await storerepo.findMany({
+		where: {
+			ownerId: request.storeId ?? ctx.user?.accountId,
+		},
+	});
+
+	return { data: store };
+};
+
+const StoreRepo = Object.freeze({ createStore, getMyStore });
+
+export default StoreRepo;

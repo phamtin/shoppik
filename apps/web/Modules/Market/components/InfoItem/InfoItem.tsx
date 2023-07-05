@@ -1,4 +1,4 @@
-import { Button, Typography } from 'ui/components/Core';
+import { Button, Typography } from '@shoppik/ui/components/Core';
 import Image from 'next/image';
 import useStyles from './InfoItem.style';
 

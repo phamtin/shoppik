@@ -5,18 +5,28 @@ const styles = createStyles(({ token }) => ({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'space-between',
+		textAlign: 'center',
 		flexDirection: 'column',
 
-		h4: {
+		'.profileImage': {
 			marginTop: token.marginMD,
-			marginBottom: token.marginXXS,
 		},
-		span: {
+
+		h3: {
+			fontSize: 22,
+			marginTop: token.margin,
+			marginBottom: token.marginSM,
+		},
+		'> span.ant-typography': {
+			fontWeight: 500,
+			fontSize: 15,
+			color: token.colorTextLabel,
 			marginBottom: token.marginLG,
 		},
 		'button.ant-btn-dangerous': {
 			span: {
-				fontSize: 15,
+				display: 'block',
+				fontSize: 13.6,
 				fontWeight: 500,
 			},
 		},

@@ -1,4 +1,4 @@
-import { Button, Col, Row, Typography } from 'ui/components/Core';
+import { Button, Col, Row, Typography } from '@shoppik/ui/components/Core';
 import Image from 'next/image';
 import useStyles from './Banner.style';
 

@@ -8,7 +8,7 @@ import {
 	Tag,
 	Typography,
 	Tooltip,
-} from 'ui/components/Core';
+} from '@shoppik/ui/components/Core';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'react-iconly';
 import useStyle from './store-main-info.style';

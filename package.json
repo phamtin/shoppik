@@ -1,6 +1,6 @@
 {
-  "name": "my-turborepo",
-  "version": "0.0.0",
+  "name": "shoppik-os",
+  "version": "0.1.0",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -15,15 +15,14 @@
     "dev:api": "pnpm run docker:up && cd ./apps/api && pnpm dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "build:docker:prod": "docker build ./apps/api -t veneno",
-    "docker:up:prod": "docker compose -f docker-compose.yaml up",
-    "turbo": "latest"
-  },
-  "devDependencies": {
-    "turbo": "^1.8.3"
+    "build:docker:prod": "docker build ./ -t veneno",
+    "docker:up:prod": "docker compose -f docker-compose.yaml up"
   },
   "engines": {
     "node": ">=18.15.0"
   },
-  "packageManager": "pnpm@7.25.1"
+  "devDependencies": {
+    "turbo": "1.10.6"
+  },
+  "packageManager": "pnpm@8.6.5"
 }

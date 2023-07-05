@@ -1,9 +1,9 @@
-import { useRouter } from 'next/router';
-import { Button, Space, Typography } from 'ui/components/Core';
-import useStyles from './detail-title.style';
+import { useRouter } from 'next/navigation';
+import { Button, Space, Typography } from '@shoppik/ui/components/Core';
 import Image from 'next/image';
+import useStyles from './detail-title.style';
 
-const { Title } = Typography;
+const { Text } = Typography;
 
 interface DetailTitleProps {
 	title: string;
@@ -22,7 +22,7 @@ const DetailTitle = ({ title }: DetailTitleProps) => {
 				icon={<Image src="/images/ic-back.png" alt="back" height={10} width={6} />}
 				className="iconBack"
 			/>
-			<Title level={5}>Market Detail</Title>
+			<Text>Market Details</Text>
 		</Space>
 	);
 };

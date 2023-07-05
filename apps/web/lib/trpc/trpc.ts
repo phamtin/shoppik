@@ -1,5 +1,6 @@
 'use client';
 
+import { cookies } from 'next/headers';
 import { createTRPCNext } from '@trpc/next';
 import { httpBatchLink, loggerLink } from '@trpc/client';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
@@ -14,7 +15,7 @@ export const getBaseUrl = () => {
 };
 
 export const trpc = createTRPCNext<AppRouter>({
-	config() {
+	config({ ctx }) {
 		return {
 			links: [
 				loggerLink({
@@ -24,6 +25,17 @@ export const trpc = createTRPCNext<AppRouter>({
 				}),
 				httpBatchLink({
 					url: `${getBaseUrl()}/trpc`,
+					headers() {
+						return {
+							cookie: ctx?.req?.headers.cookie,
+						};
+					},
+					fetch(url, options) {
+						return fetch(url, {
+							...options,
+							credentials: 'include',
+						});
+					},
 				}),
 			],
 			queryClientConfig: {
@@ -38,5 +50,5 @@ export const trpc = createTRPCNext<AppRouter>({
 			},
 		};
 	},
-	ssr: false,
+	ssr: true,
 });

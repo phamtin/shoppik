@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Chart } from 'react-iconly';
-import { Button, Col, Row, Typography } from 'ui/components/Core';
+import { Button, Col, Row, Typography } from '@shoppik/ui/components/Core';
 import InfoItem from '@/Modules/Market/components/InfoItem/InfoItem';
 import useStyles from './product-spotlight.style';
 

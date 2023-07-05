@@ -1,22 +1,43 @@
 'use client';
 
-import EmptyState from '@/Components/EmptyState/EmptyState';
-import { useEffect } from 'react';
+import { Col, Row, Space } from '@shoppik/ui/components/Core';
+import NotAuthenticated from '@/Components/NotAuthenticated/NotAuthenticated';
 
 interface ErrorStateProps {
 	error: Error;
 }
 
 const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
-	useEffect(() => {
-		console.error(error);
-	}, [error]);
+	if (error.message === 'UNAUTHORIZED') {
+		return (
+			<div>
+				<NotAuthenticated />
+			</div>
+		);
+	}
+	if (error.message === '429') {
+		return (
+			<div>
+				<NotAuthenticated />
+			</div>
+		);
+	}
+	if (error.message === '400') {
+		return (
+			<div>
+				<NotAuthenticated />
+			</div>
+		);
+	}
 
 	return (
-		<>
-			<p>Uh oh.. Something went wrong!</p>
-			<EmptyState />
-		</>
+		<Row>
+			<Col offset={9}>
+				<Space align="center" direction="vertical">
+					<p>Uh oh.. Something went wrong 🥶</p>
+				</Space>
+			</Col>
+		</Row>
 	);
 };
 
