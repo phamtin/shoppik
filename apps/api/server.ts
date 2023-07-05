@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import fastify, { FastifyInstance } from 'fastify';
+import cookie from '@fastify/cookie';
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 import cors from '@fastify/cors';
 import fastifyEnv from '@fastify/env';
@@ -16,6 +17,9 @@ const Fastify: FastifyInstance = fastify({
 });
 
 Fastify.register(fastifyEnv, options)
+	.register(cookie, {
+		hook: 'onRequest',
+	})
 	.register(cors, {
 		origin: true,
 		credentials: true,

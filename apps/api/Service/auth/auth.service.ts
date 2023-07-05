@@ -90,9 +90,8 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 			},
 		});
 	}
-	ctx.systemLog.info('------- BEfore -------');
+
 	const encryptedJwt = generateEncryptedJwt(
-		ctx,
 		{
 			accountId: authenticatedUser.id,
 			email: authenticatedUser.email,

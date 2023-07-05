@@ -13,9 +13,9 @@
 	"dependencies": {
 		"@shoppik/schema": "workspace:*",
 		"@shoppik/ui": "workspace:*",
-		"@trpc/client": "^10.33.0",
-		"@trpc/next": "^10.33.0",
-		"@trpc/server": "^10.33.0",
+		"@trpc/client": "^10.33.1",
+		"@trpc/next": "^10.33.1",
+		"@trpc/server": "^10.33.1",
 		"antd-style": "^3.4.1",
 		"cookies-next": "^2.1.2",
 		"dayjs": "^1.11.9",
@@ -28,7 +28,7 @@
 		"react-iconly": "^2.2.10",
 		"server-only": "^0.0.1",
 		"sharp": "^0.32.1",
-		"zustand": "^4.3.8"
+		"zustand": "^4.3.9"
 	},
 	"devDependencies": {
 		"@types/jsonwebtoken": "^9.0.2",
