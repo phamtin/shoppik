@@ -15,6 +15,7 @@ export const deserializeUser = ({ req }: CreateFastifyContextOptions): UserReque
 		const cookieArray = req.headers.cookie?.split(';');
 		const accessTokenKeyValue = cookieArray?.find((el) => el.includes('accessToken'));
 		const encryptedJwt = accessTokenKeyValue?.split('=')[1];
+		console.log('accessTokenKeyValue', req.headers);
 
 		const notAuthenticated = null;
 
@@ -41,8 +42,11 @@ export const deserializeUser = ({ req }: CreateFastifyContextOptions): UserReque
 	}
 };
 
-export const generateEncryptedJwt = (payload: EncryptedJwtPayload, key: 'accessTokenPrivateKey', options: SignOptions = {}) => {
+export const generateEncryptedJwt = (ctx: any, payload: EncryptedJwtPayload, key: 'accessTokenPrivateKey', options: SignOptions = {}) => {
+	ctx.systemLog.info(process.env.ACCESS_TOKEN_PRIVATE_KEY);
 	const privateKey = Buffer.from(process.env.ACCESS_TOKEN_PRIVATE_KEY as string, 'base64').toString('ascii');
+	ctx.systemLog.info('privateKey');
+	ctx.systemLog.info(privateKey);
 	return jwt.sign(payload, privateKey, {
 		...(options && options),
 	});

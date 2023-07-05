@@ -50,7 +50,7 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 					res,
 					path: '/',
 					maxAge: 60,
-					httpOnly: true,
+					httpOnly: false,
 					expires: dayjs().add(60, 'second').toDate(),
 					secure: process.env.NODE_ENV !== 'development',
 				});

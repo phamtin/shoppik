@@ -10,6 +10,9 @@ services:
       - REDIS_PORT=6379
       - REDIS_HOST=localhost
       - DATABASE_URL=${DATABASE_URL}
+      - APP_ENV=${APP_ENV}
+      - ACCESS_TOKEN_PRIVATE_KEY=${ACCESS_TOKEN_PRIVATE_KEY}
+      - ACCESS_TOKEN_PUBLIC_KEY=${ACCESS_TOKEN_PUBLIC_KEY}
     ports:
       - "9000:9000"
     restart: always
