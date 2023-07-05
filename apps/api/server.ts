@@ -13,16 +13,24 @@ export type { AppRouter } from './Router/routers/_app';
 
 const Fastify: FastifyInstance = fastify({
 	maxParamLength: 5000,
+	trustProxy: true,
 	logger: { level: 'error' },
 });
 
 Fastify.register(fastifyEnv, options)
 	.register(cookie, {
 		hook: 'onRequest',
+		parseOptions: {
+			sameSite: 'none',
+			secure: true,
+			httpOnly: true,
+		},
 	})
 	.register(cors, {
-		origin: true,
+		origin: ['https://shoppik.vercel.app', 'http://localhost:3000', 'http://127.0.0.1:3000'],
+		methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
 		credentials: true,
+		allowedHeaders: ['Content-Type', 'Cookie', 'Cookies', 'Authorization', 'x-api'],
 	})
 	.register(fastifyTRPCPlugin, {
 		prefix: '/trpc',
@@ -30,7 +38,7 @@ Fastify.register(fastifyEnv, options)
 	});
 
 Fastify.get('/ping', () => {
-	return 'Hello from very first tRPC !';
+	return 'Hello from tRPC !';
 });
 
 export default Fastify;

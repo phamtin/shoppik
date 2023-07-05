@@ -48,12 +48,12 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 				setCookie('accessToken', accessToken, {
 					req,
 					res,
-					path: '/',
 					maxAge: 60,
-					httpOnly: true,
-					sameSite: false,
+					httpOnly: false,
+					path: '/',
+					sameSite: 'lax',
 					expires: dayjs().add(60, 'second').toDate(),
-					secure: process.env.NODE_ENV !== 'development',
+					secure: false,
 				});
 				return true;
 			},

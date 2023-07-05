@@ -16,6 +16,14 @@ export default createStyles(({ token }) => ({
 				'.trendingCards': {
 					display: 'flex',
 					flexWrap: 'wrap',
+					position: 'relative',
+
+					'.wrapperSlider': {
+						'.slider': {
+							display: 'flex',
+							width: 0,
+						},
+					},
 				},
 			},
 		},

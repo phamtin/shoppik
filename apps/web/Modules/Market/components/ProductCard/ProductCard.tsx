@@ -4,7 +4,7 @@ import { Button, Card, Typography } from '@shoppik/ui/components/Core';
 
 import useStyle from './ProductCard.style';
 
-const ProductCard = () => {
+const ProductCard = ({ name = 'Sun-Glass' }: { name?: string | number }) => {
 	const { styles } = useStyle();
 
 	return (
@@ -16,7 +16,7 @@ const ProductCard = () => {
 						<Image alt="example" src="/images/product.png" width={180} height={150} />
 					}
 				>
-					<Typography.Text className="title">Sun-Glass</Typography.Text>
+					<Typography.Title className="title">{name}</Typography.Title>
 					<div className="cardInfo">
 						<div className="metadata">
 							<Typography.Text className="desc">Current bid</Typography.Text>

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Image from 'next/image';
+import { Session } from 'next-auth';
 import { signIn } from 'next-auth/react';
 
 import { Button, Modal, Typography } from '@shoppik/ui/components/Core';
 
-import { Session } from 'next-auth';
 import useStyle from './signin-modal';
 
 interface SigninModalProps {
@@ -17,7 +17,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 	const [open, setOpenModalOpen] = useState(false);
 
 	const onHandleSigninGoogle = () => {
-		signIn('google');
+		signIn('google').then((res) => console.log(res));
 	};
 
 	const toggleOpen = () => setOpenModalOpen((prev) => !prev);
