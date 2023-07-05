@@ -1,6 +1,6 @@
 import { Chart } from 'react-iconly';
-import CardHeader from '../CardHeader/CardHeader';
 import InfoItem from '@/Modules/Market/components/InfoItem/InfoItem';
+import CardHeader from '../CardHeader/CardHeader';
 import useStyles from './BestSeller.style';
 
 const BestSeller = () => {
