@@ -33,14 +33,26 @@ export const authRouter = router({
 	signin: publicProcedure
 		.input(signinRequest)
 		.output(signinResponse)
-		.mutation((params) => {
+		.mutation(async (params) => {
 			if (params.input.provider !== SigninMethod.GOOGLE) {
 				throw new TRPCError({
 					code: 'BAD_REQUEST',
-					message: 'Unavailabel signin method',
+					message: 'Unavailable signin method',
 				});
 			}
-			const signinRes = AuthService.signinGoogle(params.ctx, params.input);
+			const signinRes = await AuthService.signinGoogle(params.ctx, params.input);
+
+			params.ctx.res.setCookie('accessToken', signinRes?.encryptedJwt ?? 'abc123').then(
+				() => {
+					console.log('WTF');
+					console.log(params.ctx.res.getHeaders());
+					return signinRes;
+				},
+				() => {
+					console.log('WTF Err');
+				},
+			);
+
 			return signinRes;
 		}),
 });

@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"postinstall": "cd ../../apps/api && pnpm prisma generate",
-		"dev": "next lint && next dev",
+		"dev": "next lint && next dev --turbo",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
@@ -21,7 +21,7 @@
 		"dayjs": "^1.11.9",
 		"jsonwebtoken": "^9.0.0",
 		"mobile-detect": "^1.4.5",
-		"next": "^13.4.8",
+		"next": "^13.4.9",
 		"next-auth": "^4.22.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",

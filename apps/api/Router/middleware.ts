@@ -1,22 +1,11 @@
-import jwt, { SignOptions } from 'jsonwebtoken';
-
 import { CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
+import { decrypt, verifyJwt } from '../Service/auth/auth.service';
 import { UserRequest } from './context';
 
-type EncryptedJwtPayload = {
-	accountId: string;
-	email: string;
-	fullname: string;
-	role: string;
-};
-
 export const deserializeUser = ({ req }: CreateFastifyContextOptions): UserRequest | null => {
+	console.log('req.headers.cookie = ', req.headers.cookie);
 	try {
-		const cookieArray = req.headers.cookie?.split(';');
-		const accessTokenKeyValue = cookieArray?.find((el) => el.includes('accessToken'));
-		const encryptedJwt = accessTokenKeyValue?.split('=')[1];
-		console.log('accessTokenKeyValue', req.headers);
-		console.log('accessTokenKeyValue 2', req.cookies);
+		const encryptedJwt = req.headers.authorization?.split(' ')[1];
 
 		const notAuthenticated = null;
 
@@ -39,23 +28,6 @@ export const deserializeUser = ({ req }: CreateFastifyContextOptions): UserReque
 			role: parsedRoles,
 		};
 	} catch (e) {
-		return null;
-	}
-};
-
-export const generateEncryptedJwt = (payload: EncryptedJwtPayload, key: 'accessTokenPrivateKey', options: SignOptions = {}) => {
-	const privateKey = Buffer.from(process.env.ACCESS_TOKEN_PRIVATE_KEY as string, 'base64').toString('ascii');
-	return jwt.sign(payload, privateKey, {
-		...(options && options),
-	});
-};
-
-const verifyJwt = <T>(token: string, key: 'accessTokenPublicKey'): T | null => {
-	try {
-		const publicKey = Buffer.from(process.env.ACCESS_TOKEN_PRIVATE_KEY as string, 'base64').toString('ascii');
-
-		return jwt.verify(token, publicKey) as T;
-	} catch (error) {
 		return null;
 	}
 };

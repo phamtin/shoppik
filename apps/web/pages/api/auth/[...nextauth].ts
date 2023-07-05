@@ -2,7 +2,7 @@
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import dayjs from 'dayjs';
-import { setCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 import GoogleProvider from 'next-auth/providers/google';
 import NextAuth, { AuthOptions, SessionStrategy } from 'next-auth';
 
@@ -42,18 +42,20 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 						provider: SigninMethodSchema.Enum.GOOGLE,
 					}),
 				});
+				console.log(response.headers);
 				const accessToken = (await response.json()).result?.data?.encryptedJwt;
+				console.log('accessToken === ', accessToken);
 
 				// Setting http-only cookie
 				setCookie('accessToken', accessToken, {
 					req,
 					res,
-					path: '/',
 					maxAge: 60,
 					httpOnly: true,
-					sameSite: false,
+					path: '/',
+					sameSite: 'none',
 					expires: dayjs().add(60, 'second').toDate(),
-					secure: process.env.NODE_ENV !== 'development',
+					secure: true,
 				});
 				return true;
 			},
