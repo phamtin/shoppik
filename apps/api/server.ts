@@ -30,7 +30,7 @@ Fastify.register(fastifyEnv, options)
 		origin: ['https://shoppik.vercel.app', 'http://localhost:3000', 'http://127.0.0.1:3000'],
 		methods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE'],
 		credentials: true,
-		allowedHeaders: ['Content-Type', 'Cookie', 'Cookies', 'Authorization'],
+		allowedHeaders: ['Content-Type', 'Cookie', 'Cookies', 'Authorization', 'x-api'],
 	})
 	.register(fastifyTRPCPlugin, {
 		prefix: '/trpc',

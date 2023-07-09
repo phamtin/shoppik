@@ -51,11 +51,11 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 					req,
 					res,
 					maxAge: 60,
-					httpOnly: true,
+					httpOnly: false,
 					path: '/',
-					sameSite: 'none',
+					sameSite: 'lax',
 					expires: dayjs().add(60, 'second').toDate(),
-					secure: true,
+					secure: false,
 				});
 				return true;
 			},

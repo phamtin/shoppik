@@ -42,17 +42,6 @@ export const authRouter = router({
 			}
 			const signinRes = await AuthService.signinGoogle(params.ctx, params.input);
 
-			params.ctx.res.setCookie('accessToken', signinRes?.encryptedJwt ?? 'abc123').then(
-				() => {
-					console.log('WTF');
-					console.log(params.ctx.res.getHeaders());
-					return signinRes;
-				},
-				() => {
-					console.log('WTF Err');
-				},
-			);
-
 			return signinRes;
 		}),
 });

@@ -1,60 +1,64 @@
 import { createStyles } from 'antd-style';
 
 const styles = createStyles(({ token }) => ({
-  wrapper: {
-    display: 'flex',
-    padding: `0 ${token.marginLG}px`,
+	wrapper: {
+		display: 'flex',
+		padding: `0 ${token.marginLG}px`,
 
-    '.leftSide': {
-      flex: 1,
-      borderRight: `1px solid ${token.colorBorderSecondary}`,
-      paddingTop: token.marginXXL,
-      marginRight: token.marginXL,
+		'.leftSide': {
+			flex: 1,
+			maxWidth: 200,
+			borderRight: `1px solid ${token.colorBorderSecondary}`,
+			paddingTop: token.marginXXL,
+			marginRight: token.marginXL,
 
-      '.leftSideSection': {
-        display: 'flex',
-        alignItems: 'center',
+			'.leftSideSection': {
+				display: 'block',
+				alignItems: 'center',
+				marginBottom: token.margin,
+				'&.selected': {
+					paddingLeft: token.marginXS,
+					marginLeft: -token.marginXS + 1,
+					borderLeft: `3px solid ${token.colorPrimaryActive}`,
+					span: { color: token.colorTextBase },
+				},
+				span: {
+					fontSize: 13,
+					fontWeight: 500,
+				},
+			},
+		},
+		'.rightSide': {
+			flex: 5,
+			'h5.ant-typography': {
+				marginBottom: 0,
+				marginTop: token.marginXS,
+			},
 
-        '.ant-divider': {
-          margin: 0,
-          marginRight: token.marginSM,
-          padidng: 0
-        }
-      },
-      '.leftSideTitle': {
-      }
-    },
-    '.rightSide': {
-      flex: 5,
-      'h5.ant-typography': {
-        marginBottom: 0,
-        marginTop: token.marginXXS
-      },
+			'.block': {
+				marginTop: token.marginXL,
+				marginLeft: 134,
+				display: 'flex',
+				alignItems: 'center',
+				padding: `0 ${token.marginXL}px`,
 
-      '.block': {
-        marginTop: token.marginXXL,
-        display: 'flex',
-        alignItems: 'center',
-        padding: `0 ${token.marginXL}px`,
-
-
-        '.avaImg': {
-          borderRadius: 28,
-          cursor: 'pointer',
-          marginRight: token.marginMD
-        },
-        '.deleteBtn': {
-          marginRight: token.marginSM
-        },
-        '.leftBlock': {
-          flex: '0 0 30%'
-        },
-        '.rightBlock': {
-          width: 'max-content'
-        }
-      }
-    }
-  },
+				'.avaImg': {
+					borderRadius: 28,
+					cursor: 'pointer',
+					marginRight: token.marginMD,
+				},
+				'.deleteBtn': {
+					marginRight: token.marginXS,
+				},
+				'.leftBlock': {
+					width: 166,
+				},
+				'.rightBlock': {
+					width: 'max-content',
+				},
+			},
+		},
+	},
 }));
 
 export default styles;

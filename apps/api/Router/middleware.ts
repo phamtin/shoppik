@@ -5,14 +5,14 @@ import { UserRequest } from './context';
 export const deserializeUser = ({ req }: CreateFastifyContextOptions): UserRequest | null => {
 	console.log('req.headers.cookie = ', req.headers.cookie);
 	try {
-		const encryptedJwt = req.headers.authorization?.split(' ')[1];
+		const encryptedJwt = req.headers['x-api'] as string;
 
 		const notAuthenticated = null;
 
 		if (!encryptedJwt) {
 			return notAuthenticated;
 		}
-		const decoded: any = verifyJwt(encryptedJwt, 'accessTokenPublicKey');
+		const decoded: any = verifyJwt(decrypt(encryptedJwt), 'accessTokenPublicKey');
 		const parsedRoles = JSON.parse((decoded?.role as string) ?? '');
 
 		if (!decoded || !decoded.accountId || !decoded.email || !decoded.role || parsedRoles.length === 0) {

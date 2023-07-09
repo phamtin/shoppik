@@ -120,7 +120,6 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 		encryptedJwt: encryptedJwt,
 	};
 
-	console.log('encryptedJwt = ', res.encryptedJwt);
 	ctx.systemLog.info(`Signin Google email ${request.email} - END`);
 
 	return res;
@@ -136,6 +135,7 @@ export const generateEncryptedJwt = (payload: EncryptedJwtPayload, key: 'accessT
 };
 
 export const verifyJwt = <T>(token: string, key: 'accessTokenPublicKey'): T | null => {
+	console.log('token in verifyJwt', token);
 	try {
 		const publicKey = Buffer.from(process.env.ACCESS_TOKEN_PRIVATE_KEY as string, 'base64').toString('ascii');
 
@@ -146,31 +146,37 @@ export const verifyJwt = <T>(token: string, key: 'accessTokenPublicKey'): T | nu
 };
 
 export const encrypt = (plainText: string, eKey: string): string => {
-	try {
-		const iv = crypto.randomBytes(16);
-		const key = crypto.createHash('sha256').update(eKey).digest('base64').slice(0, 32);
-		const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+	let m = crypto.createHash('md5');
+	m.update(eKey);
+	const key = m.digest('hex');
+	m = crypto.createHash('md5');
+	m.update(eKey + key);
+	const iv = m.digest('hex');
 
-		let encrypted = cipher.update(plainText);
-		encrypted = Buffer.concat([encrypted, cipher.final()]);
-		return iv.toString('hex') + ':' + encrypted.toString('hex');
-	} catch (error) {
-		console.log(error);
-		return '';
-	}
+	const data = Buffer.from(plainText, 'utf-8').toString('binary');
+	const cipher = crypto.createCipheriv('aes-256-cbc', key, iv.slice(0, 16));
+	let encrypted = cipher.update(data, 'utf8', 'hex');
+	encrypted += cipher.final('hex');
+
+	return Buffer.from(encrypted, 'binary').toString('base64');
 };
 
 export const decrypt = (text: string): string => {
-	const textParts = text.split(':');
+	let m = crypto.createHash('md5');
+	m.update(process.env.ACCESS_TOKEN_PRIVATE_KEY!);
+	const key = m.digest('hex');
 
-	const iv = Buffer.from(textParts.shift()!, 'hex');
-	const encryptedText = Buffer.from(textParts.join(':'), 'hex');
-	const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(process.env.ACCESS_TOKEN_PRIVATE_KEY!), iv);
-	let decrypted = decipher.update(encryptedText);
+	m = crypto.createHash('md5');
+	m.update(process.env.ACCESS_TOKEN_PRIVATE_KEY! + key);
+	const iv = m.digest('hex');
+	const input = text.replace(/-/g, '+').replace(/_/g, '/');
+	const edata = Buffer.from(input, 'base64').toString('binary');
 
-	decrypted = Buffer.concat([decrypted, decipher.final()]);
+	const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv.slice(0, 16));
+	let decrypted = decipher.update(edata, 'hex', 'utf8');
+	decrypted += decipher.final('utf8');
 
-	return decrypted.toString();
+	return Buffer.from(decrypted, 'binary').toString('utf8');
 };
 
 const AuthService = {

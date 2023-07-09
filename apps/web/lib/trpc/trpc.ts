@@ -1,5 +1,6 @@
 'use client';
-import { getCookie, setCookie } from 'cookies-next';
+
+import { getCookie } from 'cookies-next';
 
 import { createTRPCNext } from '@trpc/next';
 import { httpBatchLink, loggerLink } from '@trpc/client';
@@ -14,8 +15,12 @@ export const getBaseUrl = () => {
 	return process.env.NEXT_PUBLIC_API_URL;
 };
 
+export function getToken() {
+	return getCookie('accessToken')?.toString();
+}
+
 export const trpc = createTRPCNext<AppRouter>({
-	config({ ctx }) {
+	config() {
 		return {
 			links: [
 				loggerLink({
@@ -26,16 +31,9 @@ export const trpc = createTRPCNext<AppRouter>({
 				httpBatchLink({
 					url: `${getBaseUrl()}/trpc`,
 					headers: () => {
-						console.log(
-							'==========================================================================',
-						);
-						if (ctx?.req) {
-							console.log(ctx?.req?.headers.cookie);
-							return {
-								cookie: ctx.req?.headers.cookie,
-							};
-						}
-						return { cookie: 'acacascascascacacasc' };
+						return {
+							'x-api': getToken(),
+						};
 					},
 					fetch(url, options) {
 						return fetch(url, {
