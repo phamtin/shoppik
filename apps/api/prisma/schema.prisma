@@ -13,76 +13,49 @@ datasource db {
 }
 
 generator zod {
-  provider               = "pnpm zod-prisma-types"
-  output                 = "../../../packages/schema/generated"
-  createInputTypes       = false
-  coerceDate             = false
-  addSelectType          = false
-  addInputTypeValidation = true
+  provider                  = "zod-prisma-types"
+  output                    = "../../../packages/schema/generated"
+  createInputTypes          = false
+  coerceDate                = false
+  addSelectType             = false
+  addInputTypeValidation    = true
+  createRelationValuesTypes = true
 }
 
 //  =============================================== AUTH MODULE =====================================================
-
-enum Roles {
-  ADMIN
-  CUSTOMER
-  OWNER
-}
 
 enum SigninMethod {
   GOOGLE
   TELEGRAM
 }
 
-model Role {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  name       Roles
-  permission String[]  @default([])
-  createdAt  DateTime
+type Customer {
+  trustscore Int
   updatedAt  DateTime?
 }
 
-model Customer {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String    @db.ObjectId
-  createdAt DateTime
-  updatedAt DateTime?
-}
-
-model Owner {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String    @db.ObjectId
+type Owner {
   storeId   String[]  @db.ObjectId
-  createdAt DateTime
   updatedAt DateTime?
-}
-
-type Session {
-  accessToken  String
-  iat          Int
-  exp          Int
-  sub          String
-  scope        String
-  signinMethod SigninMethod
 }
 
 model Account {
   id           String       @id @default(auto()) @map("_id") @db.ObjectId
-  roleId       String[]     @db.ObjectId
   email        String
-  firstname    String /// @zod.string.min(1, { message: "min error" }).max(50, { message: "max error" })
-  lastname     String /// @zod.string.min(1, { message: "min error" }).max(50, { message: "max error" })
-  fullname     String /// @zod.string.min(4, { message: "min error" }).max(50, { message: "max error" })
-  phoneNumber  String /// @zod.string.min(9, { message: "min error" }).max(10, { message: "max error" })
-  birthday     String
-  locale       String
-  avatar       String
-  postalCode   String
+  fullname     String /// @zod.string.min(4, { message: "min error" }).max(32, { message: "max error" })
+  firstname    String /// @zod.string.min(2, { message: "min error" }).max(32, { message: "max error" })
+  lastname     String /// @zod.string.min(2, { message: "min error" }).max(32, { message: "max error" })
+  phoneNumber  String /// @zod.string.max(16, { message: "max error" })
+  birthday     String /// @zod.string.max(32, { message: "max error" })
+  locale       String /// @zod.string.max(2, { message: "max error" })
+  avatar       String /// @zod.string.max(512, { message: "max error" })
+  postalCode   String /// @zod.string.max(16, { message: "max error" })
   isConfirm    Boolean
-  sessions     Session[]
   signinMethod SigninMethod
+  roleCustomer Customer
+  roleOwner    Owner?
   createdAt    DateTime
-  updatedAt    DateTime? /// @zod.date({ invalid_type_error: "wrong date type" })
+  updatedAt    DateTime?
   isDeleted    Boolean?
   deletedAt    DateTime?
 }

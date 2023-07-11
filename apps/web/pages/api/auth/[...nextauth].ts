@@ -42,7 +42,7 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 						provider: SigninMethodSchema.Enum.GOOGLE,
 					}),
 				});
-				const accessToken = (await response.json()).result?.data?.encryptedJwt;
+				const accessToken = (await response.json()).result?.data.encryptedJwt;
 
 				// Setting http-only cookie
 				setCookie('accessToken', accessToken, {

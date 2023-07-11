@@ -10,23 +10,13 @@ import type { Prisma } from '@prisma/client';
 // ENUMS
 /////////////////////////////////////////
 
-export const RoleScalarFieldEnumSchema = z.enum(['id','name','permission','createdAt','updatedAt']);
-
-export const CustomerScalarFieldEnumSchema = z.enum(['id','userId','createdAt','updatedAt']);
-
-export const OwnerScalarFieldEnumSchema = z.enum(['id','userId','storeId','createdAt','updatedAt']);
-
-export const AccountScalarFieldEnumSchema = z.enum(['id','roleId','email','firstname','lastname','fullname','phoneNumber','birthday','locale','avatar','postalCode','isConfirm','signinMethod','createdAt','updatedAt','isDeleted','deletedAt']);
+export const AccountScalarFieldEnumSchema = z.enum(['id','email','fullname','firstname','lastname','phoneNumber','birthday','locale','avatar','postalCode','isConfirm','signinMethod','createdAt','updatedAt','isDeleted','deletedAt']);
 
 export const StoreScalarFieldEnumSchema = z.enum(['id','name','slug','tradeName','description','avatar','landingPageUrl','ownerId','followers','following','storeStatus','createdAt','updatedAt','isDeleted','DeletedAt']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
-
-export const RolesSchema = z.enum(['ADMIN','CUSTOMER','OWNER']);
-
-export type RolesType = `${z.infer<typeof RolesSchema>}`
 
 export const SigninMethodSchema = z.enum(['GOOGLE','TELEGRAM']);
 
@@ -41,71 +31,44 @@ export type StoreStatusType = `${z.infer<typeof StoreStatusSchema>}`
 /////////////////////////////////////////
 
 /////////////////////////////////////////
-// ROLE SCHEMA
-/////////////////////////////////////////
-
-export const RoleSchema = z.object({
-  name: RolesSchema,
-  id: z.string(),
-  permission: z.string().array(),
-  createdAt: z.date(),
-  updatedAt: z.date().nullable(),
-})
-
-export type Role = z.infer<typeof RoleSchema>
-
-/////////////////////////////////////////
-// CUSTOMER SCHEMA
-/////////////////////////////////////////
-
-export const CustomerSchema = z.object({
-  id: z.string(),
-  userId: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date().nullable(),
-})
-
-export type Customer = z.infer<typeof CustomerSchema>
-
-/////////////////////////////////////////
-// OWNER SCHEMA
-/////////////////////////////////////////
-
-export const OwnerSchema = z.object({
-  id: z.string(),
-  userId: z.string(),
-  storeId: z.string().array(),
-  createdAt: z.date(),
-  updatedAt: z.date().nullable(),
-})
-
-export type Owner = z.infer<typeof OwnerSchema>
-
-/////////////////////////////////////////
 // ACCOUNT SCHEMA
 /////////////////////////////////////////
 
 export const AccountSchema = z.object({
   signinMethod: SigninMethodSchema,
   id: z.string(),
-  roleId: z.string().array(),
   email: z.string(),
-  firstname: z.string().min(1, { message: "min error" }).max(50, { message: "max error" }),
-  lastname: z.string().min(1, { message: "min error" }).max(50, { message: "max error" }),
-  fullname: z.string().min(4, { message: "min error" }).max(50, { message: "max error" }),
-  phoneNumber: z.string().min(9, { message: "min error" }).max(10, { message: "max error" }),
-  birthday: z.string(),
-  locale: z.string(),
-  avatar: z.string(),
-  postalCode: z.string(),
+  fullname: z.string().min(4, { message: "min error" }).max(32, { message: "max error" }),
+  firstname: z.string().min(2, { message: "min error" }).max(32, { message: "max error" }),
+  lastname: z.string().min(2, { message: "min error" }).max(32, { message: "max error" }),
+  phoneNumber: z.string().max(16, { message: "max error" }),
+  birthday: z.string().max(32, { message: "max error" }),
+  locale: z.string().max(2, { message: "max error" }),
+  avatar: z.string().max(512, { message: "max error" }),
+  postalCode: z.string().max(16, { message: "max error" }),
   isConfirm: z.boolean(),
   createdAt: z.date(),
-  updatedAt: z.date({ invalid_type_error: "wrong date type" }).nullable(),
+  updatedAt: z.date().nullable(),
   isDeleted: z.boolean().nullable(),
   deletedAt: z.date().nullable(),
 })
 
 export type Account = z.infer<typeof AccountSchema>
+
+// ACCOUNT RELATION SCHEMA
+//------------------------------------------------------
+
+export type AccountRelations = {
+  roleCustomer: Customer;
+  roleOwner?: Owner | null;
+};
+
+export type AccountWithRelations = z.infer<typeof AccountSchema> & AccountRelations
+
+export const AccountWithRelationsSchema: z.ZodType<AccountWithRelations> = AccountSchema.merge(z.object({
+  roleCustomer: z.lazy(() => CustomerSchema),
+  roleOwner: z.lazy(() => OwnerSchema).nullable(),
+}))
 
 /////////////////////////////////////////
 // STORE SCHEMA
@@ -131,27 +94,54 @@ export const StoreSchema = z.object({
 
 export type Store = z.infer<typeof StoreSchema>
 
+// STORE RELATION SCHEMA
+//------------------------------------------------------
+
+export type StoreRelations = {
+  tags: StoreTag[];
+  rating: StoreRating;
+  contact: Contact;
+};
+
+export type StoreWithRelations = z.infer<typeof StoreSchema> & StoreRelations
+
+export const StoreWithRelationsSchema: z.ZodType<StoreWithRelations> = StoreSchema.merge(z.object({
+  tags: z.lazy(() => StoreTagSchema).array(),
+  rating: z.lazy(() => StoreRatingSchema),
+  contact: z.lazy(() => ContactSchema),
+}))
+
 /////////////////////////////////////////
 // MONGODB TYPES
 /////////////////////////////////////////
-// SESSION
+// CUSTOMER
 //------------------------------------------------------
 
 
 /////////////////////////////////////////
-// SESSION SCHEMA
+// CUSTOMER SCHEMA
 /////////////////////////////////////////
 
-export const SessionSchema = z.object({
-  signinMethod: SigninMethodSchema,
-  accessToken: z.string(),
-  iat: z.number().int(),
-  exp: z.number().int(),
-  sub: z.string(),
-  scope: z.string(),
+export const CustomerSchema = z.object({
+  trustscore: z.number().int(),
+  updatedAt: z.date().nullable(),
 })
 
-export type Session = z.infer<typeof SessionSchema>
+export type Customer = z.infer<typeof CustomerSchema>
+// OWNER
+//------------------------------------------------------
+
+
+/////////////////////////////////////////
+// OWNER SCHEMA
+/////////////////////////////////////////
+
+export const OwnerSchema = z.object({
+  storeId: z.string().array(),
+  updatedAt: z.date().nullable(),
+})
+
+export type Owner = z.infer<typeof OwnerSchema>
 // STORE TAG
 //------------------------------------------------------
 

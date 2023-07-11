@@ -42,7 +42,7 @@ const getMyStore = async (ctx: Context, request: GetMyStoreRequest): Promise<Get
 
 	const store = await storerepo.findMany({
 		where: {
-			ownerId: request.storeId ?? ctx.user?.accountId,
+			ownerId: request.storeId ?? ctx.user?.id,
 		},
 	});
 
