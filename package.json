@@ -12,7 +12,7 @@
     "dev:u": "docker compose -f docker-compose.dev.yml up -d",
     "dev:d": "docker compose down --remove-orphans",
     "dev:web": "cd ./apps/web && pnpm dev",
-    "dev:api": "pnpm run docker:up && cd ./apps/api && pnpm dev",
+    "dev:api": "cd ./apps/api && pnpm dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "build:docker:prod": "docker build ./ -t veneno",

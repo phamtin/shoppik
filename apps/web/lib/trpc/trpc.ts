@@ -1,6 +1,6 @@
 'use client';
 
-import { getCookie, setCookie } from 'cookies-next';
+import { getCookie } from 'cookies-next';
 
 import { createTRPCNext } from '@trpc/next';
 import { httpBatchLink, loggerLink } from '@trpc/client';
@@ -16,7 +16,8 @@ export const getBaseUrl = () => {
 };
 
 export function getToken() {
-	return getCookie('accessToken')?.toString();
+	const token = getCookie('accessToken');
+	return token?.toString();
 }
 
 export const trpc = createTRPCNext<AppRouter>({

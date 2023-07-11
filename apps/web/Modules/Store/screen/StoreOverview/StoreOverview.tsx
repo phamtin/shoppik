@@ -58,6 +58,8 @@ const StoreOverviewScreen = ({ store }: MarketProp) => {
 	}, []);
 
 	if (mutation.isError) {
+		console.log(mutation.error);
+
 		throw new Error(mutation.error.data?.code);
 	}
 

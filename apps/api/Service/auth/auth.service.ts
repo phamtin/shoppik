@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import { TRPCError } from '@trpc/server';
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { Roles, SigninMethod } from '@prisma/client';
+import { SigninMethod } from '@prisma/client';
 
 import { SigninRequest, SigninResponse } from '../../Router/routers/auth.route';
 import { Context } from '../../Router/context';
@@ -14,7 +14,7 @@ type AppJwtPayload = {
 };
 
 type EncryptedJwtPayload = {
-	accountId: string;
+	id: string;
 	email: string;
 	fullname: string;
 	role: string;
@@ -24,17 +24,14 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 	ctx.systemLog.info(`Signin Google email ${request.email} - START`);
 
 	const authRepo = ctx.prisma.account;
-	const roleRepo = ctx.prisma.role;
 
 	let res: SigninResponse = {
-		prodiver: SigninMethod.GOOGLE,
-		accountId: '',
+		id: '',
 		fullname: '',
 		firstname: '',
 		lastname: '',
 		email: '',
-		role: '',
-		avatar: '',
+		isOwner: false,
 		encryptedJwt: '',
 	};
 
@@ -46,42 +43,28 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 		throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid credentails' });
 	}
 
-	let customerRole = await roleRepo.findFirst({
-		where: {
-			name: Roles.CUSTOMER,
-		},
-	});
-
-	if (!customerRole) {
-		customerRole = await roleRepo.create({
-			data: {
-				name: Roles.CUSTOMER, //	Should have the Db Seed here
-				createdAt: new Date(),
-			},
-		});
-	}
-
 	let authenticatedUser = await authRepo.findFirst({ where: { email: request.email } });
 
 	if (authenticatedUser?.id) {
 		res = {
-			accountId: authenticatedUser.id,
+			id: authenticatedUser.id,
 			fullname: authenticatedUser.fullname,
 			firstname: authenticatedUser.firstname,
 			lastname: authenticatedUser.lastname,
 			email: authenticatedUser.email,
-			role: customerRole.name,
-			avatar: request.avatar,
-			prodiver: SigninMethod.GOOGLE,
+			isOwner: !!authenticatedUser.roleOwner?.storeId,
 			encryptedJwt: '',
 		};
 	} else {
 		const jwt = jwtPayload.payload as AppJwtPayload;
 		authenticatedUser = await authRepo.create({
 			data: {
-				roleId: [customerRole.id],
+				roleCustomer: {
+					trustscore: 0,
+					updatedAt: null,
+				},
 				email: request.email,
-				fullname: jwt.given_name,
+				fullname: jwt.name,
 				firstname: jwt.given_name,
 				lastname: jwt.family_name,
 				locale: jwt.locale,
@@ -99,25 +82,23 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 
 	const encryptedJwt = generateEncryptedJwt(
 		{
-			accountId: authenticatedUser.id,
+			id: authenticatedUser.id,
 			email: authenticatedUser.email,
 			fullname: authenticatedUser.fullname,
-			role: JSON.stringify(authenticatedUser.roleId),
+			role: JSON.stringify([authenticatedUser.roleCustomer, authenticatedUser.roleOwner]),
 		},
 		'accessTokenPrivateKey',
 		{ expiresIn: 60 },
 	);
 
 	res = {
-		accountId: authenticatedUser.id,
+		encryptedJwt,
+		id: authenticatedUser.id,
+		email: authenticatedUser.email,
 		fullname: authenticatedUser.fullname,
 		firstname: authenticatedUser.firstname,
 		lastname: authenticatedUser.lastname,
-		email: authenticatedUser.email,
-		role: customerRole.name,
-		avatar: request.avatar,
-		prodiver: SigninMethod.GOOGLE,
-		encryptedJwt: encryptedJwt,
+		isOwner: !!authenticatedUser.roleOwner?.storeId,
 	};
 
 	ctx.systemLog.info(`Signin Google email ${request.email} - END`);
@@ -134,11 +115,9 @@ export const generateEncryptedJwt = (payload: EncryptedJwtPayload, key: 'accessT
 	return encryptedJwt;
 };
 
-export const verifyJwt = <T>(token: string, key: 'accessTokenPublicKey'): T | null => {
-	console.log('token in verifyJwt', token);
+export const verifyJwt = <T>(token: string): T | null => {
 	try {
 		const publicKey = Buffer.from(process.env.ACCESS_TOKEN_PRIVATE_KEY as string, 'base64').toString('ascii');
-
 		return jwt.verify(token, publicKey) as T;
 	} catch (error) {
 		return null;

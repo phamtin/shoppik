@@ -14,17 +14,17 @@ const signinRequest = z.object({
 	expiresAt: z.number(),
 	scope: z.string(),
 });
-const signinResponse = z.object({
-	encryptedJwt: z.string(),
-	email: z.string(),
-	accountId: z.string(),
-	role: z.string(),
-	prodiver: z.nativeEnum(SigninMethod),
-	avatar: z.string(),
-	fullname: z.string(),
-	firstname: z.string(),
-	lastname: z.string(),
-});
+const signinResponse = z
+	.object({
+		id: z.string(),
+		email: z.string(),
+		fullname: z.string(),
+		firstname: z.string(),
+		lastname: z.string(),
+		isOwner: z.boolean(),
+		encryptedJwt: z.string(),
+	})
+	.strict();
 
 export type SigninRequest = z.infer<typeof signinRequest>;
 export type SigninResponse = z.infer<typeof signinResponse>;
@@ -40,8 +40,8 @@ export const authRouter = router({
 					message: 'Unavailable signin method',
 				});
 			}
-			const signinRes = await AuthService.signinGoogle(params.ctx, params.input);
+			const r = await AuthService.signinGoogle(params.ctx, params.input);
 
-			return signinRes;
+			return r;
 		}),
 });

@@ -1,14 +1,10 @@
 {
-	// "parserOptions": {
-	// 	"parser": "@typescript-eslint/parser"
-	// },
 	"compilerOptions": {
 		"strict": true,
+		"incremental": true,
 		"esModuleInterop": true,
-		"baseUrl": ".",
-		"rootDir": "./",
-		"target": "es5",
-		"module": "ES2015",
+		"target": "es2018",
+		"module": "es2020",
 		"moduleResolution": "node",
 		"lib": ["ES5", "DOM"],
 		"types": ["node"],
@@ -18,16 +14,18 @@
 		"skipLibCheck": true,
 		"noImplicitAny": true,
 		"removeComments": false,
-		"forceConsistentCasingInFileNames": true
+		"forceConsistentCasingInFileNames": true,
+		"paths": {
+			"prisma/*": ["./prisma/*"],
+			"Loaders/*": ["./Loaders/*"],
+			"Router/*": ["./Router/*"],
+			"Service/*": ["./Service/*"],
+			"Repository/*": ["./Repository/*"]
+		}
 	},
-	// "ignorePatterns": [".eslintrc.js"],
-	"include": ["**/*.ts"],
 	"exclude": ["node_modules", ".vscode", ".turbo"],
 	"tsc-alias": {
 		"verbose": false,
 		"resolveFullPaths": true
-	},
-	"ts-node": {
-		"esm": true // «———— enabling ESM for ts-node
 	}
 }
