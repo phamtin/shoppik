@@ -1,28 +1,37 @@
 'use client';
 
-import { Col, Row, Space } from '@shoppik/ui/components/Core';
+import { DefaultErrorShape } from '@trpc/server';
+import { TRPCClientErrorBase } from '@trpc/client';
 import NotAuthenticated from '@/Components/NotAuthenticated/NotAuthenticated';
+import { Col, Row, Space } from '@shoppik/ui/components/Core';
 
 interface ErrorStateProps {
-	error: Error;
+	error: TRPCClientErrorBase<DefaultErrorShape>;
 }
 
-const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
-	if (error.message === 'UNAUTHORIZED') {
+const GlobalError: React.FC<ErrorStateProps> = ({ error }: ErrorStateProps) => {
+	if (error.data?.code === 'UNAUTHORIZED') {
 		return (
 			<div>
 				<NotAuthenticated />
 			</div>
 		);
 	}
-	if (error.message === '429') {
+	if (error.data?.code === 'FORBIDDEN') {
 		return (
 			<div>
 				<NotAuthenticated />
 			</div>
 		);
 	}
-	if (error.message === '400') {
+	if (error.data?.code === 'BAD_REQUEST') {
+		return (
+			<div>
+				<NotAuthenticated />
+			</div>
+		);
+	}
+	if (error.data?.code === 'NOT_FOUND') {
 		return (
 			<div>
 				<NotAuthenticated />
@@ -41,4 +50,4 @@ const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
 	);
 };
 
-export default ErrorState;
+export default GlobalError;

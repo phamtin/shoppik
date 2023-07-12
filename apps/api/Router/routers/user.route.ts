@@ -7,7 +7,6 @@ import { authenticatedProcedure, router } from '../trpc';
 const updateUserProfileRequest = z
 	.object({
 		avatar: z.string(),
-		locale: z.string(),
 		fullname: z.string(),
 		lastname: z.string(),
 		firstname: z.string(),
@@ -24,7 +23,7 @@ export type UpdateUserProfileResponse = z.infer<typeof updateUserProfileResponse
 export type UpdateUserProfileRequest = z.infer<typeof updateUserProfileRequest>;
 export type GetMyProfileResponse = z.infer<typeof getMyProfileResponse>;
 
-export const authRouter = router({
+export const userRouter = router({
 	updateUserProfile: authenticatedProcedure
 		.input(updateUserProfileRequest)
 		.output(updateUserProfileResponse)

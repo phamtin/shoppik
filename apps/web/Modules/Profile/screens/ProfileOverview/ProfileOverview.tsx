@@ -1,17 +1,26 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useStyle from './ProfileOverview.style';
-import Image from 'next/image';
-import { Button, Divider, Form, Input, Typography } from '@shoppik/ui/components/Core';
-import { DatePicker } from 'antd';
-import type { Dayjs } from 'dayjs';
+import {
+	DatePicker,
+	Button,
+	Divider,
+	Form,
+	Input,
+	Typography,
+	Upload as UploadButton,
+	Avatar,
+	InputNumber,
+} from '@shoppik/ui/components/Core';
 import dayjs from 'dayjs';
+import { Upload } from 'react-iconly';
+import { trpc } from '@/lib/trpc/trpc';
+import { Account } from '@shoppik/schema';
+import GlobalError from '@/app/error';
+import { DATE_FORMAT } from '@/Utils/dayjs/time';
 
 const { Text } = Typography;
-type RangeValue = [Dayjs | null, Dayjs | null] | null;
-const dateFormat = 'YYYY-MM-DD';
 
 interface ListInfoProps {
 	key: number;
@@ -37,26 +46,39 @@ const LIST_INFO: ListInfoProps[] = [
 	},
 ];
 
-const Profile = () => {
-	const { data: session } = useSession();
+const ProfileScreen = () => {
 	const { styles } = useStyle();
+	const [form] = Form.useForm<Partial<Account> | undefined>();
 
 	const [selectedSide, setSelectedSide] = useState(LIST_INFO[0].key);
-	const [isDisabled, setIsDisabled] = useState(true);
-	const [loading, setLoading] = useState(false);
 
-	const onEdit = () => {
-		setIsDisabled(false)
+	const { data, isLoading, error } = trpc.user.getMyProfile.useQuery();
+	const mutation = trpc.user.updateUserProfile.useMutation();
+
+	useEffect(() => {
+		form.setFieldsValue({
+			...data,
+			birthday: (data ? dayjs(data.birthday) : dayjs()) as any, // trick, fix later
+		});
+	}, [form, data]);
+
+	if (error) {
+		return <GlobalError error={error} />;
 	}
 
-	const onSave = () => {
-		if (isDisabled) return;
-		setLoading(true)
-		setTimeout(() => {
-			setLoading(false)
-			setIsDisabled(true)
-		}, 1000)
-	}
+	const onSave = (values: Partial<Account> | undefined) => {
+		if (!values) return;
+
+		mutation.mutate({
+			firstname: values.firstname,
+			lastname: values.lastname,
+			fullname: values.fullname,
+			avatar: values.avatar,
+			birthday: dayjs(values.birthday).toISOString(),
+			phoneNumber: values.phoneNumber,
+			postalCode: values.postalCode?.toString(),
+		});
+	};
 
 	const onChangeTab = (index: number) => () => {
 		setSelectedSide(index);
@@ -67,6 +89,7 @@ const Profile = () => {
 			<div className="leftSide">
 				{LIST_INFO.map((item, index) => (
 					<a
+						key={item.key}
 						onClick={onChangeTab(index)}
 						className={`leftSideSection ${selectedSide === index ? 'selected' : ''}`}
 					>
@@ -75,96 +98,115 @@ const Profile = () => {
 				))}
 			</div>
 			<div className="rightSide">
-				<div className="block">
-					<Image
-						alt="authenticated profile image"
-						height={56}
-						width={56}
-						className="avaImg"
-						src={session && session.user ? (session?.user.image as string) : ''}
-					/>
-					<Button type="default" className="deleteBtn">
-						Delete
-					</Button>
-					<Button type="primary" className="uploadBtn">
-						Upload
-					</Button>
-				</div>
-				<Divider />
-				<Form
-					name="basic"
-					labelCol={{ span: 8 }}
-					wrapperCol={{ span: 16 }}
+				<Form<Partial<Account> | undefined>
+					name="profile"
+					form={form}
+					onFinish={onSave}
 					labelAlign="left"
 					autoComplete="off"
+					labelCol={{ span: 8 }}
+					wrapperCol={{ span: 16 }}
 				>
+					<div className="block">
+						<Avatar size={64} src={data?.avatar}>
+							ava
+						</Avatar>
+						<UploadButton>
+							<Button className="uploadBtn" icon={<Upload set="light" size="small" />}>
+								Upload
+							</Button>
+						</UploadButton>
+						<Button size="small" type="link" danger>
+							Remove
+						</Button>
+					</div>
+					<Divider />
+
 					<Form.Item
-						label={<Typography.Title level={5}>User name</Typography.Title>}
 						name="firstname"
+						label={<Typography.Text className="formLabel">First name</Typography.Text>}
 						colon={false}
 						style={{ maxWidth: 500 }}
 						rules={[{ required: true, message: 'Please input your username!' }]}
 					>
-						<Input required size="large" placeholder="Thai" disabled={isDisabled} />
+						<Input required size="large" placeholder="First name" />
 					</Form.Item>
-					<Divider />
 					<Form.Item
-						label={<Typography.Title level={5}>User surname</Typography.Title>}
-						name="surname"
+						name="lastname"
+						label={<Typography.Text className="formLabel">Last name</Typography.Text>}
+						colon={false}
+						style={{ maxWidth: 500 }}
+						rules={[{ required: true, message: 'Please input your lastname!' }]}
+					>
+						<Input required size="large" placeholder="Last name" />
+					</Form.Item>
+					<Form.Item
+						name="fullname"
+						required
+						label={<Typography.Text className="formLabel">Full name</Typography.Text>}
 						colon={false}
 						style={{ maxWidth: 500 }}
 					>
-						<Input size="large" placeholder="Nguyen Xuan" disabled={isDisabled} />
+						<Input size="large" placeholder="Full name" />
 					</Form.Item>
-					<Divider />
 					<Form.Item
-						label={<Typography.Title level={5}>Email</Typography.Title>}
 						name="email"
+						required
+						label={<Typography.Text className="formLabel">Email address</Typography.Text>}
 						colon={false}
 						style={{ maxWidth: 500 }}
 					>
-						<Input size="large" placeholder="nguyenxuanthai7@gmail.com" disabled={isDisabled} />
+						<Input size="large" placeholder="Email address" />
 					</Form.Item>
-					<Divider />
 					<Form.Item
-						label={<Typography.Title level={5}>Phone Number</Typography.Title>}
-						name="phone"
+						label={<Typography.Text className="formLabel">Phone Number</Typography.Text>}
+						name="phoneNumber"
 						colon={false}
 						style={{ maxWidth: 500 }}
 					>
-						<Input size="large" placeholder="0706232632" disabled={isDisabled} />
+						<Input size="large" placeholder="Phone Number" />
 					</Form.Item>
-					<Divider />
 					<Form.Item
-						label={<Typography.Title level={5}>Birthday</Typography.Title>}
+						label={<Typography.Text className="formLabel">Birthday</Typography.Text>}
 						name="birthday"
 						colon={false}
 						style={{ maxWidth: 500 }}
 					>
-						<DatePicker defaultValue={dayjs('2015-06-06', dateFormat)} disabled={isDisabled} />
+						<DatePicker
+							size="large"
+							format={DATE_FORMAT.base}
+							// defaultValue={dayjs('06-06-2015', DATE_FORMAT.base)}
+						/>
 					</Form.Item>
-					<Divider />
 					<Form.Item
-						label={<Typography.Title level={5}>Location</Typography.Title>}
-						name="phone"
+						label={<Typography.Text className="formLabel">Postal code</Typography.Text>}
+						name="postalCode"
 						colon={false}
 						style={{ maxWidth: 500 }}
 					>
-						<Input size="large" placeholder="Da Nang, Vietnam" disabled={isDisabled} />
+						<InputNumber
+							className="postalCode"
+							controls={false}
+							size="large"
+							width="100px"
+						/>
 					</Form.Item>
-					<Divider />
-					<div className="block">
-						<Button type="default" className="editBtn" onClick={onEdit}>
-							Edit
-						</Button>
-						<Button loading={loading} type="primary" className="saveBtn" onClick={onSave}>
+					<Form.Item label=" " colon={false} style={{ maxWidth: 500 }}>
+						<Button
+							size="large"
+							htmlType="submit"
+							style={{ width: 200 }}
+							type="primary"
+							loading={isLoading}
+							onClick={onSave}
+						>
 							Save
 						</Button>
-					</div>
+					</Form.Item>
 				</Form>
 			</div>
 		</div>
 	);
 };
 
-export default Profile;
+export default ProfileScreen;

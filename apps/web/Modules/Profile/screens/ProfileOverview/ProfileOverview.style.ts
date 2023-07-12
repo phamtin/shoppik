@@ -19,7 +19,7 @@ const styles = createStyles(({ token }) => ({
 				'&.selected': {
 					paddingLeft: token.marginXS,
 					marginLeft: -token.marginXS + 1,
-					borderLeft: `3px solid ${token.colorPrimaryActive}`,
+					borderLeft: `3px solid ${token.colorPrimary}`,
 					span: { color: token.colorTextBase },
 				},
 				span: {
@@ -34,31 +34,28 @@ const styles = createStyles(({ token }) => ({
 				marginBottom: 0,
 				marginTop: token.marginXS,
 			},
-
+			'.formLabel': {
+				fontSize: 15,
+				marginTop: token.marginXS,
+			},
 			'.block': {
 				marginTop: token.marginXL,
-				marginLeft: 134,
+				marginLeft: 132,
 				display: 'flex',
 				alignItems: 'center',
 				padding: `0 ${token.marginXL}px`,
-
-				'.avaImg': {
-					borderRadius: 28,
-					cursor: 'pointer',
-					marginRight: token.marginMD,
-				},
-				'.deleteBtn': {
+				'.uploadBtn': {
+					display: 'flex',
+					alignItems: 'center',
+					marginLeft: token.marginLG,
 					marginRight: token.marginXS,
-				},
-				'.editBtn': {
-					marginRight: token.marginMD,
-				},
-				'.leftBlock': {
-					width: 166,
 				},
 				'.rightBlock': {
 					width: 'max-content',
 				},
+			},
+			'.ant-input-number.postalCode': {
+				width: '100%',
 			},
 		},
 	},

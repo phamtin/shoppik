@@ -1,15 +1,17 @@
 'server-only';
 
-import {NextApiRequest, NextApiResponse} from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import dayjs from 'dayjs';
-import {getCookie, setCookie} from 'cookies-next';
+import { setCookie } from 'cookies-next';
 import GoogleProvider from 'next-auth/providers/google';
-import NextAuth, {AuthOptions, SessionStrategy} from 'next-auth';
+import NextAuth, { AuthOptions, SessionStrategy } from 'next-auth';
 
-import {SigninMethodSchema} from '@shoppik/schema';
-import {getBaseUrl} from '@/lib/trpc/trpc';
+import { SigninMethodSchema } from '@shoppik/schema';
+import { getBaseUrl } from '@/lib/trpc/trpc';
 
 export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOptions => {
+	const tokenLifeTimeEnv = +(process.env.ACCESS_TOKEN_LIVE_TIME ?? 600);
+
 	return {
 		providers: [
 			GoogleProvider({
@@ -24,10 +26,13 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 				},
 			}),
 		],
-		session: {strategy: 'jwt' as SessionStrategy, maxAge: 60},
+		session: {
+			strategy: 'jwt' as SessionStrategy,
+			maxAge: tokenLifeTimeEnv,
+		},
 		secret: process.env.NEXTAUTH_SECRET,
 		callbacks: {
-			async signIn({account, user}: any) {
+			async signIn({ account, user }: any) {
 				if (!account) return false;
 				const response = await fetch(`${getBaseUrl()}/trpc/auth.signin`, {
 					method: 'POST',
@@ -48,18 +53,18 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 				setCookie('accessToken', accessToken, {
 					req,
 					res,
-					maxAge: 60,
+					maxAge: tokenLifeTimeEnv,
 					httpOnly: false,
 					path: '/',
 					sameSite: 'lax',
-					expires: dayjs().add(60, 'second').toDate(),
+					expires: dayjs().add(tokenLifeTimeEnv, 'second').toDate(),
 					secure: false,
 				});
 				return true;
 			},
 
-			async session({session, token}: any) {
-				return {...session, ...token};
+			async session({ session, token }: any) {
+				return { ...session, ...token };
 			},
 		},
 	};
