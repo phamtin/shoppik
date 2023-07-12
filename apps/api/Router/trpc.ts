@@ -1,8 +1,11 @@
-import { TRPCError, initTRPC } from '@trpc/server';
+import { initTRPC } from '@trpc/server';
+import { TRPCError } from '@trpc/server';
 
 import { Context } from './context';
 
 export const t = initTRPC.context<Context>().create();
+
+export const router = t.router;
 
 const isAuthed = t.middleware(({ next, ctx }) => {
 	const currentUser = ctx.user;
@@ -12,9 +15,9 @@ const isAuthed = t.middleware(({ next, ctx }) => {
 		throw new TRPCError({ code: 'UNAUTHORIZED' });
 	}
 
-	const { accountId, email, role } = currentUser;
+	const { id, email, role } = currentUser;
 
-	if (!accountId || !email || !role) {
+	if (!id || !email || !role) {
 		throw new TRPCError({ code: 'UNAUTHORIZED' });
 	}
 
@@ -22,8 +25,6 @@ const isAuthed = t.middleware(({ next, ctx }) => {
 		ctx: { user: currentUser },
 	});
 });
-
-export const router = t.router;
 
 export const middleware = t.middleware;
 

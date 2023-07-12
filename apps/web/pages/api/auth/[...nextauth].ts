@@ -1,13 +1,13 @@
 'server-only';
 
-import { NextApiRequest, NextApiResponse } from 'next';
+import {NextApiRequest, NextApiResponse} from 'next';
 import dayjs from 'dayjs';
-import { getCookie, setCookie } from 'cookies-next';
+import {getCookie, setCookie} from 'cookies-next';
 import GoogleProvider from 'next-auth/providers/google';
-import NextAuth, { AuthOptions, SessionStrategy } from 'next-auth';
+import NextAuth, {AuthOptions, SessionStrategy} from 'next-auth';
 
-import { SigninMethodSchema } from '@shoppik/schema';
-import { getBaseUrl } from '@/lib/trpc/trpc';
+import {SigninMethodSchema} from '@shoppik/schema';
+import {getBaseUrl} from '@/lib/trpc/trpc';
 
 export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOptions => {
 	return {
@@ -24,10 +24,10 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 				},
 			}),
 		],
-		session: { strategy: 'jwt' as SessionStrategy, maxAge: 60 },
+		session: {strategy: 'jwt' as SessionStrategy, maxAge: 60},
 		secret: process.env.NEXTAUTH_SECRET,
 		callbacks: {
-			async signIn({ account, user }: any) {
+			async signIn({account, user}: any) {
 				if (!account) return false;
 				const response = await fetch(`${getBaseUrl()}/trpc/auth.signin`, {
 					method: 'POST',
@@ -42,9 +42,7 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 						provider: SigninMethodSchema.Enum.GOOGLE,
 					}),
 				});
-				console.log(response.headers);
-				const accessToken = (await response.json()).result?.data?.encryptedJwt;
-				console.log('accessToken === ', accessToken);
+				const accessToken = (await response.json()).result?.data.encryptedJwt;
 
 				// Setting http-only cookie
 				setCookie('accessToken', accessToken, {
@@ -60,8 +58,8 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 				return true;
 			},
 
-			async session({ session, token }: any) {
-				return { ...session, ...token };
+			async session({session, token}: any) {
+				return {...session, ...token};
 			},
 		},
 	};

@@ -16,7 +16,8 @@ export const getBaseUrl = () => {
 };
 
 export function getToken() {
-	return getCookie('accessToken')?.toString();
+	const token = getCookie('accessToken');
+	return token?.toString();
 }
 
 export const trpc = createTRPCNext<AppRouter>({
