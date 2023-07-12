@@ -50,6 +50,9 @@ const styles = createStyles(({ token }) => ({
 				'.deleteBtn': {
 					marginRight: token.marginXS,
 				},
+				'.editBtn': {
+					marginRight: token.marginMD,
+				},
 				'.leftBlock': {
 					width: 166,
 				},
