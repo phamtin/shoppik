@@ -3,9 +3,10 @@ import Image from 'next/image';
 import { Session } from 'next-auth';
 import { signIn } from 'next-auth/react';
 
-import { Button, Modal, Typography } from '@shoppik/ui/components/Core';
+import { Button, Dropdown, MenuProps, Modal, Space, Typography, message } from '@shoppik/ui/components/Core';
 
 import useStyle from './signin-modal';
+import { useRouter } from 'next/navigation';
 
 interface SigninModalProps {
 	session: Session | null;
@@ -13,6 +14,7 @@ interface SigninModalProps {
 
 const SigninModal = ({ session }: SigninModalProps) => {
 	const { styles } = useStyle();
+	const router = useRouter();
 
 	const [open, setOpenModalOpen] = useState(false);
 
@@ -22,17 +24,40 @@ const SigninModal = ({ session }: SigninModalProps) => {
 
 	const toggleOpen = () => setOpenModalOpen((prev) => !prev);
 
+	const onClick: MenuProps['onClick'] = ({ key }) => {
+		router.push(`/${key}`)
+	};
+
+	const items: MenuProps['items'] = [
+		{
+			label: 'Profile',
+			key: 'profile',
+		},
+		{
+			label: 'My Order',
+			key: 'my-order',
+		}
+	];
+
 	return (
 		<>
 			<div>
 				{session?.user?.email ? (
 					<div style={{ marginTop: 27 }}>
-						<Image
-							alt="authenticated profile image"
-							height={36}
-							width={36}
-							src={session.user.image as string}
-						/>
+						<Dropdown menu={{ items, onClick }}>
+							<a onClick={(e) => e.preventDefault()}>
+								<Space>
+									<Image
+										alt="authenticated profile image"
+										height={36}
+										width={36}
+										className="avaImg"
+										style={{ borderRadius: 18, cursor: 'pointer' }}
+										src={session.user.image as string}
+									/>
+								</Space>
+							</a>
+						</Dropdown>
 					</div>
 				) : (
 					<Button type="link" onClick={toggleOpen}>

@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 
-import { GetMyProfileResponse, UpdateUserProfileRequest, UpdateUserProfileResponse } from 'Router/routers/user.route';
+import { GetMyProfileResponse, UpdateUserProfileRequest, UpdateUserProfileResponse } from '../Router/routers/user.route';
 import { Context } from '../Router/context';
 
 const getMyProfile = async (ctx: Context): Promise<GetMyProfileResponse> => {
@@ -31,18 +31,14 @@ const updateUserProfile = async (ctx: Context, request: UpdateUserProfileRequest
 	}
 
 	Object.keys(request).forEach((key) => {
-		if ((request as Record<string, string | boolean>)[key] == null) {
+		if (!(request as Record<string, string | boolean>)[key]) {
 			delete (request as Record<string, string | boolean>)[key];
 		}
 	});
 
 	const updatedProfile = await accountRepo.update({
-		where: {
-			id: ctx.user?.id,
-		},
-		data: {
-			...request,
-		},
+		where: { id: ctx.user?.id },
+		data: { ...request },
 	});
 
 	const res: UpdateUserProfileResponse = updatedProfile;

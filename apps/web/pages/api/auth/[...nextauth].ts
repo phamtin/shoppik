@@ -10,6 +10,8 @@ import { SigninMethodSchema } from '@shoppik/schema';
 import { getBaseUrl } from '@/lib/trpc/trpc';
 
 export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOptions => {
+	const tokenLifeTimeEnv = +(process.env.ACCESS_TOKEN_LIVE_TIME ?? 600);
+
 	return {
 		providers: [
 			GoogleProvider({
@@ -24,7 +26,10 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 				},
 			}),
 		],
-		session: { strategy: 'jwt' as SessionStrategy, maxAge: 60 },
+		session: {
+			strategy: 'jwt' as SessionStrategy,
+			maxAge: tokenLifeTimeEnv,
+		},
 		secret: process.env.NEXTAUTH_SECRET,
 		callbacks: {
 			async signIn({ account, user }: any) {
@@ -48,11 +53,11 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 				setCookie('accessToken', accessToken, {
 					req,
 					res,
-					maxAge: 60,
+					maxAge: tokenLifeTimeEnv,
 					httpOnly: false,
 					path: '/',
 					sameSite: 'lax',
-					expires: dayjs().add(60, 'second').toDate(),
+					expires: dayjs().add(tokenLifeTimeEnv, 'second').toDate(),
 					secure: false,
 				});
 				return true;

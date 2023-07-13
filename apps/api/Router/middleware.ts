@@ -3,6 +3,7 @@ import { decrypt, verifyJwt } from '../Service/auth/auth.service';
 import { UserRequest } from './context';
 
 export const deserializeUser = ({ req }: CreateFastifyContextOptions): UserRequest | null => {
+	console.log('req.headers.cookie = ', req.headers.cookie);
 	try {
 		const encryptedJwt = req.headers['x-api'] as string;
 		const notAuthenticated = null;

@@ -1,6 +1,6 @@
 import UserRepo from '../../Repository/user.repo';
 import { Context } from '../../Router/context';
-import { GetMyProfileResponse, UpdateUserProfileRequest } from 'Router/routers/user.route';
+import { GetMyProfileResponse, UpdateUserProfileRequest } from '../../Router/routers/user.route';
 
 const updateUserProfile = async (ctx: Context, request: UpdateUserProfileRequest) => {
 	ctx.systemLog.info('update User Profile - START');

@@ -88,7 +88,7 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 			role: JSON.stringify([authenticatedUser.roleCustomer, authenticatedUser.roleOwner]),
 		},
 		'accessTokenPrivateKey',
-		{ expiresIn: 60 },
+		{ expiresIn: 600 },
 	);
 
 	res = {
