@@ -8,8 +8,16 @@ import { Button, Dropdown, MenuProps, Modal, Space, Typography, message } from '
 import useStyle from './signin-modal';
 import { useRouter } from 'next/navigation';
 
+const { Title, Text } = Typography
+
 interface SigninModalProps {
 	session: Session | null;
+}
+
+const MENU_KEYS = {
+	PROFILE: 'profile',
+	MY_ORDER: 'my-order',
+	REGISTER_OWNER: 'owner'
 }
 
 const SigninModal = ({ session }: SigninModalProps) => {
@@ -17,25 +25,36 @@ const SigninModal = ({ session }: SigninModalProps) => {
 	const router = useRouter();
 
 	const [open, setOpenModalOpen] = useState(false);
+	const [registerModal, setRegisterModal] = useState(false);
 
 	const onHandleSigninGoogle = () => {
 		signIn('google').then((res) => console.log(res));
 	};
 
 	const toggleOpen = () => setOpenModalOpen((prev) => !prev);
+	const toggleRegisterModal = () => setRegisterModal((prev) => !prev);
 
 	const onClick: MenuProps['onClick'] = ({ key }) => {
+		if (key === MENU_KEYS.REGISTER_OWNER) {
+			toggleRegisterModal();
+			return;
+		}
 		router.push(`/${key}`)
 	};
 
 	const items: MenuProps['items'] = [
 		{
 			label: 'Profile',
-			key: 'profile',
+			key: MENU_KEYS.PROFILE,
 		},
 		{
 			label: 'My Order',
-			key: 'my-order',
+			key: MENU_KEYS.MY_ORDER,
+		},
+		{
+			label: 'Become an owner',
+			key: MENU_KEYS.REGISTER_OWNER,
+			danger: true
 		}
 	];
 
@@ -76,11 +95,11 @@ const SigninModal = ({ session }: SigninModalProps) => {
 			>
 				<div className={styles.wrapper}>
 					<Image width={56} height={47} alt="logo" src="/images/logo-main.png" />
-					<Typography.Title level={3}>Welcome back, Shoppiker</Typography.Title>
-					<Typography.Text>
+					<Title level={3}>Welcome back, Shoppiker</Title>
+					<Text>
 						Signin to join the community of designer, seller, and steal their fucking
 						ideas.
-					</Typography.Text>
+					</Text>
 					<Button
 						style={{ width: 336 }}
 						danger
@@ -89,6 +108,22 @@ const SigninModal = ({ session }: SigninModalProps) => {
 					>
 						Signin with Google
 					</Button>
+				</div>
+			</Modal>
+			<Modal
+				open={registerModal}
+				onOk={toggleRegisterModal}
+				onCancel={toggleRegisterModal}
+				width={800}
+				okText={"Register"}
+				cancelText={""}
+				footer={[]}
+			>
+				<div className={styles.wrapper}>
+					<Image alt={"register"} src={"/images/register_owner.jpg"} width={264} height={264} style={{ alignSelf: 'center' }} />
+					<Title>Welcome to Shoppik</Title>
+					<Text>To become an owner on Shoppik, you need to provide some basic information</Text>
+					<Button key="submit" type="primary" size="large">Register</Button>
 				</div>
 			</Modal>
 		</>
