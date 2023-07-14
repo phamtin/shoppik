@@ -2,22 +2,26 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Session } from 'next-auth';
 import { signIn } from 'next-auth/react';
-
-import { Button, Dropdown, MenuProps, Modal, Space, Typography, message } from '@shoppik/ui/components/Core';
-
-import useStyle from './signin-modal';
 import { useRouter } from 'next/navigation';
 
-const { Title, Text } = Typography
+import {
+	Button,
+	Dropdown,
+	MenuProps,
+	Modal,
+	Space,
+	Typography,
+	message,
+} from '@shoppik/ui/components/Core';
+
+import useStyle from './signin-modal';
+import { MENU_KEYS } from '../../auth';
+import { Buy, Logout, Password, User } from 'react-iconly';
+
+const { Title, Text } = Typography;
 
 interface SigninModalProps {
 	session: Session | null;
-}
-
-const MENU_KEYS = {
-	PROFILE: 'profile',
-	MY_ORDER: 'my-order',
-	REGISTER_OWNER: 'owner'
 }
 
 const SigninModal = ({ session }: SigninModalProps) => {
@@ -28,10 +32,11 @@ const SigninModal = ({ session }: SigninModalProps) => {
 	const [registerModal, setRegisterModal] = useState(false);
 
 	const onHandleSigninGoogle = () => {
-		signIn('google').then((res) => console.log(res));
+		signIn('google');
 	};
 
 	const toggleOpen = () => setOpenModalOpen((prev) => !prev);
+
 	const toggleRegisterModal = () => setRegisterModal((prev) => !prev);
 
 	const onClick: MenuProps['onClick'] = ({ key }) => {
@@ -39,51 +44,76 @@ const SigninModal = ({ session }: SigninModalProps) => {
 			toggleRegisterModal();
 			return;
 		}
-		router.push(`/${key}`)
+		router.push(`/${key}`);
 	};
 
 	const items: MenuProps['items'] = [
 		{
-			label: 'Profile',
+			label: (
+				<Space>
+					<User size="small" style={{ marginTop: 5 }} />
+					<Text>&nbsp;Profile </Text>
+				</Space>
+			),
 			key: MENU_KEYS.PROFILE,
 		},
 		{
-			label: 'My Order',
+			label: (
+				<Space>
+					<Buy size="small" style={{ marginTop: 5 }} />
+					<Text>&nbsp;My Orders </Text>
+				</Space>
+			),
 			key: MENU_KEYS.MY_ORDER,
 		},
 		{
-			label: 'Become an owner',
+			label: (
+				<Space>
+					<Password size="small" style={{ marginTop: 5 }} />
+					<Text>&nbsp;Become a owner </Text>
+				</Space>
+			),
 			key: MENU_KEYS.REGISTER_OWNER,
-			danger: true
-		}
+		},
+		{
+			type: 'divider',
+		},
+		{
+			label: (
+				<Space>
+					<Logout size="small" style={{ marginTop: 5 }} />
+					<Text style={{ color: 'inherit' }}>&nbsp;Log out</Text>
+				</Space>
+			),
+			danger: true,
+			key: MENU_KEYS.LOGOUT,
+		},
 	];
 
 	return (
 		<>
-			<div>
-				{session?.user?.email ? (
-					<div style={{ marginTop: 27 }}>
-						<Dropdown menu={{ items, onClick }}>
-							<a onClick={(e) => e.preventDefault()}>
-								<Space>
-									<Image
-										alt="authenticated profile image"
-										height={36}
-										width={36}
-										className="avaImg"
-										style={{ borderRadius: 18, cursor: 'pointer' }}
-										src={session.user.image as string}
-									/>
-								</Space>
-							</a>
-						</Dropdown>
-					</div>
-				) : (
-					<Button type="link" onClick={toggleOpen}>
-						Sign in
-					</Button>
-				)}
-			</div>
+			{session?.user?.email ? (
+				<div style={{ marginTop: 27 }}>
+					<Dropdown menu={{ items, onClick }}>
+						<a onClick={(e) => e.preventDefault()}>
+							<Space>
+								<Image
+									alt="authenticated profile image"
+									height={36}
+									width={36}
+									className="avaImg"
+									style={{ borderRadius: 18, cursor: 'pointer' }}
+									src={session.user.image as string}
+								/>
+							</Space>
+						</a>
+					</Dropdown>
+				</div>
+			) : (
+				<Button type="link" onClick={toggleOpen}>
+					Sign in
+				</Button>
+			)}
 			<Modal
 				open={open}
 				width={400}
@@ -114,16 +144,28 @@ const SigninModal = ({ session }: SigninModalProps) => {
 				open={registerModal}
 				onOk={toggleRegisterModal}
 				onCancel={toggleRegisterModal}
-				width={800}
-				okText={"Register"}
-				cancelText={""}
+				width={500}
+				centered
+				closeIcon={<div />}
+				okText={'Register'}
+				cancelText={''}
 				footer={[]}
 			>
-				<div className={styles.wrapper}>
-					<Image alt={"register"} src={"/images/register_owner.jpg"} width={264} height={264} style={{ alignSelf: 'center' }} />
-					<Title>Welcome to Shoppik</Title>
-					<Text>To become an owner on Shoppik, you need to provide some basic information</Text>
-					<Button key="submit" type="primary" size="large">Register</Button>
+				<div className={styles.becomeOwner}>
+					<Image
+						alt={'register'}
+						src={'/images/register_owner.jpg'}
+						width={150}
+						height={150}
+					/>
+					<Title level={3}>Welcome to Shoppik</Title>
+					<Text className="description">
+						To become an owner on Shoppik, you need to provide
+						<br /> some basic information
+					</Text>
+					<Button type="primary" size="large">
+						Become an owner
+					</Button>
 				</div>
 			</Modal>
 		</>
