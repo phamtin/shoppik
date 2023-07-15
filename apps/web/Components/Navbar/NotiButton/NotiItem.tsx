@@ -1,7 +1,12 @@
 import { memo } from 'react';
 import { Avatar, List, Skeleton } from '@shoppik/ui/components/Core';
+import { DataType } from '../navbar.type';
 
-function NotiItem({ item }: any) {
+interface NotiItemProps {
+	item: DataType;
+}
+
+function NotiItem({ item }: NotiItemProps) {
 	return (
 		<List.Item>
 			<Skeleton avatar title={false} loading={item.loading} active>

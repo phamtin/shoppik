@@ -1,6 +1,6 @@
 import { createStyles } from 'antd-style';
 
-export default createStyles(({ token }, { width }: any) => ({
+export default createStyles(() => ({
 	wrapper: {
 		width: 111,
 		overflowX: 'scroll',

@@ -8,6 +8,7 @@ export default async function OverviewPage() {
 	const session = await getServerSession(authOptions());
 
 	if (!session) {
+		console.log('[StoreOverViewScreen] Session Expired in Server Component');
 		return <NotAuthenticated />;
 	}
 

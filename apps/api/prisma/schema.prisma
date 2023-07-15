@@ -73,10 +73,11 @@ type StoreRating {
 }
 
 type Contact {
-  phone         String[]
-  youtubeLink   String
-  facebookLink  String
-  instagramLink String
+  email         String
+  phone         String
+  youtubeLink   String?
+  facebookLink  String?
+  instagramLink String?
 }
 
 enum StoreStatus {
@@ -93,6 +94,7 @@ model Store {
   tradeName      String
   description    String
   avatar         String
+  storeAddress   String
   landingPageUrl String
   ownerId        String      @db.ObjectId
   followers      String[]    @db.ObjectId

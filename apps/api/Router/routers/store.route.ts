@@ -6,22 +6,22 @@ import { StoreSchema } from '@shoppik/schema';
 
 const createStoreRequest = z.object({
 	name: z.string(),
+	storeAddress: z.string(),
 	tradeName: z.string(),
 	description: z.string(),
 	avatar: z.string(),
 	landingPageUrl: z.string(),
 	contact: z.object({
-		phone: z.array(z.string()).min(1),
-		facebookLink: z.string(),
-		youtubeLink: z.string(),
-		instagramLink: z.string(),
+		email: z.string(),
+		phone: z.string(),
+		instagramLink: z.string().optional(),
+		facebookLink: z.string().optional(),
+		youtubeLink: z.string().optional(),
 	}),
-	tags: z.array(z.string()).min(2),
+	tags: z.array(z.string()),
 });
 
-const createStoreResponse = z.object({
-	success: z.number(),
-});
+const createStoreResponse = StoreSchema;
 
 const getMyStoreRequest = z.object({
 	storeId: z.string().optional(),
@@ -41,9 +41,9 @@ export const storeRouter = router({
 		.input(createStoreRequest)
 		.output(createStoreResponse)
 		.mutation(async ({ ctx, input }) => {
-			await StoreService.createStore(ctx, input);
+			const store = await StoreService.createStore(ctx, input);
 
-			return { success: 1 };
+			return store;
 		}),
 
 	getMyStore: authenticatedProcedure

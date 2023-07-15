@@ -5,6 +5,6 @@ export const metadata = {
 	description: 'Shoppik - the universal of design & shop',
 };
 
-export default async function Page() {
+export default function Page() {
 	return <HomePage />;
 }

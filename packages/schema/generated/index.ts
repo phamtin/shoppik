@@ -12,7 +12,7 @@ import type { Prisma } from '@prisma/client';
 
 export const AccountScalarFieldEnumSchema = z.enum(['id','email','fullname','firstname','lastname','phoneNumber','birthday','locale','avatar','postalCode','isConfirm','signinMethod','createdAt','updatedAt','isDeleted','deletedAt']);
 
-export const StoreScalarFieldEnumSchema = z.enum(['id','name','slug','tradeName','description','avatar','landingPageUrl','ownerId','followers','following','storeStatus','createdAt','updatedAt','isDeleted','DeletedAt']);
+export const StoreScalarFieldEnumSchema = z.enum(['id','name','slug','tradeName','description','avatar','storeAddress','landingPageUrl','ownerId','followers','following','storeStatus','createdAt','updatedAt','isDeleted','DeletedAt']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -82,6 +82,7 @@ export const StoreSchema = z.object({
   tradeName: z.string(),
   description: z.string(),
   avatar: z.string(),
+  storeAddress: z.string(),
   landingPageUrl: z.string(),
   ownerId: z.string(),
   followers: z.string().array(),
@@ -180,10 +181,11 @@ export type StoreRating = z.infer<typeof StoreRatingSchema>
 /////////////////////////////////////////
 
 export const ContactSchema = z.object({
-  phone: z.string().array(),
-  youtubeLink: z.string(),
-  facebookLink: z.string(),
-  instagramLink: z.string(),
+  email: z.string(),
+  phone: z.string(),
+  youtubeLink: z.string().nullable(),
+  facebookLink: z.string().nullable(),
+  instagramLink: z.string().nullable(),
 })
 
 export type Contact = z.infer<typeof ContactSchema>

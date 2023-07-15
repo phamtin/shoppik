@@ -1,13 +1,31 @@
 'server-only';
-
 import { NextApiRequest, NextApiResponse } from 'next';
-import dayjs from 'dayjs';
+import NextAuth, {
+	Account,
+	AuthOptions,
+	Session,
+	SessionStrategy,
+	User,
+} from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import { setCookie } from 'cookies-next';
 import GoogleProvider from 'next-auth/providers/google';
-import NextAuth, { AuthOptions, SessionStrategy } from 'next-auth';
 
 import { SigninMethodSchema } from '@shoppik/schema';
+import { AdapterUser } from 'next-auth/adapters';
 import { getBaseUrl } from '@/lib/trpc/trpc';
+import dayjs from 'dayjs';
+
+interface SignInPayload {
+	user: User | AdapterUser;
+	account: Account | null;
+}
+
+interface SessionPayload {
+	session: Session;
+	token: JWT;
+	user: AdapterUser;
+}
 
 export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOptions => {
 	const tokenLifeTimeEnv = +(process.env.ACCESS_TOKEN_LIVE_TIME ?? 600);
@@ -32,7 +50,7 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 		},
 		secret: process.env.NEXTAUTH_SECRET,
 		callbacks: {
-			async signIn({ account, user }: any) {
+			async signIn({ account, user }: SignInPayload) {
 				if (!account) return false;
 				const response = await fetch(`${getBaseUrl()}/trpc/auth.signin`, {
 					method: 'POST',
@@ -63,7 +81,7 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 				return true;
 			},
 
-			async session({ session, token }: any) {
+			session({ session, token }: SessionPayload) {
 				return { ...session, ...token };
 			},
 		},

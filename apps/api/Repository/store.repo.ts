@@ -7,10 +7,11 @@ import { Context } from '../Router/context';
 const createStore = async (ctx: Context, request: CreateStoreRequest): Promise<CreateStoreResponse> => {
 	const db = ctx.prisma.store;
 
-	await db.create({
+	const createdStore = await db.create({
 		data: {
 			name: request.name,
 			tradeName: request.tradeName,
+			storeAddress: request.storeAddress,
 			slug: slugify(request.name),
 			ownerId: new ObjectId().toString(),
 			description: request.description,
@@ -34,7 +35,7 @@ const createStore = async (ctx: Context, request: CreateStoreRequest): Promise<C
 		},
 	});
 
-	return { success: 1 };
+	return createdStore;
 };
 
 const getMyStore = async (ctx: Context, request: GetMyStoreRequest): Promise<GetMyStoreResponse> => {

@@ -10,26 +10,10 @@ import { Notification } from 'react-iconly';
 
 import useStyle from './noti-button.style';
 import NotiItem from './NotiItem';
+import { DataType } from '../navbar.type';
 
 const count = 8;
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
-
-export interface DataType {
-	gender?: string;
-	name: {
-		title?: string;
-		first?: string;
-		last?: string;
-	};
-	email?: string;
-	picture: {
-		large?: string;
-		medium?: string;
-		thumbnail?: string;
-	};
-	nat?: string;
-	loading: boolean;
-}
 
 interface NotiDropdownProps {
 	list: DataType[];
@@ -69,6 +53,7 @@ const NotiDropdown = memo(({ style, list, initLoading, loadMore }: NotiDropdownP
 		</div>
 	</div>
 ));
+NotiDropdown.displayName = 'NotiDropdown';
 
 function NotiButton() {
 	const { styles, theme } = useStyle();
