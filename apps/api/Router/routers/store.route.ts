@@ -4,22 +4,24 @@ import { authenticatedProcedure, router } from '../trpc';
 import StoreService from '../../Service/store/store.service';
 import { StoreSchema } from '@shoppik/schema';
 
-const createStoreRequest = z.object({
-	name: z.string(),
-	storeAddress: z.string(),
-	tradeName: z.string(),
-	description: z.string(),
-	avatar: z.string(),
-	landingPageUrl: z.string(),
-	contact: z.object({
-		email: z.string(),
-		phone: z.string(),
-		instagramLink: z.string().optional(),
-		facebookLink: z.string().optional(),
-		youtubeLink: z.string().optional(),
-	}),
-	tags: z.array(z.string()),
-});
+const createStoreRequest = z
+	.object({
+		name: z.string(),
+		avatar: z.string(),
+		tradeName: z.string(),
+		description: z.string(),
+		storeAddress: z.string(),
+		landingPageUrl: z.string(),
+		contact: z.object({
+			email: z.string(),
+			phone: z.string(),
+			instagramLink: z.string().optional(),
+			facebookLink: z.string().optional(),
+			youtubeLink: z.string().optional(),
+		}),
+		tags: z.array(z.string()),
+	})
+	.strict();
 
 const createStoreResponse = StoreSchema;
 

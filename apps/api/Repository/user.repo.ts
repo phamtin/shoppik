@@ -31,8 +31,8 @@ const updateUserProfile = async (ctx: Context, request: UpdateUserProfileRequest
 	}
 
 	Object.keys(request).forEach((key) => {
-		if (!(request as Record<string, string | boolean>)[key]) {
-			delete (request as Record<string, string | boolean>)[key];
+		if (!(request as Record<string, string | boolean | Date>)[key]) {
+			delete (request as Record<string, string | boolean | Date>)[key];
 		}
 	});
 

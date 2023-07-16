@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AccountSchema } from '@shoppik/schema';
+import { AccountSchema, CustomerSchema, OwnerSchema } from '@shoppik/schema';
 
 import UserService from '../../Service/user/user.service';
 import { authenticatedProcedure, router } from '../trpc';
@@ -14,10 +14,12 @@ const updateUserProfileRequest = z
 		phoneNumber: z.string(),
 		postalCode: z.string(),
 		isDeleted: z.boolean(),
+		roleCustomer: CustomerSchema,
+		roleOwner: OwnerSchema,
 	})
 	.partial();
 
-const updateUserProfileResponse = AccountSchema.omit({ isDeleted: true, deletedAt: true });
+const updateUserProfileResponse = AccountSchema.omit({ isDeleted: true, deletedAt: true }).extend({ roleCustomer: CustomerSchema, roleOwner: OwnerSchema.nullable() });
 const getMyProfileResponse = AccountSchema.omit({ isDeleted: true, deletedAt: true });
 export type UpdateUserProfileResponse = z.infer<typeof updateUserProfileResponse>;
 export type UpdateUserProfileRequest = z.infer<typeof updateUserProfileRequest>;

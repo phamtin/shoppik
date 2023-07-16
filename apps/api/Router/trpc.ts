@@ -10,14 +10,8 @@ export const router = t.router;
 const isAuthed = t.middleware(({ next, ctx }) => {
 	const currentUser = ctx.user;
 
-	if (!currentUser) {
-		ctx.systemLog.error('Invalid credentials');
-		throw new TRPCError({ code: 'UNAUTHORIZED' });
-	}
-
-	const { id, email, role } = currentUser;
-
-	if (!id || !email || !role) {
+	if (!currentUser || !currentUser.id || !currentUser.email || (!currentUser.roleCustomer && !currentUser.roleOwner)) {
+		ctx.systemLog.error('[isAuthed] Invalid credentials');
 		throw new TRPCError({ code: 'UNAUTHORIZED' });
 	}
 

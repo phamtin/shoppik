@@ -24,7 +24,7 @@
     "@prisma/client": "5.0.0",
     "@trpc/server": "^10.34.0",
     "bson": "^5.4.0",
-    "bullmq": "^4.2.0",
+    "bullmq": "^4.3.0",
     "dayjs": "^1.11.9",
     "dotenv": "^16.3.1",
     "env-schema": "^5.2.0",

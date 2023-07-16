@@ -4,6 +4,7 @@ import jwt, { SignOptions } from 'jsonwebtoken';
 import { SigninMethod } from '@prisma/client';
 
 import { SigninRequest, SigninResponse } from '../../Router/routers/auth.route';
+import { Owner, Customer } from '@shoppik/schema';
 import { Context } from '../../Router/context';
 
 type AppJwtPayload = {
@@ -17,7 +18,8 @@ type EncryptedJwtPayload = {
 	id: string;
 	email: string;
 	fullname: string;
-	role: string;
+	roleCustomer: Customer;
+	roleOwner: Owner | null;
 };
 
 const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<SigninResponse> => {
@@ -25,15 +27,7 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 
 	const authRepo = ctx.prisma.account;
 
-	let res: SigninResponse = {
-		id: '',
-		fullname: '',
-		firstname: '',
-		lastname: '',
-		email: '',
-		isOwner: false,
-		encryptedJwt: '',
-	};
+	let res: SigninResponse;
 
 	//	Jwt payload returned from OAuth Provider
 	const jwtPayload = jwt.decode(request.accessToken, {
@@ -47,13 +41,20 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 
 	if (authenticatedUser?.id) {
 		res = {
+			encryptedJwt: '',
 			id: authenticatedUser.id,
 			fullname: authenticatedUser.fullname,
 			firstname: authenticatedUser.firstname,
 			lastname: authenticatedUser.lastname,
 			email: authenticatedUser.email,
-			isOwner: !!authenticatedUser.roleOwner?.storeId,
-			encryptedJwt: '',
+			roleCustomer: {
+				trustscore: 0,
+				updatedAt: new Date(),
+			},
+			roleOwner: {
+				storeId: [],
+				updatedAt: new Date(),
+			},
 		};
 	} else {
 		const jwt = jwtPayload.payload as AppJwtPayload;
@@ -85,7 +86,8 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 			id: authenticatedUser.id,
 			email: authenticatedUser.email,
 			fullname: authenticatedUser.fullname,
-			role: JSON.stringify([authenticatedUser.roleCustomer, authenticatedUser.roleOwner]),
+			roleCustomer: authenticatedUser.roleCustomer,
+			roleOwner: authenticatedUser.roleOwner,
 		},
 		'accessTokenPrivateKey',
 		{ expiresIn: 600 },
@@ -98,7 +100,8 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 		fullname: authenticatedUser.fullname,
 		firstname: authenticatedUser.firstname,
 		lastname: authenticatedUser.lastname,
-		isOwner: !!authenticatedUser.roleOwner?.storeId,
+		roleCustomer: authenticatedUser.roleCustomer,
+		roleOwner: authenticatedUser.roleOwner,
 	};
 
 	ctx.systemLog.info(`Signin Google email ${request.email} - END`);
@@ -142,11 +145,11 @@ export const encrypt = (plainText: string, eKey: string): string => {
 
 export const decrypt = (text: string): string => {
 	let m = crypto.createHash('md5');
-	m.update(process.env.ACCESS_TOKEN_PRIVATE_KEY!);
+	m.update(process.env.ACCESS_TOKEN_PRIVATE_KEY as string);
 	const key = m.digest('hex');
 
 	m = crypto.createHash('md5');
-	m.update(process.env.ACCESS_TOKEN_PRIVATE_KEY! + key);
+	m.update((process.env.ACCESS_TOKEN_PRIVATE_KEY as string) + key);
 	const iv = m.digest('hex');
 	const input = text.replace(/-/g, '+').replace(/_/g, '/');
 	const edata = Buffer.from(input, 'base64').toString('binary');

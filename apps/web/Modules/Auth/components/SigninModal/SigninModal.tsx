@@ -11,8 +11,8 @@ import {
 	Modal,
 	Space,
 	Typography,
-	message,
 } from '@shoppik/ui/components/Core';
+import Flex from '@shoppik/ui/components/Flex';
 
 import useStyle from './signin-modal';
 import { MENU_KEYS } from '../../auth';
@@ -50,28 +50,28 @@ const SigninModal = ({ session }: SigninModalProps) => {
 	const items: MenuProps['items'] = [
 		{
 			label: (
-				<Space>
-					<User size="small" style={{ marginTop: 5 }} />
-					<Text>&nbsp;Profile </Text>
-				</Space>
+				<Flex>
+					<User size="small" />
+					<Text style={{ marginLeft: 10 }}>Profile</Text>
+				</Flex>
 			),
 			key: MENU_KEYS.PROFILE,
 		},
 		{
 			label: (
-				<Space>
-					<Buy size="small" style={{ marginTop: 5 }} />
-					<Text>&nbsp;My Orders </Text>
-				</Space>
+				<Flex>
+					<Buy size="small" />
+					<Text style={{ marginLeft: 10 }}>My Orders</Text>
+				</Flex>
 			),
 			key: MENU_KEYS.MY_ORDER,
 		},
 		{
 			label: (
-				<Space>
-					<Password size="small" style={{ marginTop: 5 }} />
-					<Text>&nbsp;Become a owner </Text>
-				</Space>
+				<Flex>
+					<Password size="small" />
+					<Text style={{ marginLeft: 10 }}>Become a owner</Text>
+				</Flex>
 			),
 			key: MENU_KEYS.REGISTER_OWNER,
 		},
@@ -80,10 +80,10 @@ const SigninModal = ({ session }: SigninModalProps) => {
 		},
 		{
 			label: (
-				<Space>
-					<Logout size="small" style={{ marginTop: 5 }} />
-					<Text style={{ color: 'inherit' }}>&nbsp;Log out</Text>
-				</Space>
+				<Flex>
+					<Logout size="small" />
+					<Text style={{ marginLeft: 10, color: 'inherit' }}>Log out</Text>
+				</Flex>
 			),
 			danger: true,
 			key: MENU_KEYS.LOGOUT,
@@ -94,7 +94,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 		<>
 			{session?.user?.email ? (
 				<div style={{ marginTop: 27 }}>
-					<Dropdown menu={{ items, onClick }}>
+					<Dropdown menu={{ items, onClick }} trigger={['click']}>
 						<a onClick={(e) => e.preventDefault()}>
 							<Space>
 								<Image
@@ -117,14 +117,14 @@ const SigninModal = ({ session }: SigninModalProps) => {
 			<Modal
 				open={open}
 				width={400}
-				closeIcon={<div />}
+				closeIcon={false}
 				centered
 				onCancel={toggleOpen}
 				footer={[]}
 				style={{ borderRadius: 20, overflow: 'hidden' }}
 			>
 				<div className={styles.wrapper}>
-					<Image width={56} height={47} alt="logo" src="/images/logo-main.png" />
+					<Image width={56} height={48} alt="logo" src="/images/logo-main.png" />
 					<Title level={3}>Welcome back, Shoppiker</Title>
 					<Text>
 						Signin to join the community of designer, seller, and steal their fucking
@@ -146,7 +146,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 				onCancel={toggleRegisterModal}
 				width={500}
 				centered
-				closeIcon={<div />}
+				closeIcon={false}
 				okText={'Register'}
 				cancelText={''}
 				footer={[]}

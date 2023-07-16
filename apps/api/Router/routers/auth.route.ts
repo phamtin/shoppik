@@ -1,9 +1,10 @@
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { SigninMethod } from '@prisma/client';
+import { CustomerSchema, OwnerSchema } from '@shoppik/schema';
 
-import { publicProcedure, router } from '../trpc';
 import AuthService from '../../Service/auth/auth.service';
+import { publicProcedure, router } from '../trpc';
 
 const signinRequest = z.object({
 	email: z.string(),
@@ -21,8 +22,9 @@ const signinResponse = z
 		fullname: z.string(),
 		firstname: z.string(),
 		lastname: z.string(),
-		isOwner: z.boolean(),
 		encryptedJwt: z.string(),
+		roleCustomer: CustomerSchema,
+		roleOwner: OwnerSchema.nullable(),
 	})
 	.strict();
 

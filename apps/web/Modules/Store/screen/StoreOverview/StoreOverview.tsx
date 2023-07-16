@@ -41,20 +41,21 @@ const StoreOverviewScreen = ({ store }: MarketProp) => {
 		mutation.mutate({
 			name: 'Twitter Store',
 			tradeName: 'Social Network Platform',
+			storeAddress: '',
 			description:
 				'Twitter is an American microblogging and social network service, Live you fukcking life with the hype of people.',
 			avatar:
 				'https://robohash.org/98751beeb2b3cb0117a50f800622c37b?set=set4&bgset=bg1&size=200x200',
 			landingPageUrl: 'https://twitter.com',
 			contact: {
-				phone: ['+84 763 520 041'],
+				phone: '+84 763 520 041',
+				email: '',
 				instagramLink: 'twitter.store',
 				facebookLink: 'tin.pham.22',
 				youtubeLink: 'adorable.channel',
 			},
 			tags: ['646fa3cd01d88dcbe54bc1bf', '646fa3cd01d18dcbe54bc0bf'],
 		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	if (mutation.isError) {

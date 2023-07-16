@@ -5,9 +5,9 @@ import NotAuthenticated from '@/Components/NotAuthenticated/NotAuthenticated';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 export default async function OverviewPage() {
-	const session = await getServerSession(authOptions());
+	const serverSession = await getServerSession(authOptions());
 
-	if (!session) {
+	if (!serverSession) {
 		console.log('[StoreOverViewScreen] Session Expired in Server Component');
 		return <NotAuthenticated />;
 	}
