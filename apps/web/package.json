@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"postinstall": "cd ../../apps/api && pnpm prisma generate",
-		"dev": "next lint && next dev --turbo",
+		"dev": "next lint && next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
