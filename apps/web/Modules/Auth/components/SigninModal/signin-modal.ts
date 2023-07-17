@@ -48,6 +48,24 @@ const styles = createStyles(({ token }) => ({
 			marginBottom: token.marginXL,
 		},
 	},
+
+	formInfo: {
+		h3: {
+			marginBottom: 0
+		},
+		'.description': {
+			fontSize: 15,
+			marginBottom: token.marginXXL
+		},
+		'.ant-form-item': {
+			marginBottom: token.marginMD
+		},
+		'.buttons': {
+			display: 'flex',
+			flexDirection: 'row',
+			marginTop: token.marginXL
+		}
+	}
 }));
 
 export default styles;
