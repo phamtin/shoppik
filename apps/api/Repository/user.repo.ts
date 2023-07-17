@@ -9,6 +9,7 @@ const getMyProfile = async (ctx: Context): Promise<GetMyProfileResponse> => {
 			id: ctx.user?.id,
 			isDeleted: false,
 		},
+		include: true,
 	});
 	if (!profile) {
 		throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });

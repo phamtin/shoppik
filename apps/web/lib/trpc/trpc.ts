@@ -47,14 +47,14 @@ export const trpc = createTRPCNext<AppRouter>({
 			queryClientConfig: {
 				defaultOptions: {
 					queries: {
-						retry: process.env.NODE_ENV !== 'development',
-						refetchOnWindowFocus: process.env.NODE_ENV !== 'development',
-						refetchOnReconnect: process.env.NODE_ENV !== 'development',
+						retry: true,
+						refetchOnWindowFocus: true,
+						refetchOnReconnect: true,
 						staleTime: 5 * 60 * 1000, //  5 minutes
 					},
 				},
 			},
 		};
 	},
-	ssr: true,
+	ssr: false,
 });
