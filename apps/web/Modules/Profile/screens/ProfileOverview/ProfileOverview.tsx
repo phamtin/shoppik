@@ -11,15 +11,16 @@ import {
 	Typography,
 	Upload as UploadButton,
 	Avatar,
-	InputNumber,
 	message,
 } from '@shoppik/ui/components/Core';
 import dayjs from 'dayjs';
 import { Upload } from 'react-iconly';
 import { trpc } from '@/lib/trpc/trpc';
 import { Account } from '@shoppik/schema';
-import GlobalError from '@/app/error';
 import { DATE_FORMAT } from '@/Utils/dayjs/time';
+import { baseFieldValidation } from '@/Utils/validator/validator';
+import { VALID_EMAIL_REGEX } from '@/Helper/regex';
+import GlobalError from '@/app/error/Error';
 
 const { Text } = Typography;
 
@@ -49,55 +50,60 @@ const LIST_INFO: ListInfoProps[] = [
 
 const ProfileScreen = () => {
 	const { styles } = useStyle();
+	const utils = trpc.useContext();
 	const [messageApi, contextHolder] = message.useMessage();
 	const [form] = Form.useForm<Partial<Account> | undefined>();
-	const values = Form.useWatch([], form);
 
 	const [selectedSide, setSelectedSide] = useState(LIST_INFO[0].key);
-	const [submittable, setSubmittable] = useState(false);
 
-	const { data, isLoading, error } = trpc.user.getMyProfile.useQuery();
-	const mutation = trpc.user.updateUserProfile.useMutation({
-		onError: (err) => {
-			messageApi.open({
-				type: 'error',
-				content: err.message,
-			});
-		},
-		onSuccess: (data) => {
-			messageApi.open({
-				type: 'success',
-				content: 'Profile updated successfully',
-			});
+	const {
+		data: dataGetMyProfile,
+		isLoading: isLoadingGetMyProfile,
+		error: errorGetMyProfile,
+	} = trpc.user.getMyProfile.useQuery();
+
+	const {
+		mutate: mutateUpdateUserProfile,
+		isSuccess: isSuccessUpdateUserProfile,
+		isLoading: isLoadingUpdateUserProfile,
+		error: errorUpdateUserProfile,
+	} = trpc.user.updateUserProfile.useMutation({
+		onSuccess() {
+			utils.user.getMyProfile.invalidate();
 		},
 	});
 
 	useEffect(() => {
-		form.validateFields({ validateOnly: true }).then(
-			() => {
-				setSubmittable(true);
-			},
-			() => {
-				setSubmittable(false);
-			},
-		);
-	}, [values]);
+		if (isSuccessUpdateUserProfile) {
+			messageApi.open({
+				type: 'success',
+				content: 'Profile updated successfully',
+			});
+		} else if (errorUpdateUserProfile?.message) {
+			messageApi.open({
+				type: 'error',
+				content: errorUpdateUserProfile.message,
+			});
+		}
+	}, [isSuccessUpdateUserProfile, errorUpdateUserProfile]);
 
 	useEffect(() => {
-		if (!data) return;
+		if (!dataGetMyProfile) return;
 		form.setFieldsValue({
-			...data,
-			birthday: dayjs(data.birthday) as any, // trick, fix later
+			...dataGetMyProfile,
+			birthday: dayjs(dataGetMyProfile.birthday) as any, // trick, fix later
 		});
-	}, [data]);
+	}, [dataGetMyProfile]);
 
-	if (error) {
-		return <GlobalError error={error} />;
+	if (errorGetMyProfile ?? errorUpdateUserProfile) {
+		return (
+			<GlobalError error={errorGetMyProfile?.data ?? errorUpdateUserProfile?.data} />
+		);
 	}
 
 	const onSave = (values: any) => {
 		if (!values || values.type === 'click') return;
-		mutation.mutate({
+		mutateUpdateUserProfile({
 			firstname: values.firstname,
 			lastname: values.lastname,
 			fullname: values.fullname,
@@ -138,7 +144,7 @@ const ProfileScreen = () => {
 						wrapperCol={{ span: 16 }}
 					>
 						<div className="block">
-							<Avatar size={64} src={data?.avatar}>
+							<Avatar size={64} src={dataGetMyProfile?.avatar}>
 								ava
 							</Avatar>
 							<UploadButton>
@@ -151,13 +157,12 @@ const ProfileScreen = () => {
 							</Button>
 						</div>
 						<Divider />
-
 						<Form.Item
 							name="firstname"
 							label={<Typography.Text className="formLabel">First name</Typography.Text>}
 							colon={false}
 							style={{ maxWidth: 500 }}
-							rules={[{ required: true, message: 'Please input your username!' }]}
+							rules={[...baseFieldValidation('First name', true, 2, 64)]}
 						>
 							<Input required size="large" placeholder="First name" />
 						</Form.Item>
@@ -166,30 +171,29 @@ const ProfileScreen = () => {
 							label={<Typography.Text className="formLabel">Last name</Typography.Text>}
 							colon={false}
 							style={{ maxWidth: 500 }}
-							rules={[{ required: true, message: 'Please input your lastname!' }]}
+							rules={[...baseFieldValidation('Last name', true, null, 64)]}
 						>
 							<Input required size="large" placeholder="Last name" />
 						</Form.Item>
 						<Form.Item
 							name="fullname"
-							required
 							label={<Typography.Text className="formLabel">Full name</Typography.Text>}
 							colon={false}
-							rules={[{ required: true, message: 'Please input your lastname!' }]}
 							style={{ maxWidth: 500 }}
+							rules={[...baseFieldValidation('Full name', true, 2, 64)]}
 						>
 							<Input size="large" placeholder="Full name" />
 						</Form.Item>
 						<Form.Item
 							name="email"
-							required
 							label={
 								<Typography.Text className="formLabel">Email address</Typography.Text>
 							}
 							colon={false}
+							rules={[...baseFieldValidation('Email', true, 2, 128, VALID_EMAIL_REGEX)]}
 							style={{ maxWidth: 500 }}
 						>
-							<Input size="large" placeholder="Email address" />
+							<Input disabled size="large" placeholder="Email address" />
 						</Form.Item>
 						<Form.Item
 							label={
@@ -198,6 +202,7 @@ const ProfileScreen = () => {
 							name="phoneNumber"
 							colon={false}
 							style={{ maxWidth: 500 }}
+							rules={[...baseFieldValidation('Phone Number', false, 2, 16)]}
 						>
 							<Input size="large" placeholder="Phone Number" />
 						</Form.Item>
@@ -214,13 +219,9 @@ const ProfileScreen = () => {
 							name="postalCode"
 							colon={false}
 							style={{ maxWidth: 500 }}
+							rules={[...baseFieldValidation('Postal Code', false, 2, 16)]}
 						>
-							<InputNumber
-								className="postalCode"
-								controls={false}
-								size="large"
-								width="100px"
-							/>
+							<Input className="postalCode" size="large" width="100px" />
 						</Form.Item>
 						<Form.Item label=" " colon={false} style={{ maxWidth: 500 }}>
 							<Button
@@ -228,8 +229,7 @@ const ProfileScreen = () => {
 								type="primary"
 								htmlType="submit"
 								style={{ width: 200 }}
-								disabled={!submittable}
-								loading={isLoading}
+								loading={isLoadingGetMyProfile ?? isLoadingUpdateUserProfile}
 								onClick={onSave}
 							>
 								Save

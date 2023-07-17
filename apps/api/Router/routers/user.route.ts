@@ -19,8 +19,14 @@ const updateUserProfileRequest = z
 	})
 	.partial();
 
-const updateUserProfileResponse = AccountSchema.omit({ isDeleted: true, deletedAt: true }).extend({ roleCustomer: CustomerSchema, roleOwner: OwnerSchema.nullable() });
-const getMyProfileResponse = AccountSchema.omit({ isDeleted: true, deletedAt: true });
+const updateUserProfileResponse = AccountSchema.omit({ isDeleted: true, deletedAt: true }).extend({
+	roleCustomer: CustomerSchema,
+	roleOwner: OwnerSchema.nullable(),
+});
+const getMyProfileResponse = AccountSchema.omit({ isDeleted: true, deletedAt: true }).extend({
+	roleCustomer: CustomerSchema,
+	roleOwner: OwnerSchema.nullable(),
+});
 export type UpdateUserProfileResponse = z.infer<typeof updateUserProfileResponse>;
 export type UpdateUserProfileRequest = z.infer<typeof updateUserProfileRequest>;
 export type GetMyProfileResponse = z.infer<typeof getMyProfileResponse>;
