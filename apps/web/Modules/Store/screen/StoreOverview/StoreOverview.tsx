@@ -7,6 +7,7 @@ import { trpc } from '@/lib/trpc/trpc';
 import StoreMainInfo from '../../components/StoreMainInfo/StoreMainInfo';
 import StoreMain from '../../components/StoreMain/StoreMain';
 import useStyle from './store-overview.style';
+import GlobalError from '@/app/error/Error';
 
 interface MarketProp extends PropsWithChildren {
 	store: string;
@@ -60,7 +61,7 @@ const StoreOverviewScreen = ({ store }: MarketProp) => {
 
 	if (mutation.isError) {
 		console.log(mutation.error);
-		throw new Error(mutation.error.data?.code);
+		return <GlobalError error={mutation.error?.data} />;
 	}
 
 	return (

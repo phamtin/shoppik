@@ -17,18 +17,18 @@ services:
     ports:
       - "27017:27017"
 
-  redis:
-    image: redis:7.2-rc2-alpine
-    container_name: "redis"
-    volumes:
-      - ./apps/api/data/redis:/data
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      retries: 3
-      timeout: 5s
+  # redis:
+  #   image: redis:7.2-rc2-alpine
+  #   container_name: "redis"
+  #   volumes:
+  #     - ./apps/api/data/redis:/data
+  #   restart: unless-stopped
+  #   ports:
+  #     - "6379:6379"
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "ping"]
+  #     retries: 3
+  #     timeout: 5s
 
 volumes:
   mongodb: null
