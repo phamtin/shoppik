@@ -36,8 +36,8 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0
       bullmq:
-        specifier: ^4.3.0
-        version: 4.3.0
+        specifier: ^4.4.0
+        version: 4.4.0
       dayjs:
         specifier: ^1.11.9
         version: 1.11.9
@@ -48,8 +48,8 @@ importers:
         specifier: ^5.2.0
         version: 5.2.0
       fastify:
-        specifier: ^4.19.2
-        version: 4.19.2
+        specifier: ^4.20.0
+        version: 4.20.0
       fastify-plugin:
         specifier: ^4.5.0
         version: 4.5.0
@@ -63,8 +63,8 @@ importers:
         specifier: ^8.14.1
         version: 8.14.1
       pino-pretty:
-        specifier: ^10.0.0
-        version: 10.0.0
+        specifier: ^10.0.1
+        version: 10.0.1
       slugify:
         specifier: ^1.6.6
         version: 1.6.6
@@ -131,7 +131,7 @@ importers:
         version: 10.34.0
       antd-style:
         specifier: ^3.4.1
-        version: 3.4.1(@types/react@18.2.14)(antd@5.7.0)(react-dom@18.2.0)(react@18.2.0)
+        version: 3.4.1(@types/react@18.2.15)(antd@5.7.0)(react-dom@18.2.0)(react@18.2.0)
       cookies-next:
         specifier: ^2.1.2
         version: 2.1.2
@@ -167,14 +167,14 @@ importers:
         version: 4.3.9(react@18.2.0)
     devDependencies:
       '@types/node':
-        specifier: ^20.4.1
-        version: 20.4.1
+        specifier: ^20.4.2
+        version: 20.4.2
       '@types/react':
-        specifier: ^18.2.14
-        version: 18.2.14
+        specifier: ^18.2.15
+        version: 18.2.15
       '@types/react-dom':
-        specifier: ^18.2.5
-        version: 18.2.6
+        specifier: ^18.2.7
+        version: 18.2.7
       eslint:
         specifier: ^8.43.0
         version: 8.43.0
@@ -569,7 +569,7 @@ packages:
     resolution: {integrity: sha512-W2P2c/VRW1/1tLox0mVUalvnWXxavmv/Oum2aPsRcoDJuob75FC3Y8FbpfLwUegRcxINtGUMPq0tFCvYNTBXNA==}
     dev: false
 
-  /@emotion/react@11.11.1(@types/react@18.2.14)(react@18.2.0):
+  /@emotion/react@11.11.1(@types/react@18.2.15)(react@18.2.0):
     resolution: {integrity: sha512-5mlW1DquU5HaxjLkfkGN1GA/fvVGdyHURRiX/0FHl2cfIfRxSOfmxEH5YS43edp0OldZrZ+dkBKbngxcNCdZvA==}
     peerDependencies:
       '@types/react': '*'
@@ -585,7 +585,7 @@ packages:
       '@emotion/use-insertion-effect-with-fallbacks': 1.0.1(react@18.2.0)
       '@emotion/utils': 1.2.1
       '@emotion/weak-memoize': 0.3.1
-      '@types/react': 18.2.14
+      '@types/react': 18.2.15
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
     dev: false
@@ -1453,7 +1453,7 @@ packages:
   /@types/cross-spawn@6.0.2:
     resolution: {integrity: sha512-KuwNhp3eza+Rhu8IFI5HUXRP0LIhqH5cAjubUvGXXthh4YYBuP2ntwEX+Cz8GJoZUHlKo247wPWOfA9LYEq4cw==}
     dependencies:
-      '@types/node': 20.3.3
+      '@types/node': 20.4.1
     dev: false
 
   /@types/debug@4.1.8:
@@ -1473,7 +1473,7 @@ packages:
   /@types/jsonwebtoken@9.0.2:
     resolution: {integrity: sha512-drE6uz7QBKq1fYqqoFKTDRdFCPHd5TCub75BM+D+cMx7NU9hUz7SESLfC2fSCXVFMO5Yj8sOWHuGqPgjc+fz0Q==}
     dependencies:
-      '@types/node': 20.3.3
+      '@types/node': 20.4.1
     dev: true
 
   /@types/ms@0.7.31:
@@ -1489,6 +1489,9 @@ packages:
 
   /@types/node@20.4.1:
     resolution: {integrity: sha512-JIzsAvJeA/5iY6Y/OxZbv1lUcc8dNSE77lb2gnBH+/PJ3lFR1Ccvgwl5JWnHAkNHcRsT0TbpVOsiMKZ1F/yyJg==}
+
+  /@types/node@20.4.2:
+    resolution: {integrity: sha512-Dd0BYtWgnWJKwO1jkmTrzofjK2QXXcai0dmtzvIBhcA+RsG5h8R3xlyta0kGOZRNfL9GuRtb1knmPEhQrePCEw==}
     dev: true
 
   /@types/parse-json@4.0.0:
@@ -1504,8 +1507,22 @@ packages:
       '@types/react': 18.2.14
     dev: true
 
+  /@types/react-dom@18.2.7:
+    resolution: {integrity: sha512-GRaAEriuT4zp9N4p1i8BDBYmEyfo+xQ3yHjJU4eiK5NDa1RmUZG+unZABUTK4/Ox/M+GaHwb6Ow8rUITrtjszA==}
+    dependencies:
+      '@types/react': 18.2.15
+    dev: true
+
   /@types/react@18.2.14:
     resolution: {integrity: sha512-A0zjq+QN/O0Kpe30hA1GidzyFjatVvrpIvWLxD+xv67Vt91TWWgco9IvrJBkeyHm1trGaFS/FSGqPlhyeZRm0g==}
+    dependencies:
+      '@types/prop-types': 15.7.5
+      '@types/scheduler': 0.16.3
+      csstype: 3.1.2
+    dev: true
+
+  /@types/react@18.2.15:
+    resolution: {integrity: sha512-oEjE7TQt1fFTFSbf8kkNuc798ahTUzn3Le67/PWjE8MAfYAD/qB7O8hSTcromLFqHCt9bcdOg5GXMokzTjJ5SA==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.3
@@ -1641,7 +1658,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.3
+      semver: 7.5.4
       tsutils: 3.21.0(typescript@5.1.6)
       typescript: 5.1.6
     transitivePeerDependencies:
@@ -1751,7 +1768,7 @@ packages:
       color-convert: 2.0.1
     dev: true
 
-  /antd-style@3.4.1(@types/react@18.2.14)(antd@5.7.0)(react-dom@18.2.0)(react@18.2.0):
+  /antd-style@3.4.1(@types/react@18.2.15)(antd@5.7.0)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-7oCHYPhclrVboXsHyrOcbDJ5FSEYEtklbEnfe7h3NCPpXjTLR5tkaBeBTeQDHR4v3Bj/94Hs6RsJ1mN+9ocKtg==}
     peerDependencies:
       antd: ^5
@@ -1761,7 +1778,7 @@ packages:
       '@babel/runtime': 7.22.6
       '@emotion/cache': 11.11.0
       '@emotion/css': 11.11.2
-      '@emotion/react': 11.11.1(@types/react@18.2.14)(react@18.2.0)
+      '@emotion/react': 11.11.1(@types/react@18.2.15)(react@18.2.0)
       '@emotion/serialize': 1.1.2
       '@emotion/server': 11.11.0(@emotion/css@11.11.2)
       '@emotion/utils': 1.2.1
@@ -2062,8 +2079,8 @@ packages:
       ieee754: 1.2.1
     dev: false
 
-  /bullmq@4.3.0:
-    resolution: {integrity: sha512-0icxNkg1JqS44wnAQW27iNVG6hH0Cfx1XeXBoeZPfWKyqqJgePDbljk0o8iYyTgK/J2I38NGyN7MTGHCnOFVyQ==}
+  /bullmq@4.4.0:
+    resolution: {integrity: sha512-2fpKxT9wQUTaOfAxaVXztYM3krvngi91lG340jz0rHcKADbkl1sSqzELystXFbormW98lhfWo6V72Cqs84biPA==}
     dependencies:
       cron-parser: 4.8.1
       glob: 8.1.0
@@ -3045,8 +3062,8 @@ packages:
     resolution: {integrity: sha512-79ak0JxddO0utAXAQ5ccKhvs6vX2MGyHHMMsmZkBANrq3hXc1CHzvNPHOcvTsVMEPl5I+NT+RO4YKMGehOfSIg==}
     dev: false
 
-  /fastify@4.19.2:
-    resolution: {integrity: sha512-2unheeIRWFf9/Jjcz7djOpKuXCTzZjlyFfiBwKqpldkHMN2rfTLu/f9pYTdwlhzC9Cdj0S2H12zlug0Kd5uZ1w==}
+  /fastify@4.20.0:
+    resolution: {integrity: sha512-zWWi5KGAb1YZ6fyrnFnA1CA1EZHkGM6YuELgB3QpS3l4lLRy14W1cc16b4KGPH/zQ98WCSdS+T41JkHY3eq1oA==}
     dependencies:
       '@fastify/ajv-compiler': 3.5.0
       '@fastify/error': 3.3.0
@@ -3062,7 +3079,7 @@ packages:
       proxy-addr: 2.0.7
       rfdc: 1.3.0
       secure-json-parse: 2.7.0
-      semver: 7.5.3
+      semver: 7.5.4
       tiny-lru: 11.0.1
     transitivePeerDependencies:
       - supports-color
@@ -4240,8 +4257,8 @@ packages:
       split2: 4.2.0
     dev: false
 
-  /pino-pretty@10.0.0:
-    resolution: {integrity: sha512-zKFjYXBzLaLTEAN1ayKpHXtL5UeRQC7R3lvhKe7fWs7hIVEjKGG/qIXwQt9HmeUp71ogUd/YcW+LmMwRp4KT6Q==}
+  /pino-pretty@10.0.1:
+    resolution: {integrity: sha512-yrn00+jNpkvZX/NrPVCPIVHAfTDy3ahF0PND9tKqZk4j9s+loK8dpzrJj4dGb7i+WLuR50ussuTAiWoMWU+qeA==}
     hasBin: true
     dependencies:
       colorette: 2.0.20
@@ -5201,7 +5218,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-    dev: false
 
   /server-only@0.0.1:
     resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
