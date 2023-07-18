@@ -13,13 +13,14 @@ import {
 	Modal,
 	Space,
 	Typography,
+	Upload,
 	message,
 } from '@shoppik/ui/components/Core';
 import Flex from '@shoppik/ui/components/Flex';
 
 import useStyle from './signin-modal';
 import { MENU_KEYS } from '../../auth';
-import { Buy, Logout, Password, User } from 'react-iconly';
+import { Buy, Location, Logout, Password, User } from 'react-iconly';
 import { trpc } from '@/lib/trpc/trpc';
 
 const { Title, Text } = Typography;
@@ -30,39 +31,25 @@ interface SigninModalProps {
 
 interface RegisterForm {
 	name: string;
+	tradeName: string;
+	storeAddress: string;
+	description: string;
+	avatar: string;
+	landingPageUrl: string;
 	email: string;
-	location: string;
 	phone: string;
 }
 
 const SigninModal = ({ session }: SigninModalProps) => {
 	const { styles } = useStyle();
 	const router = useRouter();
-	const [form] = Form.useForm<Partial<RegisterForm> | undefined>()
+	const [form] = Form.useForm<RegisterForm>()
 	const values = Form.useWatch([], form);
 
 	const [open, setOpenModalOpen] = useState(false);
 	const [registerModal, setRegisterModal] = useState(false);
 	const [showRegisForm, setShowRegisForm] = useState(false);
 	const [submittable, setSubmittable] = useState(false);
-
-	console.log('formform', values);
-
-	const [messageApi, contextHolder] = message.useMessage();
-	const mutation = trpc.store.createStore.useMutation({
-		onError: (err) => {
-			messageApi.open({
-				type: 'error',
-				content: err.message,
-			});
-		},
-		onSuccess: (data) => {
-			messageApi.open({
-				type: 'success',
-				content: 'Profile updated successfully',
-			});
-		},
-	});
 
 	useEffect(() => {
 		form.validateFields({ validateOnly: true }).then(
@@ -88,30 +75,32 @@ const SigninModal = ({ session }: SigninModalProps) => {
 		setShowRegisForm(false);
 	}
 
-	const onSubmit = () => {
-		console.log('valuessss', values);
-		if (!values?.name || !values?.location) return;
-		console.log('valuessss', values);
+	const {
+		mutate: mutateRegisStore,
+		isSuccess: isSuccessRegisStore,
+		isLoading: isLoadingRegisStore,
+		error: errorRegisStore,
+	} = trpc.store.createStore.useMutation();
 
-		mutation.mutate({
-			name: values?.name,
-			tradeName: 'Kuro',
-			storeAddress: values?.location,
-			description:
-				'A store about acc games',
-			avatar:
-				'https://robohash.org/98751beeb2b3cb0117a50f800622c37b?set=set4&bgset=bg1&size=200x200',
-			landingPageUrl: 'https://twitter.com',
+	const onSubmit = () => {
+		const { name, tradeName, storeAddress, description, avatar, landingPageUrl, phone, email } = values;
+
+		mutateRegisStore({
+			name,
+			tradeName,
+			storeAddress,
+			description,
+			avatar,
+			landingPageUrl,
 			contact: {
-				phone: values.phone || '',
-				email: values.email || '',
+				phone,
+				email,
 				instagramLink: 'kuro.store',
 				facebookLink: 'kuro1997',
 				youtubeLink: 'kuro.channel',
 			},
 			tags: ['646fa3cd01d88dcbe54bc1bf', '646fa3cd01d18dcbe54bc0bf'],
 		});
-
 	}
 
 	const onClick: MenuProps['onClick'] = ({ key }) => {
@@ -219,7 +208,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 				open={registerModal}
 				onOk={toggleRegisterModal}
 				onCancel={onTurnOffRegisterModal}
-				width={500}
+				width={showRegisForm ? 700 : 500}
 				centered
 				closeIcon={false}
 				okText={'Register'}
@@ -234,31 +223,51 @@ const SigninModal = ({ session }: SigninModalProps) => {
 							<Form.Item name="name" label="Shop Name" rules={[{ required: true }]}>
 								<Input />
 							</Form.Item>
-							<Form.Item name="address" label="Location" rules={[{ required: true }]}>
-								<Input />
+							<div className='inputRow'>
+								<Form.Item className='block' name="tradeName" label="Trade Name" rules={[{ required: true }]}>
+									<Input />
+								</Form.Item>
+								<div className='spacer' />
+								<Form.Item className='block' name="landingPageUrl" label="Website" rules={[{ required: true }]}>
+									<Input addonBefore="https://" />
+								</Form.Item>
+							</div>
+							<div className='inputRow'>
+								<Form.Item className='block' name="email" label="Email" rules={[{ required: true }]}>
+									<Input />
+								</Form.Item>
+								<div className='spacer' />
+								<Form.Item className='block' name="phone" label="Phone Number" rules={[{ required: true }]}>
+									<Input addonBefore="+84" />
+								</Form.Item>
+							</div>
+							<Form.Item name="storeAddress" label="Store Address" rules={[{ required: true }]}>
+								<Input prefix={<Location />} />
 							</Form.Item>
-							<Form.Item name="email" label="Email" rules={[{ required: true }]}>
-								<Input />
+							<Form.Item name="description" label="Description">
+								<Input.TextArea rows={4} showCount maxLength={100} placeholder="Fill in some description" />
 							</Form.Item>
-							<Form.Item name="phone" label="Phone Number" rules={[{ required: true }]}>
-								<Input />
+							<Form.Item name="phone" label="Store Avatar" rules={[{ required: true }]}>
+								<Upload action="/upload.do" listType="picture-card">
+									Upload
+								</Upload>
 							</Form.Item>
 							<div className='buttons'>
 								<Button
 									size="large"
 									type="default"
 									htmlType="submit"
-									style={{ flex: 1 }}
+									className='block'
 								>
 									Save as draft
 								</Button>
-								<div style={{ width: 20 }} />
+								<div className='spacer' />
 								<Button
 									size="large"
 									type="primary"
 									htmlType="submit"
-									style={{ flex: 1 }}
-									loading={mutation.isLoading}
+									className='block'
+									loading={isLoadingRegisStore}
 									onClick={onSubmit}
 								>
 									Submit

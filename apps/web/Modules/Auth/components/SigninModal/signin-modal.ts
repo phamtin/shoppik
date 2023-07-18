@@ -64,7 +64,17 @@ const styles = createStyles(({ token }) => ({
 			display: 'flex',
 			flexDirection: 'row',
 			marginTop: token.marginXL
-		}
+		},
+		'.inputRow': {
+			display: 'flex',
+			flexDirection: 'row'
+		},
+		'.spacer': {
+			width: token.marginMD
+		},
+		'.block': {
+			flex: 1
+		},
 	}
 }));
 
