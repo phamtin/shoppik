@@ -22,13 +22,11 @@ const GlobalError: React.FC<ErrorStateProps> = ({
 
 	useEffect(() => {
 		if (error?.code === 'UNAUTHORIZED') {
+			update(null);
 			removeAuthCookie();
 		}
-		return () => {
-			update(null);
-		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [update]);
 
 	return <ErrorInternalServer code={error!.code} />;
 };
