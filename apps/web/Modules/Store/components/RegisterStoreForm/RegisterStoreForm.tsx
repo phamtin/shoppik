@@ -5,6 +5,8 @@ import React, { useEffect } from 'react';
 import { Location } from 'react-iconly';
 import useStyle from './RegisterStoreForm.style';
 import { trpc } from '@/lib/trpc/trpc';
+import { baseFieldValidation } from '@/Utils/validator/validator';
+import { VALID_EMAIL_REGEX } from '@/Helper/regex';
 
 const { Title, Text } = Typography;
 
@@ -48,7 +50,7 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
       tradeName,
       storeAddress,
       description,
-      avatar: 'Some randome link',
+      avatar: 'https://res.cloudinary.com/dtizrfvjh/image/upload/v1668920121/qzrteppsiwxoyvbipnhg.jpg',
       landingPageUrl,
       contact: {
         phone,
@@ -70,32 +72,32 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
           <Text className="description">Register to become an owner</Text>
         </div>
         <Form form={form} onFinish={onSubmit} layout="vertical">
-          <Form.Item name="name" label="Shop Name" rules={[{ required: true }]}>
+          <Form.Item name="name" label="Shop Name" rules={[...baseFieldValidation('Shop name', true, null, 64)]}>
             <Input />
           </Form.Item>
           <div className='inputRow'>
-            <Form.Item className='block' name="tradeName" label="Trade Name" rules={[{ required: true }]}>
+            <Form.Item className='block' name="tradeName" label="Trade Name" rules={[...baseFieldValidation('Trade name', true, null, 64)]}>
               <Input />
             </Form.Item>
             <div className='spacer' />
-            <Form.Item className='block' name="landingPageUrl" label="Website" rules={[{ required: true }]}>
+            <Form.Item className='block' name="landingPageUrl" label="Website" rules={[...baseFieldValidation('Langing page link', true, null, 64)]}>
               <Input addonBefore="https://" />
             </Form.Item>
           </div>
           <div className='inputRow'>
-            <Form.Item className='block' name="email" label="Email" rules={[{ required: true }]}>
+            <Form.Item className='block' name="email" label="Email" rules={[...baseFieldValidation('Email', true, 2, 128, VALID_EMAIL_REGEX)]}>
               <Input />
             </Form.Item>
             <div className='spacer' />
-            <Form.Item className='block' name="phone" label="Phone Number" rules={[{ required: true }]}>
+            <Form.Item className='block' name="phone" label="Phone Number" rules={[...baseFieldValidation('Phone Number', false, 2, 16)]}>
               <Input addonBefore="+84" />
             </Form.Item>
           </div>
-          <Form.Item name="storeAddress" label="Store Address" rules={[{ required: true }]}>
+          <Form.Item name="storeAddress" label="Store Address" rules={[...baseFieldValidation('Store address', true, 2, 64)]}>
             <Input prefix={<Location />} />
           </Form.Item>
-          <Form.Item name="description" label="Description" rules={[{ required: true }]}>
-            <Input.TextArea rows={4} showCount maxLength={100} placeholder="Fill in some description" />
+          <Form.Item name="description" label="Description" rules={[...baseFieldValidation('Description', true, 2, 128)]}>
+            <Input.TextArea rows={4} showCount maxLength={128} placeholder="Fill in some description" />
           </Form.Item>
           <Form.Item name="phone" label="Store Avatar">
             <Upload action="/upload.do" listType="picture-card">
