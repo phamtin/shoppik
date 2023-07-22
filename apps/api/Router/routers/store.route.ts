@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { authenticatedProcedure, router } from '../trpc';
 import StoreService from '../../Service/store/store.service';
-import { StoreSchema } from '@shoppik/schema';
+import { StoreAddressWithRelationsSchema, StoreSchema } from '@shoppik/schema';
 
 const createStoreRequest = z
 	.object({
@@ -10,7 +10,7 @@ const createStoreRequest = z
 		avatar: z.string(),
 		tradeName: z.string(),
 		description: z.string(),
-		storeAddress: z.string(),
+		storeAddress: StoreAddressWithRelationsSchema,
 		landingPageUrl: z.string(),
 		contact: z.object({
 			email: z.string(),
@@ -30,7 +30,7 @@ const getMyStoreRequest = z.object({
 });
 
 const getMyStoreResponse = z.object({
-	data: z.array(StoreSchema),
+	data: z.array(StoreSchema.nullable()),
 });
 
 export type CreateStoreRequest = z.infer<typeof createStoreRequest>;

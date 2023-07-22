@@ -12,7 +12,7 @@ import type { Prisma } from '@prisma/client';
 
 export const AccountScalarFieldEnumSchema = z.enum(['id','email','fullname','firstname','lastname','phoneNumber','birthday','locale','avatar','postalCode','isConfirm','signinMethod','createdAt','updatedAt','isDeleted','deletedAt']);
 
-export const StoreScalarFieldEnumSchema = z.enum(['id','name','slug','tradeName','description','avatar','storeAddress','landingPageUrl','ownerId','followers','following','storeStatus','createdAt','updatedAt','isDeleted','DeletedAt']);
+export const StoreScalarFieldEnumSchema = z.enum(['id','name','slug','tradeName','description','avatar','landingPageUrl','ownerId','followers','following','storeStatus','createdAt','updatedAt','isDeleted','DeletedAt']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -82,7 +82,6 @@ export const StoreSchema = z.object({
   tradeName: z.string(),
   description: z.string(),
   avatar: z.string(),
-  storeAddress: z.string(),
   landingPageUrl: z.string(),
   ownerId: z.string(),
   followers: z.string().array(),
@@ -99,6 +98,7 @@ export type Store = z.infer<typeof StoreSchema>
 //------------------------------------------------------
 
 export type StoreRelations = {
+  storeAddress: StoreAddress;
   tags: StoreTag[];
   rating: StoreRating;
   contact: Contact;
@@ -107,6 +107,7 @@ export type StoreRelations = {
 export type StoreWithRelations = z.infer<typeof StoreSchema> & StoreRelations
 
 export const StoreWithRelationsSchema: z.ZodType<StoreWithRelations> = StoreSchema.merge(z.object({
+  storeAddress: z.lazy(() => StoreAddressSchema),
   tags: z.lazy(() => StoreTagSchema).array(),
   rating: z.lazy(() => StoreRatingSchema),
   contact: z.lazy(() => ContactSchema),
@@ -189,3 +190,47 @@ export const ContactSchema = z.object({
 })
 
 export type Contact = z.infer<typeof ContactSchema>
+// ADDRESS STRUCTURE
+//------------------------------------------------------
+
+
+/////////////////////////////////////////
+// ADDRESS STRUCTURE SCHEMA
+/////////////////////////////////////////
+
+export const AddressStructureSchema = z.object({
+  code: z.number().int(),
+  name: z.string(),
+})
+
+export type AddressStructure = z.infer<typeof AddressStructureSchema>
+// STORE ADDRESS
+//------------------------------------------------------
+
+
+/////////////////////////////////////////
+// STORE ADDRESS SCHEMA
+/////////////////////////////////////////
+
+export const StoreAddressSchema = z.object({
+  street: z.string(),
+})
+
+export type StoreAddress = z.infer<typeof StoreAddressSchema>
+
+// STORE ADDRESS RELATION SCHEMA
+//------------------------------------------------------
+
+export type StoreAddressRelations = {
+  province: AddressStructure;
+  district: AddressStructure;
+  ward: AddressStructure;
+};
+
+export type StoreAddressWithRelations = z.infer<typeof StoreAddressSchema> & StoreAddressRelations
+
+export const StoreAddressWithRelationsSchema: z.ZodType<StoreAddressWithRelations> = StoreAddressSchema.merge(z.object({
+  province: z.lazy(() => AddressStructureSchema),
+  district: z.lazy(() => AddressStructureSchema),
+  ward: z.lazy(() => AddressStructureSchema),
+}))

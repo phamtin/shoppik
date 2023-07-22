@@ -19,7 +19,7 @@ export interface FlexProps extends PropsWithChildren {
   justifyContent?: Props;
   alignitems?: Props;
   textAlignCenter?: Props;
-  direction?: "unset" | "revert";
+  direction?: "unset" | "revert" | "column";
   m?: "string";
   p?: "string";
   mt?: number;
@@ -54,7 +54,7 @@ const Flex: FC<FlexProps> = (props) => {
     display: "flex",
     justifyContent: justifyContent,
     alignItems: alignitems ?? "center",
-    direction: direction,
+    flexDirection: direction,
   };
 
   if (m) {

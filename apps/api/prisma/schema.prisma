@@ -87,18 +87,30 @@ enum StoreStatus {
   DELETED
 }
 
+type AddressStructure {
+  code Int
+  name String
+}
+
+type StoreAddress {
+  province AddressStructure
+  district AddressStructure
+  ward     AddressStructure
+  street   String
+}
+
 model Store {
-  id             String      @id @default(auto()) @map("_id") @db.ObjectId
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
   name           String
   slug           String
   tradeName      String
   description    String
   avatar         String
-  storeAddress   String
+  storeAddress   StoreAddress
   landingPageUrl String
-  ownerId        String      @db.ObjectId
-  followers      String[]    @db.ObjectId
-  following      String[]    @db.ObjectId
+  ownerId        String       @db.ObjectId
+  followers      String[]     @db.ObjectId
+  following      String[]     @db.ObjectId
   tags           StoreTag[]
   rating         StoreRating
   contact        Contact

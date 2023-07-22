@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import {
 	Button,
+	Cascader,
 	Dropdown,
 	Form,
 	Input,
@@ -14,17 +15,21 @@ import {
 	Space,
 	Typography,
 	Upload,
-	message,
 } from '@shoppik/ui/components/Core';
 import Flex from '@shoppik/ui/components/Flex';
 
 import useStyle from './signin-modal';
 import { MENU_KEYS } from '../../auth';
-import { Buy, Location, Logout, Password, User } from 'react-iconly';
+import { Buy, Logout, Password, User } from 'react-iconly';
 import { trpc } from '@/lib/trpc/trpc';
+import useGetLocation from '@/Hooks/useGetLocation/useGetLocation';
+import { Option } from '@/lib/ant-design/type';
 
 const { Title, Text } = Typography;
 
+interface LocationOption extends Option {
+	level: string;
+}
 interface SigninModalProps {
 	session: Session | null;
 }
@@ -43,24 +48,67 @@ interface RegisterForm {
 const SigninModal = ({ session }: SigninModalProps) => {
 	const { styles } = useStyle();
 	const router = useRouter();
-	const [form] = Form.useForm<RegisterForm>()
+	const [form] = Form.useForm<RegisterForm>();
 	const values = Form.useWatch([], form);
 
 	const [open, setOpenModalOpen] = useState(false);
 	const [registerModal, setRegisterModal] = useState(false);
 	const [showRegisForm, setShowRegisForm] = useState(false);
-	const [submittable, setSubmittable] = useState(false);
+
+	const [selectedLocation, setSelectedLocation] = useState({ p: 0, d: 0, w: 0 });
+	const [target, setTarget] = useState<any>();
+
+	const { province, district, ward } = useGetLocation({
+		p: selectedLocation.p,
+		d: selectedLocation.d,
+	});
 
 	useEffect(() => {
-		form.validateFields({ validateOnly: true }).then(
-			() => {
-				setSubmittable(true);
-			},
-			() => {
-				setSubmittable(false);
-			},
+		setTarget(
+			province.map((p) => ({
+				label: p.name,
+				value: p.code,
+				level: p.level,
+				isLeaf: false,
+			})),
 		);
-	}, [values]);
+	}, [province]);
+	useEffect(() => {
+		if (!district?.length) return;
+		for (let i = 0; i < target.length; i++) {
+			const province = target[i];
+			if (province.value === selectedLocation.p) {
+				province.children = district.map((d) => ({
+					label: d.name,
+					value: d.code,
+					level: d.level,
+					isLeaf: false,
+				}));
+				setTarget([...target]);
+				break;
+			}
+		}
+	}, [district]);
+	useEffect(() => {
+		if (!ward?.length) return;
+		for (let i = 0; i < target.length; i++) {
+			const districts = target[i].children;
+			if (!districts || districts.length === 0) continue;
+			for (let j = 0; j < districts.length; j++) {
+				const district = districts[j];
+				if (district.value === selectedLocation.d) {
+					district.children = ward.map((w) => ({
+						label: w.name,
+						value: w.code,
+						level: w.level,
+						isLeaf: true,
+					}));
+					setTarget([...target]);
+					break;
+				}
+			}
+		}
+	}, [ward]);
 
 	const onHandleSigninGoogle = () => {
 		signIn('google');
@@ -73,7 +121,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 	const onTurnOffRegisterModal = () => {
 		setRegisterModal(false);
 		setShowRegisForm(false);
-	}
+	};
 
 	const {
 		mutate: mutateRegisStore,
@@ -83,12 +131,26 @@ const SigninModal = ({ session }: SigninModalProps) => {
 	} = trpc.store.createStore.useMutation();
 
 	const onSubmit = () => {
-		const { name, tradeName, storeAddress, description, avatar, landingPageUrl, phone, email } = values;
+		const {
+			name,
+			tradeName,
+			storeAddress,
+			description,
+			avatar,
+			landingPageUrl,
+			phone,
+			email,
+		} = values;
 
 		mutateRegisStore({
 			name,
 			tradeName,
-			storeAddress,
+			storeAddress: {
+				district: { name: '', code: 0 },
+				province: { name: '', code: 0 },
+				ward: { name: '', code: 0 },
+				street: '',
+			},
 			description,
 			avatar,
 			landingPageUrl,
@@ -101,7 +163,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 			},
 			tags: ['646fa3cd01d88dcbe54bc1bf', '646fa3cd01d18dcbe54bc0bf'],
 		});
-	}
+	};
 
 	const onClick: MenuProps['onClick'] = ({ key }) => {
 		if (key === MENU_KEYS.REGISTER_OWNER) {
@@ -154,6 +216,21 @@ const SigninModal = ({ session }: SigninModalProps) => {
 		},
 	];
 
+	const loadData = (selectedOptions: LocationOption[]) => {
+		const targetOption = selectedOptions[selectedOptions.length - 1];
+		if (targetOption.level === 'province') {
+			setSelectedLocation((prev) => ({
+				...prev,
+				p: targetOption.value ? +targetOption.value : 0,
+			}));
+		} else if (targetOption.level === 'district') {
+			setSelectedLocation((prev) => ({
+				...prev,
+				d: targetOption.value ? +targetOption.value : 0,
+			}));
+		}
+	};
+
 	return (
 		<>
 			{session?.user?.email ? (
@@ -179,6 +256,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 				</Button>
 			)}
 			<Modal
+				transitionName=""
 				open={open}
 				width={400}
 				closeIcon={false}
@@ -205,10 +283,12 @@ const SigninModal = ({ session }: SigninModalProps) => {
 				</div>
 			</Modal>
 			<Modal
+				transitionName=""
+				maskClosable
 				open={registerModal}
 				onOk={toggleRegisterModal}
 				onCancel={onTurnOffRegisterModal}
-				width={showRegisForm ? 700 : 500}
+				width={showRegisForm ? 560 : 500}
 				centered
 				closeIcon={false}
 				okText={'Register'}
@@ -217,56 +297,88 @@ const SigninModal = ({ session }: SigninModalProps) => {
 			>
 				{showRegisForm ? (
 					<div className={styles.formInfo}>
-						<Title level={3}>Shoppik</Title>
-						<Text className="description">Register to become an owner</Text>
+						<Flex justifyContent="left" mb={12}>
+							<Upload className="avaUploader" action="/upload.do" listType="picture-card">
+								Upload
+							</Upload>
+							<Flex direction="column" alignitems="flex-start" ml={18}>
+								<Title level={3}>Shoppik</Title>
+								<Text className="description">Register to become an owner</Text>
+							</Flex>
+						</Flex>
 						<Form form={form} onFinish={onSubmit} layout="vertical">
 							<Form.Item name="name" label="Shop Name" rules={[{ required: true }]}>
-								<Input />
+								<Input size="large" />
 							</Form.Item>
-							<div className='inputRow'>
-								<Form.Item className='block' name="tradeName" label="Trade Name" rules={[{ required: true }]}>
-									<Input />
+							<div className="inputRow">
+								<Form.Item
+									className="block"
+									name="tradeName"
+									label="Trade Name"
+									rules={[{ required: true }]}
+								>
+									<Input size="large" />
 								</Form.Item>
-								<div className='spacer' />
-								<Form.Item className='block' name="landingPageUrl" label="Website" rules={[{ required: true }]}>
-									<Input addonBefore="https://" />
+								<div className="spacer" />
+								<Form.Item
+									className="block"
+									name="landingPageUrl"
+									label="Website"
+									rules={[{ required: true }]}
+								>
+									<Input size="large" addonBefore="https://" />
 								</Form.Item>
 							</div>
-							<div className='inputRow'>
-								<Form.Item className='block' name="email" label="Email" rules={[{ required: true }]}>
-									<Input />
+							<div className="inputRow">
+								<Form.Item
+									className="block"
+									name="email"
+									label="Email"
+									rules={[{ required: true }]}
+								>
+									<Input size="large" />
 								</Form.Item>
-								<div className='spacer' />
-								<Form.Item className='block' name="phone" label="Phone Number" rules={[{ required: true }]}>
-									<Input addonBefore="+84" />
+								<div className="spacer" />
+								<Form.Item
+									className="block"
+									name="phone"
+									label="Phone Number"
+									rules={[{ required: true }]}
+								>
+									<Input size="large" addonBefore="+84" />
 								</Form.Item>
 							</div>
-							<Form.Item name="storeAddress" label="Store Address" rules={[{ required: true }]}>
-								<Input prefix={<Location />} />
+							<Form.Item
+								name="storeAddress"
+								label="Store Address"
+								rules={[{ required: true }]}
+							>
+								<Cascader
+									size="large"
+									changeOnSelect
+									options={target}
+									loadData={loadData}
+								/>
 							</Form.Item>
 							<Form.Item name="description" label="Description">
-								<Input.TextArea rows={4} showCount maxLength={100} placeholder="Fill in some description" />
+								<Input.TextArea
+									rows={4}
+									showCount
+									maxLength={100}
+									placeholder="Fill in some description"
+								/>
 							</Form.Item>
-							<Form.Item name="phone" label="Store Avatar" rules={[{ required: true }]}>
-								<Upload action="/upload.do" listType="picture-card">
-									Upload
-								</Upload>
-							</Form.Item>
-							<div className='buttons'>
-								<Button
-									size="large"
-									type="default"
-									htmlType="submit"
-									className='block'
-								>
+
+							<div className="buttons">
+								<Button size="large" type="default" htmlType="submit" className="block">
 									Save as draft
 								</Button>
-								<div className='spacer' />
+								<div className="spacer" />
 								<Button
 									size="large"
 									type="primary"
 									htmlType="submit"
-									className='block'
+									className="block"
 									loading={isLoadingRegisStore}
 									onClick={onSubmit}
 								>

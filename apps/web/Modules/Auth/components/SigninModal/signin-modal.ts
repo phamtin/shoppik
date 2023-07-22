@@ -51,31 +51,36 @@ const styles = createStyles(({ token }) => ({
 
 	formInfo: {
 		h3: {
-			marginBottom: 0
+			marginBottom: 0,
 		},
 		'.description': {
+			display: 'block',
 			fontSize: 15,
-			marginBottom: token.marginXXL
+			color: token.colorTextLabel,
+			marginBottom: token.marginMD,
 		},
 		'.ant-form-item': {
-			marginBottom: token.marginMD
+			marginBottom: token.marginMD,
 		},
 		'.buttons': {
 			display: 'flex',
 			flexDirection: 'row',
-			marginTop: token.marginXL
+			marginTop: token.marginXL,
 		},
 		'.inputRow': {
 			display: 'flex',
-			flexDirection: 'row'
+			flexDirection: 'row',
 		},
 		'.spacer': {
-			width: token.marginMD
+			width: token.margin,
 		},
 		'.block': {
-			flex: 1
+			flex: 1,
 		},
-	}
+		'.avaUploader': {
+			width: 100,
+		},
+	},
 }));
 
 export default styles;

@@ -4,6 +4,7 @@ import { CreateStoreRequest, GetMyStoreRequest, CreateStoreResponse, GetMyStoreR
 import { Context } from '../Router/context';
 import { TRPCError } from '@trpc/server';
 import { StoreStatus } from '@prisma/client';
+import { Store } from '@shoppik/schema';
 
 const createStore = async (ctx: Context, request: CreateStoreRequest): Promise<CreateStoreResponse> => {
 	const db = ctx.prisma.store;
@@ -44,9 +45,19 @@ const createStore = async (ctx: Context, request: CreateStoreRequest): Promise<C
 const getMyStore = async (ctx: Context, request: GetMyStoreRequest): Promise<GetMyStoreResponse> => {
 	const storerepo = ctx.prisma.store;
 
-	const store = await storerepo.findMany({
+	let store: Store | Store[] | null;
+
+	if (request.storeId) {
+		store = await storerepo.findUnique({
+			where: {
+				id: request.storeId,
+			},
+		});
+		return { data: [store] };
+	}
+	store = await storerepo.findMany({
 		where: {
-			ownerId: request.storeId ?? ctx.user?.id,
+			ownerId: ctx.user?.id,
 		},
 	});
 

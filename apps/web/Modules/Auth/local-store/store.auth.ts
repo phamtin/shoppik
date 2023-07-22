@@ -1,48 +1,15 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { observable, observe } from '@legendapp/state';
 
-export type LoggedInUser = {
-	_id: string;
-	email: string;
-	firstname: string;
-	lastname: string;
-	role: string;
-};
+// Create an observable object
+const state$ = observable({ settings: { theme: 'dark' } });
 
-interface AuthStore {
-	currentUser: LoggedInUser | null;
-	setCurrentUser: (user: LoggedInUser) => void;
-	removeCurrentUser: () => void;
-}
+// get() returns the raw data
+state$.settings.theme.get() === 'dark';
 
-const store = create<AuthStore>()(
-	persist(
-		(set) => ({
-			currentUser: null,
+// observe re-runs when any observables change
+observe(() => {
+	console.log(state$.settings.theme.get());
+});
 
-			setCurrentUser: (user) => {
-				if (!user) return;
-
-				return set((state) => ({
-					currentUser: {
-						email: user.email,
-						_id: user._id,
-						firstname: user.firstname,
-						lastname: user.lastname,
-						role: user.role,
-					},
-				}));
-			},
-			removeCurrentUser: () => {
-				set((state) => ({
-					currentUser: null,
-				}));
-			},
-		}),
-		{
-			name: 'auth-storage',
-		},
-	),
-);
-
-export const useAuthStore = store;
+// Assign to state$ with set
+state$.settings.theme.set('light');
