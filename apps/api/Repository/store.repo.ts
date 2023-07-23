@@ -1,6 +1,6 @@
 import slugify from 'slugify';
 
-import { CreateStoreRequest, CreateStoreResponse, GetMyStoreResponse } from '../Router/routers/store.route';
+import { CreateStoreRequest, CreateStoreResponse, GetMyStoreResponse, UpdateStoreRequest, UpdateStoreResponse } from '../Router/routers/store.route';
 import { Context } from '../Router/context';
 import { TRPCError } from '@trpc/server';
 import { StoreAddress, StoreStatus } from '@prisma/client';
@@ -56,6 +56,41 @@ const getMyStore = async (ctx: Context): Promise<GetMyStoreResponse> => {
 	return { data: store };
 };
 
-const StoreRepo = Object.freeze({ createStore, getMyStore });
+const updateMyStore = async (ctx: Context, request: UpdateStoreRequest): Promise<UpdateStoreResponse> => {
+	const storerepo = ctx.prisma.store;
+
+	type RequestType = Record<string, any>;
+	Object.keys(request).forEach((key) => {
+		if (!(request as RequestType)[key]) {
+			delete (request as RequestType)[key];
+		}
+	});
+
+	const currentStore = await storerepo.findUnique({
+		where: { id: ctx.user?.roleOwner.storeId },
+	});
+	if (!currentStore?.id ?? currentStore.storeStatus !== StoreStatus.ACTIVE) {
+		throw new TRPCError({ code: 'BAD_REQUEST' });
+	}
+
+	const updated = await storerepo.update({
+		where: {
+			id: ctx.user?.roleOwner.storeId,
+		},
+		data: {
+			...request,
+			contact: {
+				...request.contact,
+				phone: request.contact?.phone ?? currentStore.contact.email,
+				email: currentStore.contact.email,
+			},
+		},
+		include: true,
+	});
+
+	return updated;
+};
+
+const StoreRepo = Object.freeze({ createStore, getMyStore, updateMyStore });
 
 export default StoreRepo;

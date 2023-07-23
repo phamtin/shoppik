@@ -1,4 +1,4 @@
-import { CreateStoreRequest, GetMyStoreResponse } from '../../Router/routers/store.route';
+import { CreateStoreRequest, GetMyStoreResponse, UpdateStoreRequest, UpdateStoreResponse } from '../../Router/routers/store.route';
 import StoreRepo from '../../Repository/store.repo';
 import UserService from 'Service/user/user.service';
 import { Context } from '../../Router/context';
@@ -40,9 +40,20 @@ const getMyStore = async (ctx: Context): Promise<GetMyStoreResponse> => {
 	return newStore;
 };
 
+const updateMyStore = async (ctx: Context, request: UpdateStoreRequest): Promise<UpdateStoreResponse> => {
+	ctx.systemLog.info('Update My Store - START');
+
+	const newStore = StoreRepo.updateMyStore(ctx, request);
+
+	ctx.systemLog.info('Update My Store - END');
+
+	return newStore;
+};
+
 const StoreService = {
 	createStore,
 	getMyStore,
+	updateMyStore,
 };
 
 export default StoreService;
