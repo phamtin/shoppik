@@ -19,7 +19,7 @@ export interface FlexProps extends PropsWithChildren {
   justifyContent?: Props;
   alignitems?: Props;
   textAlignCenter?: Props;
-  direction?: "unset" | "revert";
+  direction?: "unset" | "revert" | "column";
   m?: "string";
   p?: "string";
   mt?: number;
@@ -30,6 +30,7 @@ export interface FlexProps extends PropsWithChildren {
   pr?: number;
   pb?: number;
   pl?: number;
+  gap?: number;
 }
 
 const Flex: FC<FlexProps> = (props) => {
@@ -48,13 +49,14 @@ const Flex: FC<FlexProps> = (props) => {
     pr,
     pb,
     pl,
+    gap,
   } = props;
 
   const flexStyle: CSSProperties = {
     display: "flex",
     justifyContent: justifyContent,
     alignItems: alignitems ?? "center",
-    direction: direction,
+    flexDirection: direction,
   };
 
   if (m) {
@@ -86,6 +88,9 @@ const Flex: FC<FlexProps> = (props) => {
   }
   if (pb) {
     flexStyle.paddingBottom = pb + "px";
+  }
+  if (gap) {
+    flexStyle.gap = gap + "px";
   }
 
   return <div style={flexStyle}>{children}</div>;

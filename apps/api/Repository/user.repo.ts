@@ -12,7 +12,7 @@ const getMyProfile = async (ctx: Context): Promise<GetMyProfileResponse> => {
 		include: true,
 	});
 	if (!profile) {
-		throw new TRPCError({ code: 'NOT_FOUND', message: 'User not found' });
+		throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not found' });
 	}
 
 	return profile;
@@ -28,12 +28,13 @@ const updateUserProfile = async (ctx: Context, request: UpdateUserProfileRequest
 		},
 	});
 	if (!activeUser) {
-		throw new TRPCError({ code: 'FORBIDDEN', message: 'User not found' });
+		throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not found' });
 	}
 
+	type RequestType = Record<string, string | boolean | Date>;
 	Object.keys(request).forEach((key) => {
-		if (!(request as Record<string, string | boolean | Date>)[key]) {
-			delete (request as Record<string, string | boolean | Date>)[key];
+		if (!(request as RequestType)[key]) {
+			delete (request as RequestType)[key];
 		}
 	});
 

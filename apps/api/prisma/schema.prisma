@@ -35,8 +35,7 @@ type Customer {
 }
 
 type Owner {
-  storeId   String[]  @db.ObjectId
-  updatedAt DateTime?
+  storeId String @db.ObjectId
 }
 
 model Account {
@@ -87,18 +86,26 @@ enum StoreStatus {
   DELETED
 }
 
+type StoreAddress {
+  province String
+  district String
+  ward     String
+  street   String
+  note     String?
+}
+
 model Store {
-  id             String      @id @default(auto()) @map("_id") @db.ObjectId
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
   name           String
   slug           String
   tradeName      String
   description    String
   avatar         String
-  storeAddress   String
+  storeAddress   StoreAddress
   landingPageUrl String
-  ownerId        String      @db.ObjectId
-  followers      String[]    @db.ObjectId
-  following      String[]    @db.ObjectId
+  ownerId        String       @db.ObjectId
+  followers      String[]     @db.ObjectId
+  following      String[]     @db.ObjectId
   tags           StoreTag[]
   rating         StoreRating
   contact        Contact

@@ -1,22 +1,27 @@
-import { useState } from 'react';
-import Image from 'next/image';
 import { Session } from 'next-auth';
 import { signIn } from 'next-auth/react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import {
 	Button,
+	Cascader,
 	Dropdown,
 	MenuProps,
 	Modal,
 	Space,
 	Typography,
+	Upload,
 } from '@shoppik/ui/components/Core';
 import Flex from '@shoppik/ui/components/Flex';
 
-import useStyle from './signin-modal';
+import RegisterStoreForm from '@/Modules/Store/components/RegisterStoreForm/RegisterStoreForm';
 import { MENU_KEYS } from '../../auth';
 import { Buy, Logout, Password, User } from 'react-iconly';
+
+import useStyle from './signin-modal';
+import RegisterStoreContent from '@/Modules/Store/components/RegisterStoreContent/RegisterStoreContent';
 
 const { Title, Text } = Typography;
 
@@ -30,6 +35,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 
 	const [open, setOpenModalOpen] = useState(false);
 	const [registerModal, setRegisterModal] = useState(false);
+	const [showRegisForm, setShowRegisForm] = useState(false);
 
 	const onHandleSigninGoogle = () => {
 		signIn('google');
@@ -38,6 +44,12 @@ const SigninModal = ({ session }: SigninModalProps) => {
 	const toggleOpen = () => setOpenModalOpen((prev) => !prev);
 
 	const toggleRegisterModal = () => setRegisterModal((prev) => !prev);
+	const toggleShowRegisForm = () => setShowRegisForm((prev) => !prev);
+
+	const onTurnOffRegisterModal = () => {
+		setRegisterModal(false);
+		toggleShowRegisForm();
+	};
 
 	const onClick: MenuProps['onClick'] = ({ key }) => {
 		if (key === MENU_KEYS.REGISTER_OWNER) {
@@ -115,6 +127,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 				</Button>
 			)}
 			<Modal
+				transitionName=""
 				open={open}
 				width={400}
 				closeIcon={false}
@@ -141,32 +154,23 @@ const SigninModal = ({ session }: SigninModalProps) => {
 				</div>
 			</Modal>
 			<Modal
+				transitionName=""
+				maskClosable
 				open={registerModal}
 				onOk={toggleRegisterModal}
-				onCancel={toggleRegisterModal}
-				width={500}
+				onCancel={onTurnOffRegisterModal}
+				width={showRegisForm ? 560 : 500}
 				centered
 				closeIcon={false}
 				okText={'Register'}
 				cancelText={''}
 				footer={[]}
 			>
-				<div className={styles.becomeOwner}>
-					<Image
-						alt={'register'}
-						src={'/images/register_owner.jpg'}
-						width={150}
-						height={150}
-					/>
-					<Title level={3}>Welcome to Shoppik</Title>
-					<Text className="description">
-						To become an owner on Shoppik, you need to provide
-						<br /> some basic information
-					</Text>
-					<Button type="primary" size="large">
-						Become an owner
-					</Button>
-				</div>
+				{showRegisForm ? (
+					<RegisterStoreForm toggleForm={onTurnOffRegisterModal} />
+				) : (
+					<RegisterStoreContent onShowForm={toggleShowRegisForm} />
+				)}
 			</Modal>
 		</>
 	);
