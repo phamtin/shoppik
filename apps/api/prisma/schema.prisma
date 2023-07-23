@@ -35,8 +35,7 @@ type Customer {
 }
 
 type Owner {
-  storeId   String[]  @db.ObjectId
-  updatedAt DateTime?
+  storeId String @db.ObjectId
 }
 
 model Account {
@@ -87,16 +86,12 @@ enum StoreStatus {
   DELETED
 }
 
-type AddressStructure {
-  code Int
-  name String
-}
-
 type StoreAddress {
-  province AddressStructure
-  district AddressStructure
-  ward     AddressStructure
+  province String
+  district String
+  ward     String
   street   String
+  note     String?
 }
 
 model Store {

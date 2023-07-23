@@ -52,8 +52,7 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 				updatedAt: new Date(),
 			},
 			roleOwner: {
-				storeId: [],
-				updatedAt: new Date(),
+				storeId: '',
 			},
 		};
 	} else {

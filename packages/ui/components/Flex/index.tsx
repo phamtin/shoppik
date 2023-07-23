@@ -30,6 +30,7 @@ export interface FlexProps extends PropsWithChildren {
   pr?: number;
   pb?: number;
   pl?: number;
+  gap?: number;
 }
 
 const Flex: FC<FlexProps> = (props) => {
@@ -48,6 +49,7 @@ const Flex: FC<FlexProps> = (props) => {
     pr,
     pb,
     pl,
+    gap,
   } = props;
 
   const flexStyle: CSSProperties = {
@@ -86,6 +88,9 @@ const Flex: FC<FlexProps> = (props) => {
   }
   if (pb) {
     flexStyle.paddingBottom = pb + "px";
+  }
+  if (gap) {
+    flexStyle.gap = gap + "px";
   }
 
   return <div style={flexStyle}>{children}</div>;

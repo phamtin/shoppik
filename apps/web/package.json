@@ -11,7 +11,7 @@
 		"format": "prettier --write \"**/*.{ts,tsx,md}\""
 	},
 	"dependencies": {
-		"@legendapp/state": "^1.6.0",
+		"@legendapp/state": "^1.6.2",
 		"@shoppik/schema": "workspace:*",
 		"@shoppik/ui": "workspace:*",
 		"@trpc/client": "^10.35.0",
@@ -21,7 +21,7 @@
 		"cookies-next": "^2.1.2",
 		"dayjs": "^1.11.9",
 		"mobile-detect": "^1.4.5",
-		"next": "^13.4.11",
+		"next": "^13.4.12",
 		"next-auth": "^4.22.3",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",

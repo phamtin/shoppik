@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { Session } from 'next-auth';
 import { signIn } from 'next-auth/react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import {
 	Button,
 	Cascader,
 	Dropdown,
-	Form,
-	Input,
 	MenuProps,
 	Modal,
 	Space,
@@ -18,97 +16,26 @@ import {
 } from '@shoppik/ui/components/Core';
 import Flex from '@shoppik/ui/components/Flex';
 
-import useStyle from './signin-modal';
+import RegisterStoreForm from '@/Modules/Store/components/RegisterStoreForm/RegisterStoreForm';
 import { MENU_KEYS } from '../../auth';
 import { Buy, Logout, Password, User } from 'react-iconly';
-import { trpc } from '@/lib/trpc/trpc';
-import useGetLocation from '@/Hooks/useGetLocation/useGetLocation';
-import { Option } from '@/lib/ant-design/type';
+
+import useStyle from './signin-modal';
+import RegisterStoreContent from '@/Modules/Store/components/RegisterStoreContent/RegisterStoreContent';
 
 const { Title, Text } = Typography;
 
-interface LocationOption extends Option {
-	level: string;
-}
 interface SigninModalProps {
 	session: Session | null;
-}
-
-interface RegisterForm {
-	name: string;
-	tradeName: string;
-	storeAddress: string;
-	description: string;
-	avatar: string;
-	landingPageUrl: string;
-	email: string;
-	phone: string;
 }
 
 const SigninModal = ({ session }: SigninModalProps) => {
 	const { styles } = useStyle();
 	const router = useRouter();
-	const [form] = Form.useForm<RegisterForm>();
-	const values = Form.useWatch([], form);
 
 	const [open, setOpenModalOpen] = useState(false);
 	const [registerModal, setRegisterModal] = useState(false);
 	const [showRegisForm, setShowRegisForm] = useState(false);
-
-	const [selectedLocation, setSelectedLocation] = useState({ p: 0, d: 0, w: 0 });
-	const [target, setTarget] = useState<any>();
-
-	const { province, district, ward } = useGetLocation({
-		p: selectedLocation.p,
-		d: selectedLocation.d,
-	});
-
-	useEffect(() => {
-		setTarget(
-			province.map((p) => ({
-				label: p.name,
-				value: p.code,
-				level: p.level,
-				isLeaf: false,
-			})),
-		);
-	}, [province]);
-	useEffect(() => {
-		if (!district?.length) return;
-		for (let i = 0; i < target.length; i++) {
-			const province = target[i];
-			if (province.value === selectedLocation.p) {
-				province.children = district.map((d) => ({
-					label: d.name,
-					value: d.code,
-					level: d.level,
-					isLeaf: false,
-				}));
-				setTarget([...target]);
-				break;
-			}
-		}
-	}, [district]);
-	useEffect(() => {
-		if (!ward?.length) return;
-		for (let i = 0; i < target.length; i++) {
-			const districts = target[i].children;
-			if (!districts || districts.length === 0) continue;
-			for (let j = 0; j < districts.length; j++) {
-				const district = districts[j];
-				if (district.value === selectedLocation.d) {
-					district.children = ward.map((w) => ({
-						label: w.name,
-						value: w.code,
-						level: w.level,
-						isLeaf: true,
-					}));
-					setTarget([...target]);
-					break;
-				}
-			}
-		}
-	}, [ward]);
 
 	const onHandleSigninGoogle = () => {
 		signIn('google');
@@ -117,52 +44,11 @@ const SigninModal = ({ session }: SigninModalProps) => {
 	const toggleOpen = () => setOpenModalOpen((prev) => !prev);
 
 	const toggleRegisterModal = () => setRegisterModal((prev) => !prev);
+	const toggleShowRegisForm = () => setShowRegisForm((prev) => !prev);
 
 	const onTurnOffRegisterModal = () => {
 		setRegisterModal(false);
-		setShowRegisForm(false);
-	};
-
-	const {
-		mutate: mutateRegisStore,
-		isSuccess: isSuccessRegisStore,
-		isLoading: isLoadingRegisStore,
-		error: errorRegisStore,
-	} = trpc.store.createStore.useMutation();
-
-	const onSubmit = () => {
-		const {
-			name,
-			tradeName,
-			storeAddress,
-			description,
-			avatar,
-			landingPageUrl,
-			phone,
-			email,
-		} = values;
-
-		mutateRegisStore({
-			name,
-			tradeName,
-			storeAddress: {
-				district: { name: '', code: 0 },
-				province: { name: '', code: 0 },
-				ward: { name: '', code: 0 },
-				street: '',
-			},
-			description,
-			avatar,
-			landingPageUrl,
-			contact: {
-				phone,
-				email,
-				instagramLink: 'kuro.store',
-				facebookLink: 'kuro1997',
-				youtubeLink: 'kuro.channel',
-			},
-			tags: ['646fa3cd01d88dcbe54bc1bf', '646fa3cd01d18dcbe54bc0bf'],
-		});
+		toggleShowRegisForm();
 	};
 
 	const onClick: MenuProps['onClick'] = ({ key }) => {
@@ -215,21 +101,6 @@ const SigninModal = ({ session }: SigninModalProps) => {
 			key: MENU_KEYS.LOGOUT,
 		},
 	];
-
-	const loadData = (selectedOptions: LocationOption[]) => {
-		const targetOption = selectedOptions[selectedOptions.length - 1];
-		if (targetOption.level === 'province') {
-			setSelectedLocation((prev) => ({
-				...prev,
-				p: targetOption.value ? +targetOption.value : 0,
-			}));
-		} else if (targetOption.level === 'district') {
-			setSelectedLocation((prev) => ({
-				...prev,
-				d: targetOption.value ? +targetOption.value : 0,
-			}));
-		}
-	};
 
 	return (
 		<>
@@ -296,114 +167,9 @@ const SigninModal = ({ session }: SigninModalProps) => {
 				footer={[]}
 			>
 				{showRegisForm ? (
-					<div className={styles.formInfo}>
-						<Flex justifyContent="left" mb={12}>
-							<Upload className="avaUploader" action="/upload.do" listType="picture-card">
-								Upload
-							</Upload>
-							<Flex direction="column" alignitems="flex-start" ml={18}>
-								<Title level={3}>Shoppik</Title>
-								<Text className="description">Register to become an owner</Text>
-							</Flex>
-						</Flex>
-						<Form form={form} onFinish={onSubmit} layout="vertical">
-							<Form.Item name="name" label="Shop Name" rules={[{ required: true }]}>
-								<Input size="large" />
-							</Form.Item>
-							<div className="inputRow">
-								<Form.Item
-									className="block"
-									name="tradeName"
-									label="Trade Name"
-									rules={[{ required: true }]}
-								>
-									<Input size="large" />
-								</Form.Item>
-								<div className="spacer" />
-								<Form.Item
-									className="block"
-									name="landingPageUrl"
-									label="Website"
-									rules={[{ required: true }]}
-								>
-									<Input size="large" addonBefore="https://" />
-								</Form.Item>
-							</div>
-							<div className="inputRow">
-								<Form.Item
-									className="block"
-									name="email"
-									label="Email"
-									rules={[{ required: true }]}
-								>
-									<Input size="large" />
-								</Form.Item>
-								<div className="spacer" />
-								<Form.Item
-									className="block"
-									name="phone"
-									label="Phone Number"
-									rules={[{ required: true }]}
-								>
-									<Input size="large" addonBefore="+84" />
-								</Form.Item>
-							</div>
-							<Form.Item
-								name="storeAddress"
-								label="Store Address"
-								rules={[{ required: true }]}
-							>
-								<Cascader
-									size="large"
-									changeOnSelect
-									options={target}
-									loadData={loadData}
-								/>
-							</Form.Item>
-							<Form.Item name="description" label="Description">
-								<Input.TextArea
-									rows={4}
-									showCount
-									maxLength={100}
-									placeholder="Fill in some description"
-								/>
-							</Form.Item>
-
-							<div className="buttons">
-								<Button size="large" type="default" htmlType="submit" className="block">
-									Save as draft
-								</Button>
-								<div className="spacer" />
-								<Button
-									size="large"
-									type="primary"
-									htmlType="submit"
-									className="block"
-									loading={isLoadingRegisStore}
-									onClick={onSubmit}
-								>
-									Submit
-								</Button>
-							</div>
-						</Form>
-					</div>
+					<RegisterStoreForm toggleForm={onTurnOffRegisterModal} />
 				) : (
-					<div className={styles.becomeOwner}>
-						<Image
-							alt={'register'}
-							src={'/images/register_owner.jpg'}
-							width={150}
-							height={150}
-						/>
-						<Title level={3}>Welcome to Shoppik</Title>
-						<Text className="description">
-							To become an owner on Shoppik, you need to provide
-							<br /> some basic information
-						</Text>
-						<Button type="primary" size="large" onClick={() => setShowRegisForm(true)}>
-							Become an owner
-						</Button>
-					</div>
+					<RegisterStoreContent onShowForm={toggleShowRegisForm} />
 				)}
 			</Modal>
 		</>

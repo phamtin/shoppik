@@ -31,56 +31,6 @@ const styles = createStyles(({ token }) => ({
 			},
 		},
 	},
-
-	becomeOwner: {
-		display: 'flex',
-		alignItems: 'center',
-		textAlign: 'center',
-		flexDirection: 'column',
-
-		h3: {
-			marginTop: token.marginXXS,
-			marginBottom: token.marginXS,
-		},
-		'.description': {
-			fontSize: 15,
-			color: token.colorTextSecondary,
-			marginBottom: token.marginXL,
-		},
-	},
-
-	formInfo: {
-		h3: {
-			marginBottom: 0,
-		},
-		'.description': {
-			display: 'block',
-			fontSize: 15,
-			color: token.colorTextLabel,
-			marginBottom: token.marginMD,
-		},
-		'.ant-form-item': {
-			marginBottom: token.marginMD,
-		},
-		'.buttons': {
-			display: 'flex',
-			flexDirection: 'row',
-			marginTop: token.marginXL,
-		},
-		'.inputRow': {
-			display: 'flex',
-			flexDirection: 'row',
-		},
-		'.spacer': {
-			width: token.margin,
-		},
-		'.block': {
-			flex: 1,
-		},
-		'.avaUploader': {
-			width: 100,
-		},
-	},
 }));
 
 export default styles;

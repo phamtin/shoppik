@@ -139,8 +139,7 @@ export type Customer = z.infer<typeof CustomerSchema>
 /////////////////////////////////////////
 
 export const OwnerSchema = z.object({
-  storeId: z.string().array(),
-  updatedAt: z.date().nullable(),
+  storeId: z.string(),
 })
 
 export type Owner = z.infer<typeof OwnerSchema>
@@ -190,20 +189,6 @@ export const ContactSchema = z.object({
 })
 
 export type Contact = z.infer<typeof ContactSchema>
-// ADDRESS STRUCTURE
-//------------------------------------------------------
-
-
-/////////////////////////////////////////
-// ADDRESS STRUCTURE SCHEMA
-/////////////////////////////////////////
-
-export const AddressStructureSchema = z.object({
-  code: z.number().int(),
-  name: z.string(),
-})
-
-export type AddressStructure = z.infer<typeof AddressStructureSchema>
 // STORE ADDRESS
 //------------------------------------------------------
 
@@ -213,24 +198,11 @@ export type AddressStructure = z.infer<typeof AddressStructureSchema>
 /////////////////////////////////////////
 
 export const StoreAddressSchema = z.object({
+  province: z.string(),
+  district: z.string(),
+  ward: z.string(),
   street: z.string(),
+  note: z.string().nullable(),
 })
 
 export type StoreAddress = z.infer<typeof StoreAddressSchema>
-
-// STORE ADDRESS RELATION SCHEMA
-//------------------------------------------------------
-
-export type StoreAddressRelations = {
-  province: AddressStructure;
-  district: AddressStructure;
-  ward: AddressStructure;
-};
-
-export type StoreAddressWithRelations = z.infer<typeof StoreAddressSchema> & StoreAddressRelations
-
-export const StoreAddressWithRelationsSchema: z.ZodType<StoreAddressWithRelations> = StoreAddressSchema.merge(z.object({
-  province: z.lazy(() => AddressStructureSchema),
-  district: z.lazy(() => AddressStructureSchema),
-  ward: z.lazy(() => AddressStructureSchema),
-}))

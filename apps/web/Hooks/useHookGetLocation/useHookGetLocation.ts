@@ -8,7 +8,7 @@ interface Props {
 }
 const BASE_URL = 'https://provinces.open-api.vn/api';
 
-const useGetLocation = (props: Props) => {
+const useHookGetLocation = (props: Props) => {
 	const { p, d } = props;
 
 	const [province, setProvinces] = useState<CityLocation>([]);
@@ -34,22 +34,18 @@ const useGetLocation = (props: Props) => {
 	const fetchData = async (type: 'p' | 'd' | 'w', url: string, cb: Function) => {
 		const res = await fetch(url, { method: 'GET' });
 		res.json().then((res) => {
-			/**
-			 *  Do this because the weird of 3th API
-			 */
 			if (type === 'p') {
-				let bigCity = [];
-				let noBigCity = [];
+				let orderedCities = [];
 				for (let i = 0; i < res.length; i++) {
 					const element = res[i];
+					//	Hanoi - Danang - HCMC
 					if (element.code === 1 || element.code === 48 || element.code === 79) {
-						bigCity.push(element);
+						orderedCities.unshift(element);
 					} else {
-						noBigCity.push(element);
+						orderedCities.push(element);
 					}
 				}
-
-				cb(bigCity.concat(noBigCity).map((el: any) => ({ ...el, level: 'province' })));
+				cb(orderedCities.map((el: any) => ({ ...el, level: 'province' })));
 			} else if (type === 'd') {
 				cb((res?.districts || []).map((el: any) => ({ ...el, level: 'district' })));
 			} else if (type === 'w') {
@@ -76,4 +72,4 @@ const useGetLocation = (props: Props) => {
 	return { province, district, ward };
 };
 
-export default useGetLocation;
+export default useHookGetLocation;

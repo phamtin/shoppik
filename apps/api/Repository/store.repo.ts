@@ -1,15 +1,22 @@
 import slugify from 'slugify';
 
-import { CreateStoreRequest, GetMyStoreRequest, CreateStoreResponse, GetMyStoreResponse } from '../Router/routers/store.route';
+import { CreateStoreRequest, CreateStoreResponse, GetMyStoreResponse } from '../Router/routers/store.route';
 import { Context } from '../Router/context';
 import { TRPCError } from '@trpc/server';
-import { StoreStatus } from '@prisma/client';
-import { Store } from '@shoppik/schema';
+import { StoreAddress, StoreStatus } from '@prisma/client';
 
 const createStore = async (ctx: Context, request: CreateStoreRequest): Promise<CreateStoreResponse> => {
 	const db = ctx.prisma.store;
 
 	if (!ctx.user?.id) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+
+	const fullStoreAddress: StoreAddress = {
+		province: request.storeAddress.province,
+		district: request.storeAddress.district,
+		ward: request.storeAddress.ward,
+		street: request.storeAddress.street,
+		note: '',
+	};
 
 	const createdStore = await db.create({
 		data: {
@@ -18,7 +25,7 @@ const createStore = async (ctx: Context, request: CreateStoreRequest): Promise<C
 			slug: slugify(request.name),
 			tradeName: request.tradeName,
 			description: request.description,
-			storeAddress: request.storeAddress,
+			storeAddress: fullStoreAddress,
 			landingPageUrl: request.landingPageUrl,
 			avatar: request.avatar,
 			contact: request.contact,
@@ -28,12 +35,7 @@ const createStore = async (ctx: Context, request: CreateStoreRequest): Promise<C
 				reviews: 0,
 				responseTime: 99,
 			},
-			tags: [
-				{
-					name: 'Apple',
-					slug: 'apple',
-				},
-			],
+			tags: [{ name: 'Apple', slug: 'apple' }],
 			createdAt: new Date(),
 			isDeleted: false,
 		},
@@ -42,20 +44,10 @@ const createStore = async (ctx: Context, request: CreateStoreRequest): Promise<C
 	return createdStore;
 };
 
-const getMyStore = async (ctx: Context, request: GetMyStoreRequest): Promise<GetMyStoreResponse> => {
+const getMyStore = async (ctx: Context): Promise<GetMyStoreResponse> => {
 	const storerepo = ctx.prisma.store;
 
-	let store: Store | Store[] | null;
-
-	if (request.storeId) {
-		store = await storerepo.findUnique({
-			where: {
-				id: request.storeId,
-			},
-		});
-		return { data: [store] };
-	}
-	store = await storerepo.findMany({
+	const store = await storerepo.findFirst({
 		where: {
 			ownerId: ctx.user?.id,
 		},
