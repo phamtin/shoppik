@@ -21,32 +21,9 @@ import { DATE_FORMAT } from '@/Utils/dayjs/time';
 import { baseFieldValidation } from '@/Utils/validator/validator';
 import { VALID_EMAIL_REGEX } from '@/Helper/regex';
 import GlobalError from '@/app/error/Error';
+import { LIST_INFO } from '../../types/Profile.type';
 
 const { Text } = Typography;
-
-interface ListInfoProps {
-	key: number;
-	title: string;
-}
-
-const LIST_INFO: ListInfoProps[] = [
-	{
-		key: 0,
-		title: 'Personal Information',
-	},
-	{
-		key: 1,
-		title: 'My Order',
-	},
-	{
-		key: 2,
-		title: 'Notification',
-	},
-	{
-		key: 3,
-		title: 'Settings',
-	},
-];
 
 const ProfileScreen = () => {
 	const { styles } = useStyle();
@@ -229,7 +206,7 @@ const ProfileScreen = () => {
 								type="primary"
 								htmlType="submit"
 								style={{ width: 200 }}
-								loading={isLoadingGetMyProfile ?? isLoadingUpdateUserProfile}
+								loading={isLoadingGetMyProfile || isLoadingUpdateUserProfile}
 								onClick={onSave}
 							>
 								Save
