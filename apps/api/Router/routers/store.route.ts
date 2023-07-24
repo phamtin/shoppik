@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { StoreAddressSchema, StoreTagSchema, StoreWithRelationsSchema } from '@shoppik/schema';
+import { ContactSchema, StoreAddressSchema, StoreTagSchema, StoreWithRelationsSchema } from '@shoppik/schema';
 import StoreService from '../../Service/store/store.service';
 import { authenticatedProcedure, router } from '../trpc';
 
@@ -9,16 +9,10 @@ const createStoreRequest = z.object({
 	avatar: z.string(),
 	tradeName: z.string(),
 	description: z.string(),
-	storeAddress: StoreAddressSchema,
-	contact: z.object({
-		email: z.string(),
-		phone: z.string(),
-		instagramLink: z.string().optional(),
-		facebookLink: z.string().optional(),
-		youtubeLink: z.string().optional(),
-	}),
-	landingPageUrl: z.string(),
 	tags: z.array(z.string()),
+	landingPageUrl: z.string(),
+	contact: ContactSchema,
+	storeAddress: StoreAddressSchema,
 });
 
 const createStoreResponse = StoreWithRelationsSchema;
@@ -33,17 +27,10 @@ const updateStoreRequest = z
 		avatar: z.string(),
 		tradeName: z.string(),
 		description: z.string(),
-		storeAddress: StoreAddressSchema,
-		contact: z
-			.object({
-				phone: z.string(),
-				instagramLink: z.string().optional(),
-				facebookLink: z.string().optional(),
-				youtubeLink: z.string().optional(),
-			})
-			.partial(),
 		landingPageUrl: z.string(),
 		tags: StoreTagSchema,
+		contact: ContactSchema,
+		storeAddress: StoreAddressSchema,
 	})
 	.partial();
 
@@ -56,6 +43,11 @@ export type UpdateStoreRequest = z.infer<typeof updateStoreRequest>;
 export type UpdateStoreResponse = z.infer<typeof updateStoreResponse>;
 
 export const storeRouter = router({
+	getMyStore: authenticatedProcedure.output(getMyStoreResponse).query(async ({ ctx }) => {
+		const store = await StoreService.getMyStore(ctx);
+		return store;
+	}),
+
 	createStore: authenticatedProcedure
 		.input(createStoreRequest)
 		.output(createStoreResponse)
@@ -63,11 +55,6 @@ export const storeRouter = router({
 			const store = await StoreService.createStore(ctx, input);
 			return store;
 		}),
-
-	getMyStore: authenticatedProcedure.output(getMyStoreResponse).query(async ({ ctx }) => {
-		const store = await StoreService.getMyStore(ctx);
-		return store;
-	}),
 
 	updateStoreProfile: authenticatedProcedure
 		.input(updateStoreRequest)

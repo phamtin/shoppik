@@ -2,17 +2,15 @@ import { Session } from 'next-auth';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import {
 	Button,
-	Cascader,
 	Dropdown,
 	MenuProps,
 	Modal,
 	Space,
 	Typography,
-	Upload,
 } from '@shoppik/ui/components/Core';
 import Flex from '@shoppik/ui/components/Flex';
 
@@ -159,7 +157,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 				open={registerModal}
 				onOk={toggleRegisterModal}
 				onCancel={onTurnOffRegisterModal}
-				width={showRegisForm ? 560 : 500}
+				width={showRegisForm ? 560 : 700}
 				centered
 				closeIcon={false}
 				okText={'Register'}

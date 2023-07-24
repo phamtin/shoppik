@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	swcMinify: true,
+	// productionBrowserSourceMaps: false, // Disable source maps in development
+
 	transpilePackages: ['@shoppik/ui', '@shoppik/schema'],
 	experimental: {
 		serverActions: true,

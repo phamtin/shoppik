@@ -127,6 +127,9 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 			street,
 			tradeName = '',
 			description = '',
+			youtubeLink = '',
+			facebookLink = '',
+			instagramLink = '',
 			landingPageUrl = '',
 		} = values;
 
@@ -136,7 +139,7 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 			storeAddress: { ...completeStoreAddress, street },
 			description,
 			landingPageUrl,
-			contact: { phone, email },
+			contact: { phone, email, youtubeLink, facebookLink, instagramLink },
 			avatar: '',
 			tags: ['646fa3cd01d88dcbe54bc1bf', '646fa3cd01d18dcbe54bc0bf'],
 		});
