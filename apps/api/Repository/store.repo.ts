@@ -35,7 +35,7 @@ const createStore = async (ctx: Context, request: CreateStoreRequest): Promise<C
 				reviews: 0,
 				responseTime: 99,
 			},
-			tags: [{ name: 'Apple', slug: 'apple' }],
+			tags: request.tags,
 			createdAt: new Date(),
 			isDeleted: false,
 		},

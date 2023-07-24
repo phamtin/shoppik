@@ -141,7 +141,7 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 			landingPageUrl,
 			contact: { phone, email, youtubeLink, facebookLink, instagramLink },
 			avatar: '',
-			tags: ['646fa3cd01d88dcbe54bc1bf', '646fa3cd01d18dcbe54bc0bf'],
+			tags: { name: 'Twitter', slug: 'twitter' },
 		});
 	};
 

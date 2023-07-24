@@ -9,8 +9,8 @@ const createStoreRequest = z.object({
 	avatar: z.string(),
 	tradeName: z.string(),
 	description: z.string(),
-	tags: z.array(z.string()),
 	landingPageUrl: z.string(),
+	tags: StoreTagSchema,
 	contact: ContactSchema,
 	storeAddress: StoreAddressSchema,
 });
@@ -59,7 +59,7 @@ export const storeRouter = router({
 	updateStoreProfile: authenticatedProcedure
 		.input(updateStoreRequest)
 		.output(updateStoreResponse)
-		.query(async ({ ctx, input }) => {
+		.mutation(async ({ ctx, input }) => {
 			const updatedStore = await StoreService.updateMyStore(ctx, input);
 			return updatedStore;
 		}),

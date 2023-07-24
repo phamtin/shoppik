@@ -12,6 +12,9 @@ const createStore = async (ctx: Context, request: CreateStoreRequest) => {
 	if (isAlreadyHasStore) {
 		throw new TRPCError({ code: 'BAD_REQUEST', message: "This account'd already had a store" });
 	}
+	if (request.contact.email !== ctx.user?.email) {
+		throw new TRPCError({ code: 'BAD_REQUEST', message: 'Hack cc' });
+	}
 
 	//	[DB.createStore] 1/2
 	const newStore = await StoreRepo.createStore(ctx, request);
