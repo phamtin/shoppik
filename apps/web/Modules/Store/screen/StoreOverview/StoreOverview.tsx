@@ -36,12 +36,6 @@ const StoreOverviewScreen = ({ store }: MarketProp) => {
 		return setOpenFloatMenu((prev) => !prev);
 	};
 
-	const mutation = trpc.store.createStore.useMutation();
-
-	if (mutation.isError) {
-		return <GlobalError error={mutation.error?.data} />;
-	}
-
 	return (
 		<div className={styles.wrapper}>
 			<StoreMainInfo />
