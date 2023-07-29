@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useState } from 'react';
 
@@ -29,16 +29,20 @@ const StoreMainInfo = () => {
 	const [updateModal, setUpdateModal] = useState(false);
 	const { styles, theme } = useStyle({ collapsed });
 
-	const toggleUpdateModal = () => setUpdateModal(prev => !prev);
+	const toggleUpdateModal = () => setUpdateModal((prev) => !prev);
 
 	const tags = ['iOs', 'Iphone', 'IMac', 'Apple Watch', 'Apple TV'];
 
 	const toggleCollapse = () => setCollapsed((prev) => !prev);
 	const webStore = store?.data?.landingPageUrl || 'https://kurogu.vercel.app/';
-	const avatarStore = store?.data?.avatar || 'https://res.cloudinary.com/dtizrfvjh/image/upload/v1668920121/qzrteppsiwxoyvbipnhg.jpg';
+	const avatarStore =
+		store?.data?.avatar ||
+		'https://res.cloudinary.com/dtizrfvjh/image/upload/v1668920121/qzrteppsiwxoyvbipnhg.jpg';
 	const address: any = store?.data?.storeAddress || {};
-	const addressStore = `${address?.street}, ${address?.ward}, ${address?.district}, ${address?.province}`
+	const addressStore = `${address?.street}, ${address?.ward}, ${address?.district}, ${address?.province}`;
 	const phoneStore = store?.data?.contact?.phone?.replace('+84', '0');
+
+	if (!store?.data) return <></>;
 
 	return (
 		<>
@@ -60,7 +64,9 @@ const StoreMainInfo = () => {
 									{store?.data?.tradeName || 'Kuro'}
 								</Typography.Text>
 								<br />
-								<Typography.Link className="link" target="_blank" href={webStore}>{webStore}</Typography.Link>
+								<Typography.Link className="link" target="_blank" href={webStore}>
+									{webStore}
+								</Typography.Link>
 								<Typography.Paragraph className="folowers">
 									742 <span style={{ color: '#9f9f9f' }}>followers</span>
 								</Typography.Paragraph>
@@ -69,14 +75,10 @@ const StoreMainInfo = () => {
 					</div>
 					<div className={styles.addressArea}>
 						<Location size="medium" />
-						<Typography.Paragraph>
-							{addressStore}
-						</Typography.Paragraph>
+						<Typography.Paragraph>{addressStore}</Typography.Paragraph>
 					</div>
 					<div className={styles.descriptionArea}>
-						<Typography.Paragraph>
-							{store?.data?.description}
-						</Typography.Paragraph>
+						<Typography.Paragraph>{store?.data?.description}</Typography.Paragraph>
 					</div>
 					<div className={styles.tags}>
 						{tags.map((t) => (
@@ -104,12 +106,26 @@ const StoreMainInfo = () => {
 					</div>
 					<Divider style={{ margin: theme.margin }} />
 					<div className={styles.infoTableInfo}>
-						<Descriptions bordered title={<small>Contact Infor</small>} column={{ sm: 1 }}>
-							<Descriptions.Item label="Phone">{phoneStore || 'No info'}</Descriptions.Item>
-							<Descriptions.Item label="Email">{store?.data?.contact?.email || 'No info'}</Descriptions.Item>
-							<Descriptions.Item label="Instagram">{store?.data?.contact?.instagramLink || 'No info'}</Descriptions.Item>
-							<Descriptions.Item label="Facebook">{store?.data?.contact?.facebookLink || 'No info'}</Descriptions.Item>
-							<Descriptions.Item label="Youtube">{store?.data?.contact?.youtubeLink || 'No info'}</Descriptions.Item>
+						<Descriptions
+							bordered
+							title={<small>Contact Infor</small>}
+							column={{ sm: 1 }}
+						>
+							<Descriptions.Item label="Phone">
+								{phoneStore || 'No info'}
+							</Descriptions.Item>
+							<Descriptions.Item label="Email">
+								{store?.data?.contact?.email || 'No info'}
+							</Descriptions.Item>
+							<Descriptions.Item label="Instagram">
+								{store?.data?.contact?.instagramLink || 'No info'}
+							</Descriptions.Item>
+							<Descriptions.Item label="Facebook">
+								{store?.data?.contact?.facebookLink || 'No info'}
+							</Descriptions.Item>
+							<Descriptions.Item label="Youtube">
+								{store?.data?.contact?.youtubeLink || 'No info'}
+							</Descriptions.Item>
 						</Descriptions>
 					</div>
 				</div>

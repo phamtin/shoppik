@@ -1,9 +1,8 @@
 import slugify from 'slugify';
-
+import { Contact, StoreAddress, StoreStatusSchema } from '@shoppik/schema';
 import { CreateStoreRequest, CreateStoreResponse, GetMyStoreResponse, UpdateStoreRequest, UpdateStoreResponse } from '../Router/routers/store.route';
 import { Context } from '../Router/context';
 import { TRPCError } from '@trpc/server';
-import { StoreAddress, StoreStatus } from '@prisma/client';
 
 const createStore = async (ctx: Context, request: CreateStoreRequest): Promise<CreateStoreResponse> => {
 	const db = ctx.prisma.store;
@@ -22,19 +21,15 @@ const createStore = async (ctx: Context, request: CreateStoreRequest): Promise<C
 		data: {
 			name: request.name,
 			ownerId: ctx.user.id,
-			slug: slugify(request.name),
-			tradeName: request.tradeName,
-			description: request.description,
-			storeAddress: fullStoreAddress,
-			landingPageUrl: request.landingPageUrl,
 			avatar: request.avatar,
 			contact: request.contact,
-			storeStatus: StoreStatus.ACTIVE,
-			rating: {
-				score: 5,
-				reviews: 0,
-				responseTime: 99,
-			},
+			tradeName: request.tradeName,
+			description: request.description,
+			landingPageUrl: request.landingPageUrl,
+			slug: slugify(request.name),
+			storeAddress: fullStoreAddress,
+			storeStatus: StoreStatusSchema.Enum.ACTIVE,
+			rating: { score: 5, reviews: 0, responseTime: 99 },
 			tags: request.tags,
 			createdAt: new Date(),
 			isDeleted: false,
@@ -57,33 +52,38 @@ const getMyStore = async (ctx: Context): Promise<GetMyStoreResponse> => {
 };
 
 const updateMyStore = async (ctx: Context, request: UpdateStoreRequest): Promise<UpdateStoreResponse> => {
-	const storerepo = ctx.prisma.store;
+	const db = ctx.prisma.store;
 
-	type RequestType = Record<string, any>;
-	Object.keys(request).forEach((key) => {
-		if (!(request as RequestType)[key]) {
-			delete (request as RequestType)[key];
-		}
-	});
-
-	const currentStore = await storerepo.findUnique({
+	const currentStore = await db.findUnique({
 		where: { id: ctx.user?.roleOwner.storeId },
 	});
-	if (!currentStore?.id ?? currentStore.storeStatus !== StoreStatus.ACTIVE) {
+	if (!currentStore?.id ?? currentStore.storeStatus !== StoreStatusSchema.enum.ACTIVE) {
 		throw new TRPCError({ code: 'BAD_REQUEST' });
 	}
 
-	const updated = await storerepo.update({
+	const contactOrNot: Contact = {
+		email: request.contact?.email ?? currentStore.contact.email,
+		phone: request.contact?.phone ?? currentStore.contact.phone,
+		instagramLink: request.contact?.email ?? currentStore.contact.instagramLink,
+		facebookLink: request.contact?.email ?? currentStore.contact.facebookLink,
+		youtubeLink: request.contact?.email ?? currentStore.contact.youtubeLink,
+	};
+	const addressOrNot: StoreAddress = {
+		province: request.storeAddress?.province ?? currentStore.storeAddress.province,
+		district: request.storeAddress?.district ?? currentStore.storeAddress.district,
+		ward: request.storeAddress?.ward ?? currentStore.storeAddress.ward,
+		street: request.storeAddress?.street ?? currentStore.storeAddress.street,
+		note: request.storeAddress?.note ?? currentStore.storeAddress.note,
+	};
+
+	const updated = await db.update({
 		where: {
 			id: ctx.user?.roleOwner.storeId,
 		},
 		data: {
 			...request,
-			contact: {
-				...request.contact,
-				phone: request.contact?.phone ?? currentStore.contact.email,
-				email: currentStore.contact.email,
-			},
+			contact: contactOrNot,
+			storeAddress: addressOrNot,
 		},
 		include: true,
 	});

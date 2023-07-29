@@ -1,5 +1,6 @@
 'use client';
 
+import superjson from 'superjson';
 import { getCookie } from 'cookies-next';
 
 import { createTRPCNext } from '@trpc/next';
@@ -23,6 +24,7 @@ export function getToken() {
 export const trpc = createTRPCNext<AppRouter>({
 	config() {
 		return {
+			transformer: superjson,
 			links: [
 				loggerLink({
 					enabled: (opts) =>
