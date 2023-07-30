@@ -1,13 +1,11 @@
 'use client';
 
-import { PropsWithChildren, memo, useState } from 'react';
+import {PropsWithChildren, memo, useState} from 'react';
 
-import { Avatar, FloatButton, List } from '@shoppik/ui/components/Core';
-import { trpc } from '@/lib/trpc/trpc';
+import {Avatar, FloatButton, List} from '@shoppik/ui/components/Core';
 import StoreMainInfo from '../../components/StoreMainInfo/StoreMainInfo';
 import StoreMain from '../../components/StoreMain/StoreMain';
 import useStyle from './store-overview.style';
-import GlobalError from '@/app/error/Error';
 
 interface MarketProp extends PropsWithChildren {
 	store: string;
@@ -28,19 +26,13 @@ const actions = [
 	},
 ];
 
-const StoreOverviewScreen = ({ store }: MarketProp) => {
-	const { styles } = useStyle({ store });
+const StoreOverviewScreen = ({store}: MarketProp) => {
+	const {styles} = useStyle({store});
 	const [openFLoatMenu, setOpenFloatMenu] = useState<boolean>(false);
 
 	const toggleFloatMenu = () => {
 		return setOpenFloatMenu((prev) => !prev);
 	};
-
-	const mutation = trpc.store.createStore.useMutation();
-
-	if (mutation.isError) {
-		return <GlobalError error={mutation.error?.data} />;
-	}
 
 	return (
 		<div className={styles.wrapper}>
