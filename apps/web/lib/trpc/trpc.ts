@@ -24,7 +24,7 @@ export function getToken() {
 export const trpc = createTRPCNext<AppRouter>({
 	config() {
 		return {
-			transformer: superjson,
+			// transformer: superjson,
 			links: [
 				loggerLink({
 					enabled: (opts) =>
