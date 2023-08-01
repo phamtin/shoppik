@@ -14,6 +14,10 @@ export const AccountScalarFieldEnumSchema = z.enum(['id','email','fullname','fir
 
 export const StoreScalarFieldEnumSchema = z.enum(['id','name','slug','tradeName','description','avatar','landingPageUrl','ownerId','followers','following','storeStatus','createdAt','updatedAt','isDeleted','DeletedAt']);
 
+export const ShoppikCategoryScalarFieldEnumSchema = z.enum(['id','name','isSubCategory','parentId']);
+
+export const ProductScalarFieldEnumSchema = z.enum(['id','storeId','name','slug','description','keyFeatures','images','originPrice','quantity','shoppikCategories','isDraft','createdAt','isDeleted','DeletedAt']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
@@ -38,13 +42,13 @@ export const AccountSchema = z.object({
   signinMethod: SigninMethodSchema,
   id: z.string(),
   email: z.string(),
-  fullname: z.string().min(4, { message: "min error" }).max(32, { message: "max error" }),
-  firstname: z.string().min(2, { message: "min error" }).max(32, { message: "max error" }),
-  lastname: z.string().min(2, { message: "min error" }).max(32, { message: "max error" }),
+  fullname: z.string().min(4, { message: "min error" }).max(128, { message: "max error" }),
+  firstname: z.string().min(2, { message: "min error" }).max(64, { message: "max error" }),
+  lastname: z.string().min(2, { message: "min error" }).max(64, { message: "max error" }),
   phoneNumber: z.string().max(16, { message: "max error" }),
   birthday: z.string().max(32, { message: "max error" }),
   locale: z.string().max(2, { message: "max error" }),
-  avatar: z.string().max(512, { message: "max error" }),
+  avatar: z.string().max(1024, { message: "max error" }),
   postalCode: z.string().max(16, { message: "max error" }),
   isConfirm: z.boolean(),
   createdAt: z.date(),
@@ -77,12 +81,12 @@ export const AccountWithRelationsSchema: z.ZodType<AccountWithRelations> = Accou
 export const StoreSchema = z.object({
   storeStatus: StoreStatusSchema,
   id: z.string(),
-  name: z.string(),
+  name: z.string().min(2, { message: "min error" }).max(512, { message: "max error" }),
   slug: z.string(),
-  tradeName: z.string(),
-  description: z.string(),
-  avatar: z.string(),
-  landingPageUrl: z.string(),
+  tradeName: z.string().max(512, { message: "max error" }),
+  description: z.string().max(4096, { message: "max error" }),
+  avatar: z.string().max(4096, { message: "max error" }),
+  landingPageUrl: z.string().max(4096, { message: "max error" }),
   ownerId: z.string(),
   followers: z.string().array(),
   following: z.string().array(),
@@ -111,6 +115,61 @@ export const StoreWithRelationsSchema: z.ZodType<StoreWithRelations> = StoreSche
   tags: z.lazy(() => StoreTagSchema).array(),
   rating: z.lazy(() => StoreRatingSchema),
   contact: z.lazy(() => ContactSchema),
+}))
+
+/////////////////////////////////////////
+// SHOPPIK CATEGORY SCHEMA
+/////////////////////////////////////////
+
+export const ShoppikCategorySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  isSubCategory: z.boolean(),
+  parentId: z.string().array(),
+})
+
+export type ShoppikCategory = z.infer<typeof ShoppikCategorySchema>
+
+/////////////////////////////////////////
+// PRODUCT SCHEMA
+/////////////////////////////////////////
+
+export const ProductSchema = z.object({
+  id: z.string(),
+  storeId: z.string(),
+  name: z.string().min(2, { message: "min error" }).max(512, { message: "max error" }),
+  slug: z.string(),
+  description: z.string(),
+  keyFeatures: z.string().array(),
+  images: z.string().array(),
+  originPrice: z.number().lt(1, { message: "Invalid" }).gt(999999999, { message: "Invalid" }),
+  quantity: z.number().lt(1, { message: "Invalid" }).gt(999999999, { message: "Invalid" }),
+  shoppikCategories: z.string().array(),
+  isDraft: z.boolean(),
+  createdAt: z.date(),
+  isDeleted: z.boolean(),
+  DeletedAt: z.date().nullable(),
+})
+
+export type Product = z.infer<typeof ProductSchema>
+
+// PRODUCT RELATION SCHEMA
+//------------------------------------------------------
+
+export type ProductRelations = {
+  rating: ProductRating;
+  storeCategories: StoreTag[];
+  variants: AttributePattern[];
+  detail: AttributePattern[];
+};
+
+export type ProductWithRelations = z.infer<typeof ProductSchema> & ProductRelations
+
+export const ProductWithRelationsSchema: z.ZodType<ProductWithRelations> = ProductSchema.merge(z.object({
+  rating: z.lazy(() => ProductRatingSchema),
+  storeCategories: z.lazy(() => StoreTagSchema).array(),
+  variants: z.lazy(() => AttributePatternSchema).array(),
+  detail: z.lazy(() => AttributePatternSchema).array(),
 }))
 
 /////////////////////////////////////////
@@ -206,3 +265,33 @@ export const StoreAddressSchema = z.object({
 })
 
 export type StoreAddress = z.infer<typeof StoreAddressSchema>
+// ATTRIBUTE PATTERN
+//------------------------------------------------------
+
+
+/////////////////////////////////////////
+// ATTRIBUTE PATTERN SCHEMA
+/////////////////////////////////////////
+
+export const AttributePatternSchema = z.object({
+  k: z.string(),
+  v: z.string(),
+  u: z.string(),
+})
+
+export type AttributePattern = z.infer<typeof AttributePatternSchema>
+// PRODUCT RATING
+//------------------------------------------------------
+
+
+/////////////////////////////////////////
+// PRODUCT RATING SCHEMA
+/////////////////////////////////////////
+
+export const ProductRatingSchema = z.object({
+  score: z.number().lt(1, { message: "Invalid" }).gt(5, { message: "Invalid" }),
+  reviews: z.number().lt(0, { message: "Invalid" }),
+  sold: z.number().lt(0, { message: "Invalid" }),
+})
+
+export type ProductRating = z.infer<typeof ProductRatingSchema>

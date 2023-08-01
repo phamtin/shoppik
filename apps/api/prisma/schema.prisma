@@ -41,13 +41,13 @@ type Owner {
 model Account {
   id           String       @id @default(auto()) @map("_id") @db.ObjectId
   email        String
-  fullname     String /// @zod.string.min(4, { message: "min error" }).max(32, { message: "max error" })
-  firstname    String /// @zod.string.min(2, { message: "min error" }).max(32, { message: "max error" })
-  lastname     String /// @zod.string.min(2, { message: "min error" }).max(32, { message: "max error" })
+  fullname     String /// @zod.string.min(4, { message: "min error" }).max(128, { message: "max error" })
+  firstname    String /// @zod.string.min(2, { message: "min error" }).max(64, { message: "max error" })
+  lastname     String /// @zod.string.min(2, { message: "min error" }).max(64, { message: "max error" })
   phoneNumber  String /// @zod.string.max(16, { message: "max error" })
   birthday     String /// @zod.string.max(32, { message: "max error" })
   locale       String /// @zod.string.max(2, { message: "max error" })
-  avatar       String /// @zod.string.max(512, { message: "max error" })
+  avatar       String /// @zod.string.max(1024, { message: "max error" })
   postalCode   String /// @zod.string.max(16, { message: "max error" })
   isConfirm    Boolean
   signinMethod SigninMethod
@@ -96,13 +96,13 @@ type StoreAddress {
 
 model Store {
   id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
+  name           String /// @zod.string.min(2, { message: "min error" }).max(512, { message: "max error" })
   slug           String
-  tradeName      String
-  description    String
-  avatar         String
+  tradeName      String /// @zod.string.max(512, { message: "max error" })
+  description    String /// @zod.string.max(4096, { message: "max error" })
+  avatar         String /// @zod.string.max(4096, { message: "max error" })
   storeAddress   StoreAddress
-  landingPageUrl String
+  landingPageUrl String /// @zod.string.max(4096, { message: "max error" })
   ownerId        String       @db.ObjectId
   followers      String[]     @db.ObjectId
   following      String[]     @db.ObjectId
@@ -114,4 +114,46 @@ model Store {
   DeletedAt      DateTime?
   createdAt      DateTime
   updatedAt      DateTime?
+}
+
+//  =============================================== PRODUCT MODULE =====================================================
+
+type AttributePattern {
+  k String
+  v String
+  u String
+}
+
+type ProductRating {
+  score   Int @default(5) /// @zod.number.lt(1, { message: "Invalid" }).gt(5, { message: "Invalid" })
+  reviews Int @default(0) /// @zod.number.lt(0, { message: "Invalid" })
+  sold    Int @default(0) /// @zod.number.lt(0, { message: "Invalid" })
+}
+
+model ShoppikCategory {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  isSubCategory Boolean
+  parentId      String[] @db.ObjectId
+}
+
+model Product {
+  id                String             @id @default(auto()) @map("_id") @db.ObjectId
+  storeId           String             @db.ObjectId
+  name              String /// @zod.string.min(2, { message: "min error" }).max(512, { message: "max error" })
+  slug              String
+  description       String
+  keyFeatures       String[]
+  images            String[]
+  originPrice       Int /// @zod.number.lt(1, { message: "Invalid" }).gt(999999999, { message: "Invalid" })
+  quantity          Int /// @zod.number.lt(1, { message: "Invalid" }).gt(999999999, { message: "Invalid" })
+  rating            ProductRating
+  storeCategories   StoreTag[]
+  shoppikCategories String[]           @db.ObjectId
+  variants          AttributePattern[]
+  detail            AttributePattern[]
+  isDraft           Boolean
+  createdAt         DateTime
+  isDeleted         Boolean
+  DeletedAt         DateTime?
 }
