@@ -3,11 +3,9 @@
 import { PropsWithChildren, memo, useState } from 'react';
 
 import { Avatar, FloatButton, List } from '@shoppik/ui/components/Core';
-import { trpc } from '@/lib/trpc/trpc';
 import StoreMainInfo from '../../components/StoreMainInfo/StoreMainInfo';
 import StoreMain from '../../components/StoreMain/StoreMain';
 import useStyle from './store-overview.style';
-import GlobalError from '@/app/error/Error';
 
 interface MarketProp extends PropsWithChildren {
 	store: string;
