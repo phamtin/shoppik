@@ -41,6 +41,13 @@ export default createStyles(({ token }, state: { collapsed: boolean }) => ({
 			borderRadius: token.borderRadius * 2,
 			overflow: 'hidden',
 		},
+		'.ant-space-item': {
+			marginBottom: 0,
+
+			'.ant-typography': {
+				marginBottom: 0
+			}
+		}
 	},
 	subcription: {
 		marginTop: -3,
@@ -54,6 +61,15 @@ export default createStyles(({ token }, state: { collapsed: boolean }) => ({
 			fontSize: 13,
 			color: token.colorTextLabel,
 		},
+	},
+	addressArea: {
+		display: 'flex',
+		marginBottom: token.marginMD,
+		'.ant-typography': {
+			marginTop: 0,
+			marginBottom: 0,
+			marginLeft: token.marginXXS
+		}
 	},
 	descriptionArea: {
 		'.ant-typography': {

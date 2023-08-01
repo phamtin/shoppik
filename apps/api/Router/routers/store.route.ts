@@ -29,8 +29,8 @@ const updateStoreRequest = z
 		description: z.string(),
 		landingPageUrl: z.string(),
 		tags: StoreTagSchema,
-		contact: ContactSchema,
-		storeAddress: StoreAddressSchema,
+		contact: ContactSchema.partial(),
+		storeAddress: StoreAddressSchema.partial(),
 	})
 	.partial();
 

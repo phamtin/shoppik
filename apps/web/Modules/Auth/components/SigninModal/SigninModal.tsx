@@ -46,7 +46,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 
 	const onTurnOffRegisterModal = () => {
 		setRegisterModal(false);
-		toggleShowRegisForm();
+		setShowRegisForm(false);
 	};
 
 	const onClick: MenuProps['onClick'] = ({ key }) => {
