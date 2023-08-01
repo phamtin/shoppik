@@ -13,16 +13,12 @@ import {
 	Avatar,
 	Modal,
 } from '@shoppik/ui/components/Core';
-import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Location } from 'react-iconly';
 import useStyle from './store-main-info.style';
 import { trpc } from '@/lib/trpc/trpc';
-import useLoggedInUser from '@/Hooks/useLoggedInUser/useLoggedInUser';
 import UpdateStoreForm from '../UpdateStoreForm/UpdateStoreForm';
 
 const StoreMainInfo = () => {
-	const user = useLoggedInUser();
-
 	const { data: store } = trpc.store.getMyStore.useQuery();
 
 	const [collapsed, setCollapsed] = useState(false);
@@ -35,10 +31,8 @@ const StoreMainInfo = () => {
 
 	const toggleCollapse = () => setCollapsed((prev) => !prev);
 	const webStore = store?.data?.landingPageUrl || 'https://kurogu.vercel.app/';
-	const avatarStore =
-		store?.data?.avatar ||
-		'https://res.cloudinary.com/dtizrfvjh/image/upload/v1668920121/qzrteppsiwxoyvbipnhg.jpg';
-	const address: any = store?.data?.storeAddress || {};
+	const avatarStore = store?.data?.avatar || 'https://res.cloudinary.com/dtizrfvjh/image/upload/v1668920121/qzrteppsiwxoyvbipnhg.jpg';
+	const address = store?.data?.storeAddress;
 	const addressStore = `${address?.street}, ${address?.ward}, ${address?.district}, ${address?.province}`;
 	const phoneStore = store?.data?.contact?.phone?.replace('+84', '0');
 
@@ -59,9 +53,9 @@ const StoreMainInfo = () => {
 						<Space align="start">
 							<Avatar src={avatarStore} shape="square" size={80} />
 							<div className={styles.subcription}>
-								<Typography.Title level={5}>{store?.data?.name}</Typography.Title>
+								<Typography.Title level={5}>{store.data.name}</Typography.Title>
 								<Typography.Text className="subTitle1">
-									{store?.data?.tradeName || 'Kuro'}
+									{store.data.tradeName || 'Kuro'}
 								</Typography.Text>
 								<br />
 								<Typography.Link className="link" target="_blank" href={webStore}>
@@ -78,7 +72,7 @@ const StoreMainInfo = () => {
 						<Typography.Paragraph>{addressStore}</Typography.Paragraph>
 					</div>
 					<div className={styles.descriptionArea}>
-						<Typography.Paragraph>{store?.data?.description}</Typography.Paragraph>
+						<Typography.Paragraph>{store.data.description}</Typography.Paragraph>
 					</div>
 					<div className={styles.tags}>
 						{tags.map((t) => (
@@ -115,16 +109,16 @@ const StoreMainInfo = () => {
 								{phoneStore || 'No info'}
 							</Descriptions.Item>
 							<Descriptions.Item label="Email">
-								{store?.data?.contact?.email || 'No info'}
+								{store.data.contact.email || 'No info'}
 							</Descriptions.Item>
 							<Descriptions.Item label="Instagram">
-								{store?.data?.contact?.instagramLink || 'No info'}
+								{store.data.contact.instagramLink || 'No info'}
 							</Descriptions.Item>
 							<Descriptions.Item label="Facebook">
-								{store?.data?.contact?.facebookLink || 'No info'}
+								{store.data.contact.facebookLink || 'No info'}
 							</Descriptions.Item>
 							<Descriptions.Item label="Youtube">
-								{store?.data?.contact?.youtubeLink || 'No info'}
+								{store.data.contact.youtubeLink || 'No info'}
 							</Descriptions.Item>
 						</Descriptions>
 					</div>
@@ -140,7 +134,7 @@ const StoreMainInfo = () => {
 				footer={[]}
 				style={{ borderRadius: 20, overflow: 'hidden' }}
 			>
-				<UpdateStoreForm onTurnOffUpdateModal={toggleUpdateModal} store={store} />
+				<UpdateStoreForm onTurnOffUpdateModal={toggleUpdateModal} />
 			</Modal>
 		</>
 	);

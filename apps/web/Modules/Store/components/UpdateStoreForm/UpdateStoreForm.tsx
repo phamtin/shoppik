@@ -9,10 +9,9 @@ import { trpc } from '@/lib/trpc/trpc';
 
 interface UpdateStoreFormProps {
   onTurnOffUpdateModal: () => void;
-  store: Store;
 }
 
-const UpdateStoreForm = ({ onTurnOffUpdateModal, store }: UpdateStoreFormProps) => {
+const UpdateStoreForm = ({ onTurnOffUpdateModal }: UpdateStoreFormProps) => {
   const { theme, styles } = useStyles();
 
   const [form] = Form.useForm<Store>();
@@ -37,13 +36,9 @@ const UpdateStoreForm = ({ onTurnOffUpdateModal, store }: UpdateStoreFormProps) 
     } = values;
 
     mutateUpdateStore({
-      name: store?.data?.name,
       tradeName,
-      storeAddress: store?.data?.storeAddress,
       landingPageUrl,
       contact: {
-        phone: store?.data?.contact?.phone,
-        email: store?.data?.contact?.email,
         youtubeLink,
         facebookLink,
         instagramLink,
