@@ -2,20 +2,22 @@
 
 import React from 'react'
 import useStyles from './add-product.style'
-import {Button, Form, Input, Space, Typography, Upload, UploadProps, message} from '@shoppik/ui/components/Core';
+import { Button, Form, Input, Space, Typography, Upload, UploadProps, message } from '@shoppik/ui/components/Core';
 import Flex from '@shoppik/ui/components/Flex';
-import {baseFieldValidation} from '@/Utils/validator/validator';
-import {PaperUpload, TickSquare} from 'react-iconly';
+import { baseFieldValidation } from '@/Utils/validator/validator';
+import { PaperUpload, TickSquare } from 'react-iconly';
+import { trpc } from '@/lib/trpc/trpc';
+import ProductAddTitle from '../../components/ProductAddTitle/ProductAddTitle';
 
-const {Dragger} = Upload;
-const {Title, Text} = Typography
+const { Dragger } = Upload;
+const { Title, Text } = Typography
 
 const props: UploadProps = {
   name: 'file',
   multiple: true,
   action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
   onChange(info) {
-    const {status} = info.file;
+    const { status } = info.file;
     if (status !== 'uploading') {
       console.log(info.file, info.fileList);
     }
@@ -31,11 +33,19 @@ const props: UploadProps = {
 };
 
 const AddProduct = () => {
-  const {styles, theme} = useStyles();
+  const { styles, theme } = useStyles();
   const [form] = Form.useForm<any>();
 
+  const {
+    mutate: mutateAddProduct,
+    isSuccess: isSuccessAddProduct,
+    isLoading: isLoadingAddProduct,
+    error: errorAddProduct,
+  } = trpc.product.createProduct.useMutation();
+
   const onSubmit = (values: any) => {
-    console.log(values)
+    if (!values || values.type === 'click') return;
+    console.log('valuesvalues', values)
   }
 
   return (
@@ -44,11 +54,8 @@ const AddProduct = () => {
       <div className='body'>
         <div className='leftSection'>
           <Form form={form} layout='vertical' onFinish={onSubmit}>
-            <div className='mainInfo'>
-              <Flex gap={theme.marginSM} mb={theme.marginXL}>
-                <div className='shape' />
-                <Title level={3}>Name & description</Title>
-              </Flex>
+            <div className='infoWrapper'>
+              <ProductAddTitle title="Name & description" shapeColor="green" />
               <Form.Item
                 className='inputItem'
                 name="title"
@@ -58,6 +65,7 @@ const AddProduct = () => {
               >
                 <Input className='input' />
               </Form.Item>
+              <div className='spacer' />
               <Form.Item
                 className='inputItem'
                 name="description"
@@ -68,30 +76,21 @@ const AddProduct = () => {
                 <Input className='input' />
               </Form.Item>
             </div>
-            <div className='imageInfo'>
-              <Flex gap={theme.marginSM} mb={theme.marginXL}>
-                <div className='shapeBlue' />
-                <Title level={3}>Image & CTA</Title>
-              </Flex>
-              <div>
-                <Title level={5}>Cover Image</Title>
-                <Dragger {...props} className='imageUploadArea'>
-                  <p className="ant-upload-drag-icon">
-                    <PaperUpload />
-                  </p>
-                  <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                  <p className="ant-upload-hint">
-                    Support for a single or bulk upload. Strictly prohibited from uploading company data or other
-                    banned files.
-                  </p>
-                </Dragger>
-              </div>
+            <div className='infoWrapper'>
+              <ProductAddTitle title="Cover Image" shapeColor="blue" />
+              <Dragger {...props}>
+                <p className="ant-upload-drag-icon">
+                  <PaperUpload />
+                </p>
+                <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                <p className="ant-upload-hint">
+                  Support for a single or bulk upload. Strictly prohibited from uploading company data or other
+                  banned files.
+                </p>
+              </Dragger>
             </div>
-            <div className='priceInfo'>
-              <Flex gap={theme.marginSM} mb={theme.marginXL}>
-                <div className='shapePurple' />
-                <Title level={3}>Price</Title>
-              </Flex>
+            <div className='infoWrapper'>
+              <ProductAddTitle title="Price" shapeColor="purple" />
               <Form.Item
                 className='inputItem'
                 name="title"
@@ -105,10 +104,7 @@ const AddProduct = () => {
           </Form>
         </div>
         <div className='rightSection'>
-          <Flex gap={theme.marginSM} mb={theme.marginXL}>
-            <div className='shape' />
-            <Title level={3}>Preview</Title>
-          </Flex>
+          <ProductAddTitle title="Preview" shapeColor="red" />
         </div>
       </div>
       <div className='submitArea'>
@@ -119,7 +115,7 @@ const AddProduct = () => {
           </Flex>
           <Flex gap={theme.marginSM}>
             <Button size="large">Save Draft</Button>
-            <Button size="large" type="primary">Publish now</Button>
+            <Button size="large" type="primary" onClick={onSubmit}>Publish now</Button>
           </Flex>
         </Flex>
       </div>
