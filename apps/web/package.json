@@ -11,12 +11,12 @@
 		"format": "prettier --write \"**/*.{ts,tsx,md}\""
 	},
 	"dependencies": {
-		"@legendapp/state": "^1.6.2",
+		"@legendapp/state": "^1.7.3",
 		"@shoppik/schema": "workspace:*",
 		"@shoppik/ui": "workspace:*",
-		"@trpc/client": "^10.35.0",
-		"@trpc/next": "^10.35.0",
-		"@trpc/server": "^10.35.0",
+		"@trpc/client": "^10.36.0",
+		"@trpc/next": "^10.36.0",
+		"@trpc/server": "^10.36.0",
 		"antd-style": "^3.4.3",
 		"cookies-next": "^2.1.2",
 		"dayjs": "^1.11.9",
@@ -39,6 +39,7 @@
 		"eslint-plugin-prettier": "^5.0.0",
 		"husky": "^8.0.3",
 		"prettier": "^3.0.0",
+		"superjson": "^1.13.1",
 		"tsconfig": "^7.0.0",
 		"typescript": "^5.1.6"
 	}

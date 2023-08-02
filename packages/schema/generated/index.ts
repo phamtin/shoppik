@@ -12,7 +12,7 @@ import type { Prisma } from '@prisma/client';
 
 export const AccountScalarFieldEnumSchema = z.enum(['id','email','fullname','firstname','lastname','phoneNumber','birthday','locale','avatar','postalCode','isConfirm','signinMethod','createdAt','updatedAt','isDeleted','deletedAt']);
 
-export const StoreScalarFieldEnumSchema = z.enum(['id','name','slug','tradeName','description','avatar','landingPageUrl','ownerId','followers','following','storeStatus','createdAt','updatedAt','isDeleted','DeletedAt']);
+export const StoreScalarFieldEnumSchema = z.enum(['id','name','slug','tradeName','description','avatar','landingPageUrl','ownerId','followers','following','storeStatus','isDeleted','DeletedAt','createdAt','updatedAt']);
 
 export const ShoppikCategoryScalarFieldEnumSchema = z.enum(['id','name','isSubCategory','parentId']);
 
@@ -90,10 +90,10 @@ export const StoreSchema = z.object({
   ownerId: z.string(),
   followers: z.string().array(),
   following: z.string().array(),
-  createdAt: z.date(),
-  updatedAt: z.date().nullable(),
   isDeleted: z.boolean(),
   DeletedAt: z.date().nullable(),
+  createdAt: z.date(),
+  updatedAt: z.date().nullable(),
 })
 
 export type Store = z.infer<typeof StoreSchema>

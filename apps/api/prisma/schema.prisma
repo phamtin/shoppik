@@ -110,10 +110,10 @@ model Store {
   rating         StoreRating
   contact        Contact
   storeStatus    StoreStatus
-  createdAt      DateTime
-  updatedAt      DateTime?
   isDeleted      Boolean
   DeletedAt      DateTime?
+  createdAt      DateTime
+  updatedAt      DateTime?
 }
 
 //  =============================================== PRODUCT MODULE =====================================================

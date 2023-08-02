@@ -120,6 +120,7 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 
 	const onSubmit = (values: any) => {
 		if (!values || values.type === 'click') return;
+
 		const {
 			name,
 			email,
