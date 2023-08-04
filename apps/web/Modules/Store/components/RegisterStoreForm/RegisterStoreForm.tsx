@@ -13,10 +13,11 @@ import Flex from '@shoppik/ui/components/Flex';
 
 import useHookGetLocation from '@/Hooks/useHookGetLocation/useHookGetLocation';
 import { baseFieldValidation } from '@/Utils/validator/validator';
-import { VALID_EMAIL_REGEX } from '@/Helper/regex';
 import { Option } from '@/lib/ant-design/type';
 import { Store, StoreAddress } from '@shoppik/schema';
 import useStyle from './RegisterStoreForm.style';
+import useLoggedInUser from '@/Hooks/useLoggedInUser/useLoggedInUser';
+import { useRouter } from 'next/navigation';
 
 const { Title, Text } = Typography;
 
@@ -24,13 +25,16 @@ interface LocationOption extends Option {
 	level: string;
 }
 interface RegisterStoreFormProps {
-	toggleForm: () => void;
+	toggleForm?: () => void;
 }
 
 const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 	const { styles, theme } = useStyle();
 	const [form] = Form.useForm<Store>();
 	const [messageApi, contextHolder] = message.useMessage();
+
+	const user = useLoggedInUser();
+	const router = useRouter();
 
 	const [target, setTarget] = useState<any>();
 	const [selectedLocation, setSelectedLocation] = useState({ p: 0, d: 0, w: 0 });
@@ -109,7 +113,8 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 				type: 'success',
 				content: 'Register store successfully!',
 			});
-			toggleForm();
+			toggleForm?.();
+			router.push('/my-store/overview');
 		} else if (errorRegisStore?.message) {
 			messageApi.open({
 				type: 'error',
@@ -119,11 +124,11 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 	}, [isSuccessRegisStore, errorRegisStore]);
 
 	const onSubmit = (values: any) => {
-		if (!values || values.type === 'click') return;
+		if (!values || !user || values.type === 'click') return;
 
 		const {
 			name,
-			email,
+			email = user.email,
 			phone,
 			street,
 			tradeName = '',
@@ -193,9 +198,8 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 							name="email"
 							label="Email"
 							hasFeedback
-							rules={[...baseFieldValidation('Email', true, 2, 128, VALID_EMAIL_REGEX)]}
 						>
-							<Input />
+							<Input disabled value={user.email} />
 						</Form.Item>
 						<Form.Item
 							className="block"

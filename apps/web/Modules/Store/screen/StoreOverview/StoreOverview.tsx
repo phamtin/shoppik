@@ -2,7 +2,7 @@
 
 import {PropsWithChildren, memo, useState} from 'react';
 
-import {Avatar, FloatButton, List} from '@shoppik/ui/components/Core';
+import { Avatar, FloatButton, List } from '@shoppik/ui/components/Core';
 import StoreMainInfo from '../../components/StoreMainInfo/StoreMainInfo';
 import StoreMain from '../../components/StoreMain/StoreMain';
 import useStyle from './store-overview.style';
