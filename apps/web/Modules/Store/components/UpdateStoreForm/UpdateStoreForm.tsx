@@ -6,6 +6,7 @@ import Flex from '@shoppik/ui/components/Flex'
 import React, { useEffect } from 'react';
 import useStyles from './UpdateStoreForm.style'
 import { trpc } from '@/lib/trpc/trpc';
+import { baseFieldValidation } from '@/Utils/validator/validator';
 
 interface UpdateStoreFormProps {
   onTurnOffUpdateModal: () => void;
@@ -13,6 +14,7 @@ interface UpdateStoreFormProps {
 
 const UpdateStoreForm = ({ onTurnOffUpdateModal }: UpdateStoreFormProps) => {
   const { theme, styles } = useStyles();
+  const utils = trpc.useContext();
 
   const [form] = Form.useForm<Store>();
   const [messageApi, contextHolder] = message.useMessage();
@@ -23,6 +25,13 @@ const UpdateStoreForm = ({ onTurnOffUpdateModal }: UpdateStoreFormProps) => {
     isLoading: isLoadingUpdateStore,
     error: errorUpdateStore,
   } = trpc.store.updateStoreProfile.useMutation();
+
+  const { data: dataGetMyStore } = trpc.store.getMyStore.useQuery();
+
+  useEffect(() => {
+    if (!dataGetMyStore) return;
+    form.setFieldsValue(dataGetMyStore.data || {});
+  }, [dataGetMyStore]);
 
   const onSubmit = (values: any) => {
     if (!values || values.type === 'click') return;
@@ -53,6 +62,7 @@ const UpdateStoreForm = ({ onTurnOffUpdateModal }: UpdateStoreFormProps) => {
         content: 'Register store successfully!',
       });
       onTurnOffUpdateModal();
+      utils.store.getMyStore.invalidate();
     } else if (errorUpdateStore?.message) {
       messageApi.open({
         type: 'error',
@@ -78,15 +88,15 @@ const UpdateStoreForm = ({ onTurnOffUpdateModal }: UpdateStoreFormProps) => {
               className="block"
               name="landingPageUrl"
               label="Website URL"
-              hasFeedback
+              rules={[...baseFieldValidation('Website URL', false, null, 64)]}
             >
               <Input addonBefore="https://" />
             </Form.Item>
             <Form.Item
               className="block"
-              name="facebookLink"
+              name="contact.facebookLink"
               label="Facebook Link"
-              hasFeedback
+              rules={[...baseFieldValidation('Facebook Link', false, null, 64)]}
             >
               <Input addonBefore="https://" />
             </Form.Item>
@@ -94,17 +104,17 @@ const UpdateStoreForm = ({ onTurnOffUpdateModal }: UpdateStoreFormProps) => {
           <Flex gap={theme.marginSM}>
             <Form.Item
               className="block"
-              name="instagramLink"
+              name="contact.instagramLink"
               label="Instagram Link"
-              hasFeedback
+              rules={[...baseFieldValidation('Instagram Link', false, null, 64)]}
             >
               <Input addonBefore="https://" />
             </Form.Item>
             <Form.Item
               className="block"
-              name="youtubeLink"
+              name="contact.youtubeLink"
               label="Youtube Link"
-              hasFeedback
+              rules={[...baseFieldValidation('Youtube Link', false, null, 64)]}
             >
               <Input addonBefore="https://" />
             </Form.Item>
