@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, memo, useState } from 'react';
+import {PropsWithChildren, memo, useState} from 'react';
 
 import { Avatar, FloatButton, List } from '@shoppik/ui/components/Core';
 import StoreMainInfo from '../../components/StoreMainInfo/StoreMainInfo';
@@ -26,8 +26,8 @@ const actions = [
 	},
 ];
 
-const StoreOverviewScreen = ({ store }: MarketProp) => {
-	const { styles } = useStyle({ store });
+const StoreOverviewScreen = ({store}: MarketProp) => {
+	const {styles} = useStyle({store});
 	const [openFLoatMenu, setOpenFloatMenu] = useState<boolean>(false);
 
 	const toggleFloatMenu = () => {
