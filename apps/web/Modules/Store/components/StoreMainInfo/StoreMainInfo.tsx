@@ -13,7 +13,7 @@ import {
 	Avatar,
 	Modal,
 } from '@shoppik/ui/components/Core';
-import { ChevronLeft, ChevronRight, Location } from 'react-iconly';
+import { ChevronLeft, ChevronRight, Location, Delete } from 'react-iconly';
 import useStyle from './store-main-info.style';
 import { trpc } from '@/lib/trpc/trpc';
 import UpdateStoreForm from '../UpdateStoreForm/UpdateStoreForm';
@@ -29,14 +29,19 @@ const StoreMainInfo = () => {
 
 	const tags = ['iOs', 'Iphone', 'IMac', 'Apple Watch', 'Apple TV'];
 
-	const toggleCollapse = () => setCollapsed((prev) => !prev);
-	const webStore = store?.data?.landingPageUrl || 'https://kurogu.vercel.app/';
-	const avatarStore = store?.data?.avatar || 'https://res.cloudinary.com/dtizrfvjh/image/upload/v1668920121/qzrteppsiwxoyvbipnhg.jpg';
-	const address = store?.data?.storeAddress;
-	const addressStore = `${address?.street}, ${address?.ward}, ${address?.district}, ${address?.province}`;
-	const phoneStore = store?.data?.contact?.phone?.replace('+84', '0');
-
 	if (!store?.data) return <></>;
+
+	const toggleCollapse = () => setCollapsed((prev) => !prev);
+	const webStore = store.data.landingPageUrl || 'https://kurogu.vercel.app/';
+	const avatarStore =
+		store.data.avatar ||
+		'https://res.cloudinary.com/dtizrfvjh/image/upload/v1668920121/qzrteppsiwxoyvbipnhg.jpg';
+	const address = store.data.storeAddress;
+	const addressStore = `${address.street}, ${address.ward}, ${address.district}, ${address.province}`;
+	const phoneStore = store.data.contact?.phone.map((p) => (
+		<p key={p}>{`${p.replace('+84', '0')}`}</p>
+	));
+	const contact = store.data.contact;
 
 	return (
 		<>
@@ -109,16 +114,16 @@ const StoreMainInfo = () => {
 								{phoneStore || 'No info'}
 							</Descriptions.Item>
 							<Descriptions.Item label="Email">
-								{store.data.contact.email || 'No info'}
+								{contact.email || 'No info'}
 							</Descriptions.Item>
 							<Descriptions.Item label="Instagram">
-								{store.data.contact.instagramLink || 'No info'}
+								{contact.instagramLink || 'No info'}
 							</Descriptions.Item>
 							<Descriptions.Item label="Facebook">
-								{store.data.contact.facebookLink || 'No info'}
+								{contact.facebookLink || 'No info'}
 							</Descriptions.Item>
 							<Descriptions.Item label="Youtube">
-								{store.data.contact.youtubeLink || 'No info'}
+								{contact.youtubeLink || 'No info'}
 							</Descriptions.Item>
 						</Descriptions>
 					</div>

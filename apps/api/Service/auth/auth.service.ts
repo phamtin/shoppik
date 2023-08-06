@@ -33,7 +33,7 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 	const jwtPayload = jwt.decode(request.accessToken, {
 		complete: true,
 	});
-	if (!jwtPayload || !jwtPayload.payload) {
+	if (!jwtPayload ?? !jwtPayload?.payload) {
 		throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid credentails' });
 	}
 
@@ -48,21 +48,17 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 			lastname: authenticatedUser.lastname,
 			email: authenticatedUser.email,
 			roleCustomer: {
-				trustscore: 0,
-				updatedAt: new Date(),
+				trustscore: authenticatedUser.roleCustomer.trustscore,
+				updatedAt: authenticatedUser.roleCustomer.updatedAt,
 			},
 			roleOwner: {
-				storeId: '',
+				storeId: authenticatedUser.roleOwner?.storeId ?? '',
 			},
 		};
 	} else {
 		const jwt = jwtPayload.payload as AppJwtPayload;
 		authenticatedUser = await authRepo.create({
 			data: {
-				roleCustomer: {
-					trustscore: 0,
-					updatedAt: null,
-				},
 				email: request.email,
 				fullname: jwt.name,
 				firstname: jwt.given_name,
@@ -74,8 +70,12 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 				avatar: request.avatar,
 				signinMethod: SigninMethod.GOOGLE,
 				isConfirm: false,
-				createdAt: new Date(),
 				isDeleted: false,
+				createdAt: new Date(),
+				roleCustomer: {
+					trustscore: 0,
+					updatedAt: null,
+				},
 			},
 		});
 	}

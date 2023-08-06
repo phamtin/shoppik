@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Delete } from 'react-iconly';
 import { trpc } from '@/lib/trpc/trpc';
 import {
 	Button,
@@ -10,18 +11,17 @@ import {
 	message,
 } from '@shoppik/ui/components/Core';
 import Flex from '@shoppik/ui/components/Flex';
-
 import useHookGetLocation from '@/Hooks/useHookGetLocation/useHookGetLocation';
 import { baseFieldValidation } from '@/Utils/validator/validator';
 import { Option } from '@/lib/ant-design/type';
-import { Store, StoreAddress } from '@shoppik/schema';
+import { StoreAddress, StoreWithRelations } from '@shoppik/schema';
 import useStyle from './RegisterStoreForm.style';
 import useLoggedInUser from '@/Hooks/useLoggedInUser/useLoggedInUser';
 import { useRouter } from 'next/navigation';
 
 const { Title, Text } = Typography;
 
-interface LocationOption extends Option {
+export interface LocationOption extends Option {
 	level: string;
 }
 interface RegisterStoreFormProps {
@@ -30,11 +30,12 @@ interface RegisterStoreFormProps {
 
 const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 	const { styles, theme } = useStyle();
-	const [form] = Form.useForm<Store>();
+	const [form] = Form.useForm<StoreWithRelations>();
 	const [messageApi, contextHolder] = message.useMessage();
+	const trpcUser = trpc.useContext().user;
 
-	const user = useLoggedInUser();
 	const router = useRouter();
+	const loggedInUser = useLoggedInUser();
 
 	const [target, setTarget] = useState<any>();
 	const [selectedLocation, setSelectedLocation] = useState({ p: 0, d: 0, w: 0 });
@@ -51,12 +52,21 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 		d: selectedLocation.d,
 	});
 
-	const {
-		mutate: mutateRegisStore,
-		isSuccess: isSuccessRegisStore,
-		isLoading: isLoadingRegisStore,
-		error: errorRegisStore,
-	} = trpc.store.createStore.useMutation();
+	const { mutate: mutateRegisStore, isLoading: isLoadingRegisStore } =
+		trpc.store.createStore.useMutation({
+			onSuccess() {
+				toggleForm?.();
+				router.push('/my-store/overview');
+				messageApi.open({
+					type: 'success',
+					content: 'Register store successful',
+				});
+				trpcUser.getMyProfile.invalidate();
+			},
+			onError(err) {
+				messageApi.open({ type: 'error', content: err.message });
+			},
+		});
 
 	useEffect(() => {
 		setTarget(
@@ -107,28 +117,11 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 		}
 	}, [ward]);
 
-	useEffect(() => {
-		if (isSuccessRegisStore) {
-			messageApi.open({
-				type: 'success',
-				content: 'Register store successfully!',
-			});
-			toggleForm?.();
-			router.push('/my-store/overview');
-		} else if (errorRegisStore?.message) {
-			messageApi.open({
-				type: 'error',
-				content: errorRegisStore.message,
-			});
-		}
-	}, [isSuccessRegisStore, errorRegisStore]);
-
 	const onSubmit = (values: any) => {
-		if (!values || !user || values.type === 'click') return;
-
+		if (!values || !loggedInUser || values.type === 'click') return;
 		const {
 			name,
-			email = user.email,
+			email,
 			phone,
 			street,
 			tradeName = '',
@@ -173,7 +166,12 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 		<>
 			{contextHolder}
 			<div className={styles.wrapper}>
-				<Form form={form} layout="vertical" onFinish={onSubmit}>
+				<Form
+					form={form}
+					initialValues={{ email: loggedInUser.email, phone: [''] }}
+					layout="vertical"
+					onFinish={onSubmit}
+				>
 					<Flex justifyContent="flex-start">
 						<div>
 							<Upload action="/upload.do" listType="picture-card">
@@ -190,33 +188,71 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 						label="Shop Name"
 						rules={[...baseFieldValidation('Shop name', true, null, 64)]}
 					>
-						<Input />
+						<Input size="large" />
 					</Form.Item>
-					<Flex gap={theme.marginSM}>
-						<Form.Item
-							className="block"
-							name="email"
-							label="Email"
-							hasFeedback
-						>
-							<Input disabled value={user.email} />
+
+					<Flex alignitems="flex-start" gap={theme.marginSM}>
+						<Form.Item className="block" name="email" label="Email" hasFeedback>
+							<Input size="large" disabled value={loggedInUser.email} />
 						</Form.Item>
-						<Form.Item
-							className="block"
-							name="phone"
-							label="Phone Number"
-							hasFeedback
-							rules={[...baseFieldValidation('Phone Number', true, 2, 16)]}
-						>
-							<Input addonBefore="+84" />
-						</Form.Item>
+						<Flex direction="column">
+							<Form.List name="phone">
+								{(fields, { add, remove }, { errors }) => (
+									<>
+										{fields.map((field, index) => (
+											<Form.Item
+												label={index === 0 ? 'Phone Number' : ''}
+												hasFeedback
+												required={false}
+												key={index}
+											>
+												<Form.Item
+													{...field}
+													noStyle
+													className="block"
+													hasFeedback
+													rules={[...baseFieldValidation('Phone Number', true, 1, 16)]}
+												>
+													<Input
+														size="large"
+														addonBefore="+84"
+														style={{
+															width: fields.length > 1 ? '91%' : '100%',
+														}}
+													/>
+												</Form.Item>
+												{fields.length > 1 ? (
+													<Button
+														size="small"
+														danger
+														type="link"
+														icon={<Delete size="small" style={{ marginTop: 9 }} />}
+														onClick={() => remove(field.name)}
+													/>
+												) : null}
+											</Form.Item>
+										))}
+										{fields.length <= 2 && (
+											<Form.Item noStyle>
+												<Button block type="dashed" onClick={() => add()}>
+													Add number
+												</Button>
+												<Form.ErrorList errors={errors} />
+											</Form.Item>
+										)}
+									</>
+								)}
+							</Form.List>
+						</Flex>
 					</Flex>
+
 					<Form.Item
 						name="storeAddress"
 						label="Store Address"
 						rules={[...baseFieldValidation('Store Address', true)]}
 					>
 						<Cascader
+							size="large"
 							changeOnSelect
 							options={target}
 							onChange={onSelectLocation}
@@ -228,7 +264,7 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 						label="Street"
 						rules={[...baseFieldValidation('Street', true, 2, 256)]}
 					>
-						<Input />
+						<Input size="large" />
 					</Form.Item>
 					<Form.Item
 						name="description"
@@ -245,6 +281,7 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 					<br />
 					<Flex>
 						<Button
+							size="large"
 							type="primary"
 							htmlType="submit"
 							className="block"

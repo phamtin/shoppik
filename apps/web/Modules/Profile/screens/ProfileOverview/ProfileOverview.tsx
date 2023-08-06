@@ -41,28 +41,20 @@ const ProfileScreen = () => {
 
 	const {
 		mutate: mutateUpdateUserProfile,
-		isSuccess: isSuccessUpdateUserProfile,
 		isLoading: isLoadingUpdateUserProfile,
 		error: errorUpdateUserProfile,
 	} = trpc.user.updateUserProfile.useMutation({
 		onSuccess() {
-			utils.user.getMyProfile.invalidate();
-		},
-	});
-
-	useEffect(() => {
-		if (isSuccessUpdateUserProfile) {
 			messageApi.open({
 				type: 'success',
 				content: 'Profile updated successfully',
 			});
-		} else if (errorUpdateUserProfile?.message) {
-			messageApi.open({
-				type: 'error',
-				content: errorUpdateUserProfile.message,
-			});
-		}
-	}, [isSuccessUpdateUserProfile, errorUpdateUserProfile]);
+			utils.user.getMyProfile.invalidate();
+		},
+		onError(err) {
+			messageApi.open({ type: 'error', content: err.message });
+		},
+	});
 
 	useEffect(() => {
 		if (!dataGetMyProfile) return;
@@ -136,7 +128,7 @@ const ProfileScreen = () => {
 						<Divider />
 						<Form.Item
 							name="firstname"
-							label={<Typography.Text className="formLabel">First name</Typography.Text>}
+							label={<Text className="formLabel">First name</Text>}
 							colon={false}
 							style={{ maxWidth: 500 }}
 							rules={[...baseFieldValidation('First name', true, 2, 64)]}
@@ -145,7 +137,7 @@ const ProfileScreen = () => {
 						</Form.Item>
 						<Form.Item
 							name="lastname"
-							label={<Typography.Text className="formLabel">Last name</Typography.Text>}
+							label={<Text className="formLabel">Last name</Text>}
 							colon={false}
 							style={{ maxWidth: 500 }}
 							rules={[...baseFieldValidation('Last name', true, null, 64)]}
@@ -154,7 +146,7 @@ const ProfileScreen = () => {
 						</Form.Item>
 						<Form.Item
 							name="fullname"
-							label={<Typography.Text className="formLabel">Full name</Typography.Text>}
+							label={<Text className="formLabel">Full name</Text>}
 							colon={false}
 							style={{ maxWidth: 500 }}
 							rules={[...baseFieldValidation('Full name', true, 2, 64)]}
@@ -163,9 +155,7 @@ const ProfileScreen = () => {
 						</Form.Item>
 						<Form.Item
 							name="email"
-							label={
-								<Typography.Text className="formLabel">Email address</Typography.Text>
-							}
+							label={<Text className="formLabel">Email address</Text>}
 							colon={false}
 							rules={[...baseFieldValidation('Email', true, 2, 128, VALID_EMAIL_REGEX)]}
 							style={{ maxWidth: 500 }}
@@ -173,9 +163,7 @@ const ProfileScreen = () => {
 							<Input disabled size="large" placeholder="Email address" />
 						</Form.Item>
 						<Form.Item
-							label={
-								<Typography.Text className="formLabel">Phone Number</Typography.Text>
-							}
+							label={<Text className="formLabel">Phone Number</Text>}
 							name="phoneNumber"
 							colon={false}
 							style={{ maxWidth: 500 }}
@@ -184,7 +172,7 @@ const ProfileScreen = () => {
 							<Input size="large" placeholder="Phone Number" />
 						</Form.Item>
 						<Form.Item
-							label={<Typography.Text className="formLabel">Birthday</Typography.Text>}
+							label={<Text className="formLabel">Birthday</Text>}
 							name="birthday"
 							colon={false}
 							style={{ maxWidth: 500 }}
@@ -192,7 +180,7 @@ const ProfileScreen = () => {
 							<DatePicker size="large" format={DATE_FORMAT.base} />
 						</Form.Item>
 						<Form.Item
-							label={<Typography.Text className="formLabel">Postal code</Typography.Text>}
+							label={<Text className="formLabel">Postal code</Text>}
 							name="postalCode"
 							colon={false}
 							style={{ maxWidth: 500 }}

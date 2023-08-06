@@ -1,6 +1,5 @@
 'use client';
 
-import superjson from 'superjson';
 import { getCookie } from 'cookies-next';
 
 import { createTRPCNext } from '@trpc/next';
@@ -58,5 +57,5 @@ export const trpc = createTRPCNext<AppRouter>({
 			},
 		};
 	},
-	ssr: false,
+	ssr: true,
 });

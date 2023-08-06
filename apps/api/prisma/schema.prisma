@@ -9,7 +9,7 @@ generator client {
 datasource db {
   provider = "mongodb"
   // todo: WTF Cannot set complex string in Okteto env, lead to leaking this fucking way
-  url      = "mongodb+srv://tinpham:n6PgPOmj4i3nKQb3@cluster0.jyi5oeo.mongodb.net/shoppik?retryWrites=true&w=majority"
+  url      = "mongodb+srv://tinpham:VJOVQ9F1E8vXhyVc@cluster0.jyi5oeo.mongodb.net/shoppik?retryWrites=true&w=majority"
 }
 
 generator zod {
@@ -73,7 +73,7 @@ type StoreRating {
 
 type Contact {
   email         String
-  phone         String
+  phone         String[]
   youtubeLink   String?
   facebookLink  String?
   instagramLink String?
@@ -154,6 +154,7 @@ model Product {
   detail            AttributePattern[]
   isDraft           Boolean
   createdAt         DateTime
+  lastSavedAt       DateTime
   isDeleted         Boolean
   DeletedAt         DateTime?
 }

@@ -45,9 +45,9 @@ export default createStyles(({ token }, state: { collapsed: boolean }) => ({
 			marginBottom: 0,
 
 			'.ant-typography': {
-				marginBottom: 0
-			}
-		}
+				marginBottom: 0,
+			},
+		},
 	},
 	subcription: {
 		marginTop: -3,
@@ -66,14 +66,14 @@ export default createStyles(({ token }, state: { collapsed: boolean }) => ({
 		display: 'flex',
 		marginBottom: token.marginMD,
 		'.ant-typography': {
+			color: token.colorTextLabel,
 			marginTop: 0,
 			marginBottom: 0,
-			marginLeft: token.marginXXS
-		}
+			marginLeft: token.marginXXS,
+		},
 	},
 	descriptionArea: {
 		'.ant-typography': {
-			color: token.colorTextLabel,
 			lineHeight: 1.4,
 		},
 	},

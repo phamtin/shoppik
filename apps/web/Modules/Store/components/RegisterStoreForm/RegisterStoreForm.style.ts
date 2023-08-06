@@ -11,9 +11,11 @@ const styles = createStyles(({ token }) => ({
 		},
 		h3: {
 			marginBottom: 0,
+			marginLeft: token.marginSM,
 		},
 		'.description': {
 			fontSize: 15,
+			marginLeft: token.marginSM,
 			color: token.colorTextSecondary,
 		},
 		'.ant-form-item': {

@@ -16,7 +16,7 @@ export const StoreScalarFieldEnumSchema = z.enum(['id','name','slug','tradeName'
 
 export const ShoppikCategoryScalarFieldEnumSchema = z.enum(['id','name','isSubCategory','parentId']);
 
-export const ProductScalarFieldEnumSchema = z.enum(['id','storeId','name','slug','description','keyFeatures','images','originPrice','quantity','shoppikCategories','isDraft','createdAt','isDeleted','DeletedAt']);
+export const ProductScalarFieldEnumSchema = z.enum(['id','storeId','name','slug','description','keyFeatures','images','originPrice','quantity','shoppikCategories','isDraft','createdAt','lastSavedAt','isDeleted','DeletedAt']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -147,6 +147,7 @@ export const ProductSchema = z.object({
   shoppikCategories: z.string().array(),
   isDraft: z.boolean(),
   createdAt: z.date(),
+  lastSavedAt: z.date(),
   isDeleted: z.boolean(),
   DeletedAt: z.date().nullable(),
 })
@@ -241,7 +242,7 @@ export type StoreRating = z.infer<typeof StoreRatingSchema>
 
 export const ContactSchema = z.object({
   email: z.string(),
-  phone: z.string(),
+  phone: z.string().array(),
   youtubeLink: z.string().nullable(),
   facebookLink: z.string().nullable(),
   instagramLink: z.string().nullable(),
