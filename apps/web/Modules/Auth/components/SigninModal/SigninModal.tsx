@@ -157,7 +157,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 				open={registerModal}
 				onOk={toggleRegisterModal}
 				onCancel={onTurnOffRegisterModal}
-				width={showRegisForm ? 560 : 700}
+				width={showRegisForm ? 600 : 700}
 				centered
 				closeIcon={false}
 				okText={'Register'}
