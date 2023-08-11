@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Delete } from 'react-iconly';
 import { trpc } from '@/lib/trpc/trpc';
 import {
@@ -26,13 +26,15 @@ export interface LocationOption extends Option {
 }
 interface RegisterStoreFormProps {
 	toggleForm?: () => void;
+	store?: StoreWithRelations;
 }
 
-const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
+const RegisterStoreForm = ({ toggleForm, store }: RegisterStoreFormProps) => {
 	const { styles, theme } = useStyle();
 	const [form] = Form.useForm<StoreWithRelations>();
 	const [messageApi, contextHolder] = message.useMessage();
 	const trpcUser = trpc.useContext().user;
+	const trpcStore = trpc.useContext().store;
 
 	const router = useRouter();
 	const loggedInUser = useLoggedInUser();
@@ -68,6 +70,21 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 			},
 		});
 
+	const { mutate: mutateUpdateStore, isLoading: isLoadingUpdateStore } =
+		trpc.store.updateStoreProfile.useMutation({
+			onSuccess() {
+				messageApi.open({
+					type: 'success',
+					content: 'Update store successfully!',
+				});
+				toggleForm?.();
+				trpcStore.getMyStore.invalidate();
+			},
+			onError(err) {
+				messageApi.open({ type: 'error', content: err.message });
+			},
+		});
+
 	useEffect(() => {
 		setTarget(
 			province.map((p) => ({
@@ -78,6 +95,9 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 			})),
 		);
 	}, [province]);
+
+	console.log('targettt', province);
+
 
 	useEffect(() => {
 		if (!district?.length) return;
@@ -117,31 +137,42 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 		}
 	}, [ward]);
 
-	const onSubmit = (values: any) => {
-		if (!values || !loggedInUser || values.type === 'click') return;
+	const onSubmit = (values: StoreWithRelations) => {
+		if (!values || !loggedInUser) return;
 		const {
 			name,
-			email,
-			phone,
-			street,
 			tradeName = '',
 			description = '',
-			youtubeLink = '',
-			facebookLink = '',
-			instagramLink = '',
 			landingPageUrl = '',
+			storeAddress
 		} = values;
 
-		mutateRegisStore({
+		const {
+			youtubeLink = '',
+			instagramLink = '',
+			phone = [''],
+			facebookLink = '',
+			email = loggedInUser.email,
+		} = values.contact;
+
+		const storeInfo = {
 			name,
 			tradeName,
-			storeAddress: { ...completeStoreAddress, street },
+			storeAddress,
 			description,
 			landingPageUrl,
-			contact: { phone, email, youtubeLink, facebookLink, instagramLink },
+			contact: {
+				youtubeLink,
+				instagramLink,
+				phone,
+				facebookLink,
+				email,
+			},
 			avatar: '',
 			tags: { name: 'Twitter', slug: 'twitter' },
-		});
+		}
+
+		store ? mutateUpdateStore(storeInfo) : mutateRegisStore(storeInfo);
 	};
 
 	const onSelectLocation = (value: (string | number)[], options: Option[]) => {
@@ -162,13 +193,18 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 		}
 	};
 
+	useEffect(() => {
+		form.setFieldValue('email', loggedInUser.email)
+		if (!store) return;
+		form.setFieldsValue(store)
+	}, [loggedInUser.email, store?.storeAddress])
+
 	return (
 		<>
 			{contextHolder}
 			<div className={styles.wrapper}>
 				<Form
 					form={form}
-					initialValues={{ email: loggedInUser.email, phone: [''] }}
 					layout="vertical"
 					onFinish={onSubmit}
 				>
@@ -183,20 +219,30 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 							<Text className="description">Register to become an owner</Text>
 						</div>
 					</Flex>
-					<Form.Item
-						name="name"
-						label="Shop Name"
-						rules={[...baseFieldValidation('Shop name', true, null, 64)]}
-					>
-						<Input size="large" />
-					</Form.Item>
-
+					<Flex gap={theme.marginSM}>
+						<Form.Item
+							name="name"
+							label="Shop Name"
+							className="block"
+							rules={[...baseFieldValidation('Shop name', true, null, 64)]}
+						>
+							<Input size="large" />
+						</Form.Item>
+						<Form.Item
+							name="tradeName"
+							label="Trade Name"
+							className="block"
+							rules={[...baseFieldValidation('Trade name', false, null, 128)]}
+						>
+							<Input size="large" />
+						</Form.Item>
+					</Flex>
 					<Flex alignitems="flex-start" gap={theme.marginSM}>
 						<Form.Item className="block" name="email" label="Email" hasFeedback>
-							<Input size="large" disabled value={loggedInUser.email} />
+							<Input size="large" disabled />
 						</Form.Item>
 						<Flex direction="column">
-							<Form.List name="phone">
+							<Form.List name={['contact', 'phone']}>
 								{(fields, { add, remove }, { errors }) => (
 									<>
 										{fields.map((field, index) => (
@@ -245,10 +291,10 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 							</Form.List>
 						</Flex>
 					</Flex>
-
-					<Form.Item
+					{/* <Form.Item
 						name="storeAddress"
 						label="Store Address"
+						className="block"
 						rules={[...baseFieldValidation('Store Address', true)]}
 					>
 						<Cascader
@@ -258,14 +304,51 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 							onChange={onSelectLocation}
 							loadData={loadData}
 						/>
-					</Form.Item>
+					</Form.Item> */}
 					<Form.Item
-						name="street"
+						name={['storeAddress', 'street']}
 						label="Street"
+						className="block"
 						rules={[...baseFieldValidation('Street', true, 2, 256)]}
 					>
 						<Input size="large" />
 					</Form.Item>
+					<Flex gap={theme.marginSM}>
+						<Form.Item
+							className="block"
+							name="landingPageUrl"
+							label="Website URL"
+							rules={[...baseFieldValidation('Website URL', false, null, 64)]}
+						>
+							<Input size="large" addonBefore="https://" />
+						</Form.Item>
+						<Form.Item
+							className="block"
+							name={['contact', 'facebookLink']}
+							label="Facebook Link"
+							rules={[...baseFieldValidation('Facebook Link', false, null, 64)]}
+						>
+							<Input size="large" addonBefore="https://" />
+						</Form.Item>
+					</Flex>
+					<Flex gap={theme.marginSM}>
+						<Form.Item
+							className="block"
+							name={['contact', 'instagramLink']}
+							label="Instagram Link"
+							rules={[...baseFieldValidation('Instagram Link', false, null, 64)]}
+						>
+							<Input size="large" addonBefore="https://" />
+						</Form.Item>
+						<Form.Item
+							className="block"
+							name={['contact', 'youtubeLink']}
+							label="Youtube Link"
+							rules={[...baseFieldValidation('Youtube Link', false, null, 64)]}
+						>
+							<Input size="large" addonBefore="https://" />
+						</Form.Item>
+					</Flex>
 					<Form.Item
 						name="description"
 						label="Description"
@@ -285,8 +368,7 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 							type="primary"
 							htmlType="submit"
 							className="block"
-							loading={isLoadingRegisStore}
-							onClick={onSubmit}
+							loading={isLoadingRegisStore || isLoadingUpdateStore}
 						>
 							Submit
 						</Button>

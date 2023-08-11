@@ -16,7 +16,7 @@ import {
 import { ChevronLeft, ChevronRight, Location, Delete } from 'react-iconly';
 import useStyle from './store-main-info.style';
 import { trpc } from '@/lib/trpc/trpc';
-import UpdateStoreForm from '../UpdateStoreForm/UpdateStoreForm';
+import RegisterStoreForm from '../RegisterStoreForm/RegisterStoreForm';
 
 const StoreMainInfo = () => {
 	const { data: store } = trpc.store.getMyStore.useQuery();
@@ -33,9 +33,7 @@ const StoreMainInfo = () => {
 
 	const toggleCollapse = () => setCollapsed((prev) => !prev);
 	const webStore = store.data.landingPageUrl || 'https://kurogu.vercel.app/';
-	const avatarStore =
-		store.data.avatar ||
-		'https://res.cloudinary.com/dtizrfvjh/image/upload/v1668920121/qzrteppsiwxoyvbipnhg.jpg';
+	const avatarStore = store.data.avatar || 'https://res.cloudinary.com/dtizrfvjh/image/upload/v1668920121/qzrteppsiwxoyvbipnhg.jpg';
 	const address = store.data.storeAddress;
 	const addressStore = `${address.street}, ${address.ward}, ${address.district}, ${address.province}`;
 	const phoneStore = store.data.contact?.phone.map((p) => (
@@ -139,7 +137,7 @@ const StoreMainInfo = () => {
 				footer={[]}
 				style={{ borderRadius: 20, overflow: 'hidden' }}
 			>
-				<UpdateStoreForm onTurnOffUpdateModal={toggleUpdateModal} />
+				<RegisterStoreForm toggleForm={toggleUpdateModal} store={store.data} />
 			</Modal>
 		</>
 	);
