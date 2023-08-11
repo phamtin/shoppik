@@ -71,7 +71,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 			label: (
 				<Flex>
 					<Buy size="small" />
-					<Text style={{ marginLeft: 10 }}>My Orders</Text>
+					<Text style={{ marginLeft: 10 }}>Shopping cart</Text>
 				</Flex>
 			),
 			key: MENU_KEYS.MY_ORDER,

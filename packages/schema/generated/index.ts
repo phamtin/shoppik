@@ -22,6 +22,10 @@ export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
 
+export const SortSchema = z.enum(['ASC','DESC']);
+
+export type SortType = `${z.infer<typeof SortSchema>}`
+
 export const SigninMethodSchema = z.enum(['GOOGLE','TELEGRAM']);
 
 export type SigninMethodType = `${z.infer<typeof SigninMethodSchema>}`
@@ -81,9 +85,9 @@ export const AccountWithRelationsSchema: z.ZodType<AccountWithRelations> = Accou
 export const StoreSchema = z.object({
   storeStatus: StoreStatusSchema,
   id: z.string(),
-  name: z.string().min(2, { message: "min error" }).max(512, { message: "max error" }),
+  name: z.string().min(2, { message: "min error" }).max(1024, { message: "max error" }),
   slug: z.string(),
-  tradeName: z.string().max(512, { message: "max error" }),
+  tradeName: z.string().max(1024, { message: "max error" }),
   description: z.string().max(4096, { message: "max error" }),
   avatar: z.string().max(4096, { message: "max error" }),
   landingPageUrl: z.string().max(4096, { message: "max error" }),
@@ -176,6 +180,22 @@ export const ProductWithRelationsSchema: z.ZodType<ProductWithRelations> = Produ
 /////////////////////////////////////////
 // MONGODB TYPES
 /////////////////////////////////////////
+// PAGINATION
+//------------------------------------------------------
+
+
+/////////////////////////////////////////
+// PAGINATION SCHEMA
+/////////////////////////////////////////
+
+export const PaginationSchema = z.object({
+  sort: SortSchema,
+  page: z.number().int(),
+  pageSize: z.number().int(),
+  sortBy: z.string(),
+})
+
+export type Pagination = z.infer<typeof PaginationSchema>
 // CUSTOMER
 //------------------------------------------------------
 

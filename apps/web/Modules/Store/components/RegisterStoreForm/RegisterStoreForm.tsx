@@ -166,12 +166,7 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 		<>
 			{contextHolder}
 			<div className={styles.wrapper}>
-				<Form
-					form={form}
-					initialValues={{ email: loggedInUser.email, phone: [''] }}
-					layout="vertical"
-					onFinish={onSubmit}
-				>
+				<Form form={form} layout="vertical" onFinish={onSubmit}>
 					<Flex justifyContent="flex-start">
 						<div>
 							<Upload action="/upload.do" listType="picture-card">

@@ -22,6 +22,19 @@ generator zod {
   createRelationValuesTypes = true
 }
 
+//  =============================================== COMMON MODULE =====================================================
+enum Sort {
+  ASC
+  DESC
+}
+
+type Pagination {
+  page     Int
+  pageSize Int
+  sortBy   String
+  sort     Sort
+}
+
 //  =============================================== AUTH MODULE =====================================================
 
 enum SigninMethod {
@@ -96,9 +109,9 @@ type StoreAddress {
 
 model Store {
   id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  name           String /// @zod.string.min(2, { message: "min error" }).max(512, { message: "max error" })
+  name           String /// @zod.string.min(2, { message: "min error" }).max(1024, { message: "max error" })
   slug           String
-  tradeName      String /// @zod.string.max(512, { message: "max error" })
+  tradeName      String /// @zod.string.max(1024, { message: "max error" })
   description    String /// @zod.string.max(4096, { message: "max error" })
   avatar         String /// @zod.string.max(4096, { message: "max error" })
   storeAddress   StoreAddress
