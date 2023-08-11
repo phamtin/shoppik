@@ -13,10 +13,11 @@ import {
 	Avatar,
 	Modal,
 } from '@shoppik/ui/components/Core';
-import { ChevronLeft, ChevronRight, Location, Delete } from 'react-iconly';
+import { ChevronLeft, ChevronRight, Location } from 'react-iconly';
 import useStyle from './store-main-info.style';
 import { trpc } from '@/lib/trpc/trpc';
-import UpdateStoreForm from '../UpdateStoreForm/UpdateStoreForm';
+import RegisterStoreForm from '../RegisterStoreForm/RegisterStoreForm';
+import dayjs from 'dayjs';
 
 const StoreMainInfo = () => {
 	const { data: store } = trpc.store.getMyStore.useQuery();
@@ -139,7 +140,15 @@ const StoreMainInfo = () => {
 				footer={[]}
 				style={{ borderRadius: 20, overflow: 'hidden' }}
 			>
-				<UpdateStoreForm onTurnOffUpdateModal={toggleUpdateModal} />
+				<RegisterStoreForm
+					toggleForm={toggleUpdateModal}
+					store={{
+						...store.data,
+						createdAt: new Date(store.data.createdAt),
+						updatedAt: new Date(store.data.updatedAt ?? 0),
+						DeletedAt: new Date(store.data.DeletedAt ?? 0),
+					}}
+				/>
 			</Modal>
 		</>
 	);

@@ -22,7 +22,7 @@ const styles = createStyles(({ token }) => ({
 			marginBottom: token.marginMD,
 		},
 		'.block': {
-			flex: 1,
+			flex: '1 1 50%',
 		},
 	},
 }));

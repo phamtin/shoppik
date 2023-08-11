@@ -11,13 +11,14 @@
 		"format": "prettier --write \"**/*.{ts,tsx,md}\""
 	},
 	"dependencies": {
+		"@heroicons/react": "^2.0.18",
 		"@legendapp/state": "^1.8.1",
 		"@shoppik/schema": "workspace:*",
 		"@shoppik/ui": "workspace:*",
 		"@trpc/client": "^10.37.1",
 		"@trpc/next": "^10.37.1",
 		"@trpc/server": "^10.37.1",
-		"antd-style": "^3.4.3",
+		"antd-style": "^3.4.4",
 		"cookies-next": "^2.1.2",
 		"dayjs": "^1.11.9",
 		"mobile-detect": "^1.4.5",

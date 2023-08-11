@@ -26,16 +26,20 @@ export interface LocationOption extends Option {
 }
 interface RegisterStoreFormProps {
 	toggleForm?: () => void;
+	store?: StoreWithRelations;
 }
 
-const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
+const RegisterStoreForm = ({ toggleForm, store }: RegisterStoreFormProps) => {
+	const isUpdateStore = !!store?.id;
 	const { styles, theme } = useStyle();
-	const [form] = Form.useForm<StoreWithRelations>();
+	const router = useRouter();
+	const [form] = Form.useForm<any>();
 	const [messageApi, contextHolder] = message.useMessage();
 	const trpcUser = trpc.useContext().user;
+	const trpcStore = trpc.useContext().store;
 
-	const router = useRouter();
 	const loggedInUser = useLoggedInUser();
+	const storeAddressField = Form.useWatch('storeAddress', form);
 
 	const [target, setTarget] = useState<any>();
 	const [selectedLocation, setSelectedLocation] = useState({ p: 0, d: 0, w: 0 });
@@ -52,21 +56,47 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 		d: selectedLocation.d,
 	});
 
-	const { mutate: mutateRegisStore, isLoading: isLoadingRegisStore } =
-		trpc.store.createStore.useMutation({
-			onSuccess() {
-				toggleForm?.();
-				router.push('/my-store/overview');
-				messageApi.open({
-					type: 'success',
-					content: 'Register store successful',
-				});
-				trpcUser.getMyProfile.invalidate();
-			},
-			onError(err) {
-				messageApi.open({ type: 'error', content: err.message });
-			},
+	const mutationCreateStore = trpc.store.createStore.useMutation({
+		onSuccess() {
+			toggleForm?.();
+			router.push('/my-store/overview');
+			messageApi.open({
+				type: 'success',
+				content: 'Register store successful',
+			});
+			trpcUser.getMyProfile.invalidate();
+			trpcStore.getMyStore.invalidate();
+		},
+		onError(err) {
+			messageApi.open({ type: 'error', content: err.message });
+		},
+	});
+
+	const mutationUpdateStore = trpc.store.updateStoreProfile.useMutation({
+		onSuccess() {
+			trpcStore.getMyStore.invalidate();
+			messageApi.open({
+				type: 'success',
+				content: 'Update store successfully!',
+			});
+			toggleForm?.();
+		},
+		onError(err) {
+			messageApi.open({ type: 'error', content: err.message });
+		},
+	});
+
+	useEffect(() => {
+		form.setFieldValue('email', loggedInUser.email);
+		form.setFieldValue(['contact', 'phone'], ['']);
+		if (!store) return;
+		const { storeAddress } = store;
+		form.setFieldsValue({
+			...store,
+			street: storeAddress.street,
+			storeAddress: [storeAddress.province, storeAddress.district, storeAddress.ward],
 		});
+	}, [loggedInUser.email, store?.storeAddress]);
 
 	useEffect(() => {
 		setTarget(
@@ -118,30 +148,53 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 	}, [ward]);
 
 	const onSubmit = (values: any) => {
-		if (!values || !loggedInUser || values.type === 'click') return;
+		if (!values) return;
+		const { name, tradeName = '', description = '', landingPageUrl = '' } = values;
 		const {
-			name,
-			email,
-			phone,
-			street,
-			tradeName = '',
-			description = '',
 			youtubeLink = '',
-			facebookLink = '',
 			instagramLink = '',
-			landingPageUrl = '',
-		} = values;
+			phone = [''],
+			facebookLink = '',
+			email = loggedInUser.email,
+		} = values.contact;
 
-		mutateRegisStore({
+		const createAddressPayload: StoreAddress = {
+			province: completeStoreAddress.province,
+			district: completeStoreAddress.district,
+			ward: completeStoreAddress.ward,
+			street: values.street,
+			note: '',
+		};
+		const areaInfo =
+			completeStoreAddress.district?.length > 0
+				? [
+						completeStoreAddress.province,
+						completeStoreAddress.district,
+						completeStoreAddress.ward,
+				  ]
+				: storeAddressField;
+
+		const updateAddressPayload: StoreAddress = {
+			province: areaInfo[0],
+			district: areaInfo[1],
+			ward: areaInfo[2],
+			street: values.street,
+			note: '',
+		};
+		const storeInfo = {
 			name,
 			tradeName,
-			storeAddress: { ...completeStoreAddress, street },
+			storeAddress: isUpdateStore ? updateAddressPayload : createAddressPayload,
 			description,
 			landingPageUrl,
-			contact: { phone, email, youtubeLink, facebookLink, instagramLink },
+			contact: { email, phone, facebookLink, instagramLink, youtubeLink },
 			avatar: '',
 			tags: { name: 'Twitter', slug: 'twitter' },
-		});
+		};
+
+		isUpdateStore
+			? mutationUpdateStore.mutate(storeInfo)
+			: mutationCreateStore.mutate(storeInfo);
 	};
 
 	const onSelectLocation = (value: (string | number)[], options: Option[]) => {
@@ -166,7 +219,7 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 		<>
 			{contextHolder}
 			<div className={styles.wrapper}>
-				<Form form={form} layout="vertical" onFinish={onSubmit}>
+				<Form layout="vertical" form={form} onFinish={onSubmit}>
 					<Flex justifyContent="flex-start">
 						<div>
 							<Upload action="/upload.do" listType="picture-card">
@@ -178,28 +231,38 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 							<Text className="description">Register to become an owner</Text>
 						</div>
 					</Flex>
-					<Form.Item
-						name="name"
-						label="Shop Name"
-						rules={[...baseFieldValidation('Shop name', true, null, 64)]}
-					>
-						<Input size="large" />
-					</Form.Item>
-
-					<Flex alignitems="flex-start" gap={theme.marginSM}>
-						<Form.Item className="block" name="email" label="Email" hasFeedback>
-							<Input size="large" disabled value={loggedInUser.email} />
+					<Flex gap={theme.marginSM}>
+						<Form.Item
+							name="name"
+							label="Shop Name"
+							className="block"
+							rules={[...baseFieldValidation('Shop name', true, null, 128)]}
+						>
+							<Input size="large" />
 						</Form.Item>
-						<Flex direction="column">
-							<Form.List name="phone">
+						<Form.Item
+							name="tradeName"
+							label="Trade Name"
+							className="block"
+							rules={[...baseFieldValidation('Trade name', false, null, 128)]}
+						>
+							<Input size="large" />
+						</Form.Item>
+					</Flex>
+					<Flex alignitems="flex-start" gap={theme.marginSM}>
+						<Form.Item className="block" name="email" label="Email">
+							<Input size="large" disabled />
+						</Form.Item>
+						<Form.Item className="block">
+							<Form.List name={['contact', 'phone']}>
 								{(fields, { add, remove }, { errors }) => (
 									<>
 										{fields.map((field, index) => (
 											<Form.Item
+												key={index}
 												label={index === 0 ? 'Phone Number' : ''}
 												hasFeedback
 												required={false}
-												key={index}
 											>
 												<Form.Item
 													{...field}
@@ -211,9 +274,7 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 													<Input
 														size="large"
 														addonBefore="+84"
-														style={{
-															width: fields.length > 1 ? '91%' : '100%',
-														}}
+														style={{ width: fields.length > 1 ? '90%' : '100%' }}
 													/>
 												</Form.Item>
 												{fields.length > 1 ? (
@@ -221,7 +282,7 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 														size="small"
 														danger
 														type="link"
-														icon={<Delete size="small" style={{ marginTop: 9 }} />}
+														icon={<Delete size="small" style={{ marginTop: 5 }} />}
 														onClick={() => remove(field.name)}
 													/>
 												) : null}
@@ -238,12 +299,12 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 									</>
 								)}
 							</Form.List>
-						</Flex>
+						</Form.Item>
 					</Flex>
-
 					<Form.Item
 						name="storeAddress"
 						label="Store Address"
+						className="block"
 						rules={[...baseFieldValidation('Store Address', true)]}
 					>
 						<Cascader
@@ -257,10 +318,47 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 					<Form.Item
 						name="street"
 						label="Street"
+						className="block"
 						rules={[...baseFieldValidation('Street', true, 2, 256)]}
 					>
 						<Input size="large" />
 					</Form.Item>
+					<Flex gap={theme.marginSM}>
+						<Form.Item
+							className="block"
+							name="landingPageUrl"
+							label="Website URL"
+							rules={[...baseFieldValidation('Website URL', false, null, 64)]}
+						>
+							<Input size="large" addonBefore="https://" />
+						</Form.Item>
+						<Form.Item
+							className="block"
+							name={['contact', 'facebookLink']}
+							label="Facebook Link"
+							rules={[...baseFieldValidation('Facebook Link', false, null, 64)]}
+						>
+							<Input size="large" addonBefore="https://" />
+						</Form.Item>
+					</Flex>
+					<Flex gap={theme.marginSM}>
+						<Form.Item
+							className="block"
+							name={['contact', 'instagramLink']}
+							label="Instagram Link"
+							rules={[...baseFieldValidation('Instagram Link', false, null, 64)]}
+						>
+							<Input size="large" addonBefore="https://" />
+						</Form.Item>
+						<Form.Item
+							className="block"
+							name={['contact', 'youtubeLink']}
+							label="Youtube Link"
+							rules={[...baseFieldValidation('Youtube Link', false, null, 64)]}
+						>
+							<Input size="large" addonBefore="https://" />
+						</Form.Item>
+					</Flex>
 					<Form.Item
 						name="description"
 						label="Description"
@@ -280,8 +378,7 @@ const RegisterStoreForm = ({ toggleForm }: RegisterStoreFormProps) => {
 							type="primary"
 							htmlType="submit"
 							className="block"
-							loading={isLoadingRegisStore}
-							onClick={onSubmit}
+							loading={mutationCreateStore.isLoading || mutationUpdateStore.isLoading}
 						>
 							Submit
 						</Button>
