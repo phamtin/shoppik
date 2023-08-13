@@ -1,5 +1,4 @@
 import slugify from 'slugify';
-import ObjectId from 'bson-objectid';
 
 import { CreateProductRequest, CreateProductResponse, GetShoppikCategoryResponse, GetStoreProductsRequest, GetStoreProductsResponse } from 'Router/routers/product.route';
 import { Context } from '../Router/context';
@@ -11,18 +10,18 @@ const createProduct = async (ctx: Context, request: CreateProductRequest): Promi
 	if (!ctx.user?.id) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
 
 	const now = new Date();
-	const newId = ObjectId();
 
 	const createdProduct = await productDb.create({
 		data: {
-			id: newId.id,
 			name: request.name,
-			slug: slugify(request.name + newId.id),
+			slug: slugify(request.name + '-' + now.getTime().toString()),
 			storeId: ctx.user.roleOwner.storeId,
 			description: request.description,
 			keyFeatures: request.keyFeatures,
+			detail: request.detail,
 			images: request.images,
 			originPrice: request.originPrice,
+			variants: request.variants,
 			quantity: request.quantity,
 			storeCategories: request.storeCategories,
 			shoppikCategories: request.shoppikCategories,
@@ -34,41 +33,13 @@ const createProduct = async (ctx: Context, request: CreateProductRequest): Promi
 			isDraft: request.isDraft,
 			lastSavedAt: now,
 			createdAt: now,
+			DeletedAt: null,
 			isDeleted: false,
 		},
+		include: true,
 	});
 
 	return { data: createdProduct };
-};
-
-const getShoppikCategory = async (ctx: Context): Promise<GetShoppikCategoryResponse> => {
-	const res: GetShoppikCategoryResponse = [];
-
-	const rawData: any = await ctx.prisma.shoppikCategory.aggregateRaw({
-		pipeline: [
-			{
-				$unwind: {
-					path: '$parentId',
-					preserveNullAndEmptyArrays: true,
-				},
-			},
-		],
-	});
-	if (!rawData || !rawData.length) {
-		return res;
-	}
-
-	for (let i = 0; i < rawData.length; i++) {
-		const element = rawData[i];
-		res.push({
-			id: element._id.$oid,
-			name: element.name,
-			parentId: element.parentId,
-			isSubCategory: element.isSubCategory,
-		});
-	}
-
-	return res;
 };
 
 const getStoreProducts = async (ctx: Context, request: GetStoreProductsRequest): Promise<GetStoreProductsResponse> => {
@@ -99,6 +70,36 @@ const getStoreProducts = async (ctx: Context, request: GetStoreProductsRequest):
 	});
 
 	return products;
+};
+
+const getShoppikCategory = async (ctx: Context): Promise<GetShoppikCategoryResponse> => {
+	const res: GetShoppikCategoryResponse = [];
+
+	const rawData: any = await ctx.prisma.shoppikCategory.aggregateRaw({
+		pipeline: [
+			{
+				$unwind: {
+					path: '$parentId',
+					preserveNullAndEmptyArrays: true,
+				},
+			},
+		],
+	});
+	if (!rawData || !rawData.length) {
+		return res;
+	}
+
+	for (let i = 0; i < rawData.length; i++) {
+		const element = rawData[i];
+		res.push({
+			id: element._id.$oid,
+			name: element.name,
+			parentId: element.parentId,
+			isSubCategory: element.isSubCategory,
+		});
+	}
+
+	return res;
 };
 
 const ProductRepo = Object.freeze({ createProduct, getStoreProducts, getShoppikCategory });

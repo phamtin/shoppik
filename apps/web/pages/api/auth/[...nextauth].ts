@@ -28,7 +28,7 @@ interface SessionPayload {
 }
 
 export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOptions => {
-	const tokenLifeTimeEnv = +(process.env.ACCESS_TOKEN_LIVE_TIME ?? 60 * 60); // 1h
+	const tokenLifeTimeEnv = +(process.env.ACCESS_TOKEN_LIVE_TIME ?? 60 * 60 * 6); // 6h
 
 	return {
 		providers: [

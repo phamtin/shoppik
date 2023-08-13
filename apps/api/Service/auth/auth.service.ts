@@ -89,7 +89,7 @@ const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<Signi
 			roleOwner: authenticatedUser.roleOwner,
 		},
 		'accessTokenPrivateKey',
-		{ expiresIn: 60 * 60 }, //	1 hour
+		{ expiresIn: 60 * 60 * 6 }, //	6 hour
 	);
 
 	res = {

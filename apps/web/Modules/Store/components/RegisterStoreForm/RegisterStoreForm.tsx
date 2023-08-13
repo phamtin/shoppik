@@ -150,13 +150,6 @@ const RegisterStoreForm = ({ toggleForm, store }: RegisterStoreFormProps) => {
 	const onSubmit = (values: any) => {
 		if (!values) return;
 		const { name, tradeName = '', description = '', landingPageUrl = '' } = values;
-		const {
-			youtubeLink = '',
-			instagramLink = '',
-			phone = [''],
-			facebookLink = '',
-			email = loggedInUser.email,
-		} = values.contact;
 
 		const createAddressPayload: StoreAddress = {
 			province: completeStoreAddress.province,
@@ -187,9 +180,9 @@ const RegisterStoreForm = ({ toggleForm, store }: RegisterStoreFormProps) => {
 			storeAddress: isUpdateStore ? updateAddressPayload : createAddressPayload,
 			description,
 			landingPageUrl,
-			contact: { email, phone, facebookLink, instagramLink, youtubeLink },
+			contact: { ...values.contact, email: loggedInUser.email },
 			avatar: '',
-			tags: { name: 'Twitter', slug: 'twitter' },
+			tags: { id: '64d66dc3f8dcc730bbaecaac', name: 'Twitter', slug: 'twitter' },
 		};
 
 		isUpdateStore
