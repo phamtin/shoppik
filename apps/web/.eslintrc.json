@@ -30,6 +30,6 @@
 		"import/no-unresolved": "off",
 		"react/function-component-definition": "off",
 		"react/jsx-props-no-spreading": "error",
-		"react/require-default-props": "error"
+		"react/require-default-props": "off"
 	}
 }

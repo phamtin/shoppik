@@ -127,7 +127,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 			<Modal
 				transitionName=""
 				open={open}
-				width={400}
+				width={386}
 				closeIcon={false}
 				centered
 				onCancel={toggleOpen}
@@ -136,9 +136,9 @@ const SigninModal = ({ session }: SigninModalProps) => {
 			>
 				<div className={styles.wrapper}>
 					<Image width={56} height={48} alt="logo" src="/images/logo-main.png" />
-					<Title level={3}>Welcome back, Shoppiker</Title>
+					<Title level={4}>Welcome back, Shoppiker</Title>
 					<Text>
-						Signin to join the community of designer, seller, and steal their fucking
+						Signin to join the community of designer, seller... and steal their fucking
 						ideas.
 					</Text>
 					<Button

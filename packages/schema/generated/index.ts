@@ -22,7 +22,7 @@ export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
 
-export const SortSchema = z.enum(['ASC','DESC']);
+export const SortSchema = z.enum(['asc','desc']);
 
 export type SortType = `${z.infer<typeof SortSchema>}`
 
@@ -141,13 +141,13 @@ export type ShoppikCategory = z.infer<typeof ShoppikCategorySchema>
 export const ProductSchema = z.object({
   id: z.string(),
   storeId: z.string(),
-  name: z.string().min(2, { message: "min error" }).max(512, { message: "max error" }),
+  name: z.string(),
   slug: z.string(),
   description: z.string(),
   keyFeatures: z.string().array(),
   images: z.string().array(),
-  originPrice: z.number().lt(1, { message: "Invalid" }).gt(999999999, { message: "Invalid" }),
-  quantity: z.number().lt(1, { message: "Invalid" }).gt(999999999, { message: "Invalid" }),
+  originPrice: z.number().int(),
+  quantity: z.number().int(),
   shoppikCategories: z.string().array(),
   isDraft: z.boolean(),
   createdAt: z.date(),
@@ -232,6 +232,7 @@ export type Owner = z.infer<typeof OwnerSchema>
 /////////////////////////////////////////
 
 export const StoreTagSchema = z.object({
+  id: z.string(),
   name: z.string(),
   slug: z.string(),
 })
@@ -297,7 +298,7 @@ export type StoreAddress = z.infer<typeof StoreAddressSchema>
 export const AttributePatternSchema = z.object({
   k: z.string(),
   v: z.string(),
-  u: z.string(),
+  u: z.string().nullable(),
 })
 
 export type AttributePattern = z.infer<typeof AttributePatternSchema>
@@ -310,9 +311,9 @@ export type AttributePattern = z.infer<typeof AttributePatternSchema>
 /////////////////////////////////////////
 
 export const ProductRatingSchema = z.object({
-  score: z.number().lt(1, { message: "Invalid" }).gt(5, { message: "Invalid" }),
-  reviews: z.number().lt(0, { message: "Invalid" }),
-  sold: z.number().lt(0, { message: "Invalid" }),
+  score: z.number().int(),
+  reviews: z.number().int(),
+  sold: z.number().int(),
 })
 
 export type ProductRating = z.infer<typeof ProductRatingSchema>

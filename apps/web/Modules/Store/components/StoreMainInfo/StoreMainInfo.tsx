@@ -17,7 +17,6 @@ import { ChevronLeft, ChevronRight, Location } from 'react-iconly';
 import useStyle from './store-main-info.style';
 import { trpc } from '@/lib/trpc/trpc';
 import RegisterStoreForm from '../RegisterStoreForm/RegisterStoreForm';
-import dayjs from 'dayjs';
 
 const StoreMainInfo = () => {
 	const { data: store } = trpc.store.getMyStore.useQuery();

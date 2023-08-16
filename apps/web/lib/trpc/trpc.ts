@@ -1,7 +1,6 @@
 'use client';
 
 import { getCookie } from 'cookies-next';
-import superjson from 'superjson';
 
 import { createTRPCNext } from '@trpc/next';
 import { httpBatchLink, loggerLink } from '@trpc/client';

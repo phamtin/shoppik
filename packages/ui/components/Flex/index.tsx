@@ -9,6 +9,7 @@ type Props =
   | "space-evenly"
   | "space-revert"
   | "stretch"
+  | "baseline"
   | "end"
   | "start"
   | "left"

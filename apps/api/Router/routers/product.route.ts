@@ -6,15 +6,15 @@ import { publicProcedure, authenticatedProcedure, router } from '../trpc';
 
 const createProductRequest = z.object({
 	name: z.string(),
-	quantity: z.number(),
 	description: z.string(),
-	originPrice: z.number(),
 	images: z.array(z.string()),
 	keyFeatures: z.array(z.string()),
-	storeCategories: StoreTagSchema,
+	detail: z.array(AttributePatternSchema),
+	variants: z.array(AttributePatternSchema),
 	shoppikCategories: z.array(z.string()),
-	variants: AttributePatternSchema,
-	detail: AttributePatternSchema,
+	storeCategories: z.array(StoreTagSchema),
+	originPrice: z.number(),
+	quantity: z.number(),
 	isDraft: z.boolean(),
 });
 const createProductResponse = z.object({
@@ -24,13 +24,13 @@ const getShoppikCategoryResponse = z.array(
 	z.object({
 		id: z.string(),
 		name: z.string(),
-		parentId: z.string(),
+		parentId: z.string().optional(),
 		isSubCategory: z.boolean(),
 	}),
 );
 const getStoreProductsRequest = z.object({
-	query: z.string(),
-	pagination: PaginationSchema,
+	query: z.string().optional(),
+	pagination: PaginationSchema.optional(),
 });
 const getStoreProductsResponse = z.array(ProductWithRelationsSchema);
 

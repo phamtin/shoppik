@@ -42,3 +42,18 @@ export const columnsTabOverview: TableColumnsType<any> = [
 		width: '40%',
 	},
 ];
+
+export const floatActions = [
+	{
+		title: 'Create new campaign',
+	},
+	{
+		title: 'Create new Products',
+	},
+	{
+		title: 'Make a Flash sale',
+	},
+	{
+		title: 'Moneitize from Partners',
+	},
+];

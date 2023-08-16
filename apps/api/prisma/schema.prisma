@@ -24,8 +24,8 @@ generator zod {
 
 //  =============================================== COMMON MODULE =====================================================
 enum Sort {
-  ASC
-  DESC
+  asc
+  desc
 }
 
 type Pagination {
@@ -74,6 +74,7 @@ model Account {
 
 //  =============================================== STORE MODULE =====================================================
 type StoreTag {
+  id   String @db.ObjectId
   name String
   slug String
 }
@@ -134,13 +135,13 @@ model Store {
 type AttributePattern {
   k String
   v String
-  u String
+  u String?
 }
 
 type ProductRating {
-  score   Int @default(5) /// @zod.number.lt(1, { message: "Invalid" }).gt(5, { message: "Invalid" })
-  reviews Int @default(0) /// @zod.number.lt(0, { message: "Invalid" })
-  sold    Int @default(0) /// @zod.number.lt(0, { message: "Invalid" })
+  score   Int @default(5)
+  reviews Int @default(0)
+  sold    Int @default(0)
 }
 
 model ShoppikCategory {
@@ -153,13 +154,13 @@ model ShoppikCategory {
 model Product {
   id                String             @id @default(auto()) @map("_id") @db.ObjectId
   storeId           String             @db.ObjectId
-  name              String /// @zod.string.min(2, { message: "min error" }).max(512, { message: "max error" })
+  name              String
   slug              String
   description       String
   keyFeatures       String[]
   images            String[]
-  originPrice       Int /// @zod.number.lt(1, { message: "Invalid" }).gt(999999999, { message: "Invalid" })
-  quantity          Int /// @zod.number.lt(1, { message: "Invalid" }).gt(999999999, { message: "Invalid" })
+  originPrice       Int
+  quantity          Int
   rating            ProductRating
   storeCategories   StoreTag[]
   shoppikCategories String[]           @db.ObjectId

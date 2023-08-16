@@ -2,7 +2,7 @@ import { Tabs, TabsProps } from '@shoppik/ui/components/Core';
 import useStyle from './store-main.style';
 import OverviewTab from '../OverviewTab/OverviewTab';
 
-const storeNav: TabsProps['items'] = [
+const storeMainNavigation: TabsProps['items'] = [
 	{
 		key: '1',
 		label: `Overview`,
@@ -38,7 +38,7 @@ const StoreMain = ({ id }: StoreMainProps) => {
 
 	return (
 		<div className={styles.wrapper}>
-			<Tabs defaultActiveKey="1" items={storeNav} onChange={onChange} />
+			<Tabs defaultActiveKey="1" items={storeMainNavigation} onChange={onChange} />
 		</div>
 	);
 };

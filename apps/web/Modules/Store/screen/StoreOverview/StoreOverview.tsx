@@ -1,33 +1,19 @@
 'use client';
 
-import {PropsWithChildren, memo, useState} from 'react';
+import { PropsWithChildren, memo, useState } from 'react';
 
 import { Avatar, FloatButton, List } from '@shoppik/ui/components/Core';
 import StoreMainInfo from '../../components/StoreMainInfo/StoreMainInfo';
 import StoreMain from '../../components/StoreMain/StoreMain';
+import { floatActions } from '../../constant/store.constant';
 import useStyle from './store-overview.style';
 
 interface MarketProp extends PropsWithChildren {
 	store: string;
 }
 
-const actions = [
-	{
-		title: 'Create new campaign',
-	},
-	{
-		title: 'Create new Products',
-	},
-	{
-		title: 'Make a Flash sale',
-	},
-	{
-		title: 'Moneitize from Partners',
-	},
-];
-
-const StoreOverviewScreen = ({store}: MarketProp) => {
-	const {styles} = useStyle({store});
+const StoreOverviewScreen = ({ store }: MarketProp) => {
+	const { styles } = useStyle({ store });
 	const [openFLoatMenu, setOpenFloatMenu] = useState<boolean>(false);
 
 	const toggleFloatMenu = () => {
@@ -50,7 +36,7 @@ const StoreOverviewScreen = ({store}: MarketProp) => {
 				<List
 					className="floatAction"
 					itemLayout="horizontal"
-					dataSource={actions}
+					dataSource={floatActions}
 					renderItem={(item, index) => (
 						<List.Item>
 							<List.Item.Meta

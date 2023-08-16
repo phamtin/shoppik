@@ -12,16 +12,16 @@ const styles = createStyles(({ token }) => ({
 			marginTop: token.marginMD,
 		},
 
-		h3: {
-			fontSize: 22,
+		h4: {
+			fontSize: token.fontSizeHeading5,
 			marginTop: token.margin,
 			marginBottom: token.marginSM,
 		},
 		'> span.ant-typography': {
-			fontWeight: 500,
 			fontSize: 15,
 			color: token.colorTextLabel,
 			marginBottom: token.marginLG,
+			lineHeight: 1.4,
 		},
 		'button.ant-btn-dangerous': {
 			span: {
