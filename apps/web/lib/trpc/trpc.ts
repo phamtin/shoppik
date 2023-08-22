@@ -23,7 +23,6 @@ export function getToken() {
 export const trpc = createTRPCNext<AppRouter>({
 	config() {
 		return {
-			// transformer: superjson,
 			links: [
 				loggerLink({
 					enabled: (opts) =>
@@ -52,6 +51,7 @@ export const trpc = createTRPCNext<AppRouter>({
 						refetchOnWindowFocus: true,
 						refetchOnReconnect: true,
 						staleTime: 5 * 60 * 1000, //  5 minutes
+						useErrorBoundary: true,
 					},
 				},
 			},

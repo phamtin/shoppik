@@ -18,15 +18,13 @@ const AddProducts = (props: AddProductProps) => {
 	const initialValues = {
 		name: '',
 		description: '',
-		images: [''],
-
-		keyFeatures: [''],
+		images: [],
+		keyFeatures: [],
 		detail: [{ k: '', v: '', u: '' }],
 		variants: [{ k: '', v: '', u: '' }],
-
-		shoppikCategories: [''],
+		shoppikCategories: [],
 		storeCategories: [{ name: '', slug: '' }],
-		originPrice: 0,
+		originPrice: 1,
 		quantity: 1,
 		isDraft: false,
 	};

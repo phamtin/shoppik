@@ -33,17 +33,11 @@ const ProfileScreen = () => {
 
 	const [selectedSide, setSelectedSide] = useState(LIST_INFO[0].key);
 
-	const {
-		data: dataGetMyProfile,
-		isLoading: isLoadingGetMyProfile,
-		error: errorGetMyProfile,
-	} = trpc.user.getMyProfile.useQuery();
+	const GetMyProfile = trpc.user.getMyProfile.useQuery(undefined, {
+		useErrorBoundary: true,
+	});
 
-	const {
-		mutate: mutateUpdateUserProfile,
-		isLoading: isLoadingUpdateUserProfile,
-		error: errorUpdateUserProfile,
-	} = trpc.user.updateUserProfile.useMutation({
+	const UpdateUserProfile = trpc.user.updateUserProfile.useMutation({
 		onSuccess() {
 			messageApi.open({
 				type: 'success',
@@ -57,22 +51,21 @@ const ProfileScreen = () => {
 	});
 
 	useEffect(() => {
-		if (!dataGetMyProfile) return;
+		if (!GetMyProfile.data) return;
 		form.setFieldsValue({
-			...dataGetMyProfile,
-			birthday: dayjs(dataGetMyProfile.birthday) as any, // trick, fix later
+			...GetMyProfile.data,
+			birthday: dayjs(GetMyProfile.data.birthday) as any, // trick, fix later
 		});
-	}, [dataGetMyProfile]);
+	}, [GetMyProfile.data]);
 
-	if (errorGetMyProfile ?? errorUpdateUserProfile) {
-		return (
-			<GlobalError error={errorGetMyProfile?.data ?? errorUpdateUserProfile?.data} />
-		);
+	if (GetMyProfile.error ?? UpdateUserProfile.error) {
+		const error = GetMyProfile.error ?? UpdateUserProfile.error;
+		return <GlobalError error={error?.data} />;
 	}
 
 	const onSave = (values: any) => {
 		if (!values || values.type === 'click') return;
-		mutateUpdateUserProfile({
+		UpdateUserProfile.mutate({
 			firstname: values.firstname,
 			lastname: values.lastname,
 			fullname: values.fullname,
@@ -83,9 +76,7 @@ const ProfileScreen = () => {
 		});
 	};
 
-	const onChangeTab = (index: number) => () => {
-		setSelectedSide(index);
-	};
+	const onChangeTab = (index: number) => () => setSelectedSide(index);
 
 	return (
 		<>
@@ -113,7 +104,7 @@ const ProfileScreen = () => {
 						wrapperCol={{ span: 16 }}
 					>
 						<div className="block">
-							<Avatar size={64} src={dataGetMyProfile?.avatar}>
+							<Avatar size={64} src={GetMyProfile.data?.avatar}>
 								ava
 							</Avatar>
 							<UploadButton>
@@ -194,7 +185,7 @@ const ProfileScreen = () => {
 								type="primary"
 								htmlType="submit"
 								style={{ width: 200 }}
-								loading={isLoadingGetMyProfile || isLoadingUpdateUserProfile}
+								loading={GetMyProfile.isLoading || UpdateUserProfile.isLoading}
 								onClick={onSave}
 							>
 								Save

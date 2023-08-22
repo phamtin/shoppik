@@ -3,7 +3,6 @@ import slugify from 'slugify';
 import { CreateProductRequest, CreateProductResponse, GetShoppikCategoryResponse, GetStoreProductsRequest, GetStoreProductsResponse } from 'Router/routers/product.route';
 import { Context } from '../Router/context';
 import { TRPCError } from '@trpc/server';
-import { SortOrderSchema } from '@shoppik/schema';
 
 const createProduct = async (ctx: Context, request: CreateProductRequest): Promise<CreateProductResponse> => {
 	const productDb = ctx.prisma.product;

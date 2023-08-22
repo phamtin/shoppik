@@ -1,6 +1,4 @@
 import { AttributePattern } from '@shoppik/schema';
-import typia from 'typia';
-import { typiaStringify } from './util';
 
 export const transformToAttributePattern = (
 	input: Array<Record<keyof AttributePattern, any>> | undefined,
@@ -15,11 +13,11 @@ export const transformToAttributePattern = (
 
 		res.push({
 			k: element.k,
-			v: typeof element.v === 'string' ? element.v : typiaStringify(element.v),
+			v: typeof element.v === 'string' ? element.v : JSON.stringify(element.v),
 			u: element.u
 				? typeof element.u === 'string'
 					? element.u
-					: typiaStringify(element.u)
+					: JSON.stringify(element.u)
 				: null,
 		});
 	}
