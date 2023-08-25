@@ -1,6 +1,7 @@
 import { Tabs, TabsProps } from '@shoppik/ui/components/Core';
 import useStyle from './store-main.style';
 import OverviewTab from '../OverviewTab/OverviewTab';
+import ManageProduct from '../ManageProduct/ManageProduct';
 
 const storeMainNavigation: TabsProps['items'] = [
 	{
@@ -11,7 +12,7 @@ const storeMainNavigation: TabsProps['items'] = [
 	{
 		key: '2',
 		label: `All products`,
-		children: `Content of Tab Pane products`,
+		children: <ManageProduct />,
 	},
 	{
 		key: '3',
