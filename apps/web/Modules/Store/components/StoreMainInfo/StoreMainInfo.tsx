@@ -17,6 +17,7 @@ import { ChevronLeft, ChevronRight, Location } from 'react-iconly';
 import useStyle from './store-main-info.style';
 import { trpc } from '@/lib/trpc/trpc';
 import RegisterStoreForm from '../RegisterStoreForm/RegisterStoreForm';
+import { StoreStatistic, showStoreInformation } from '../../helper/Store.helper';
 
 const StoreMainInfo = () => {
 	const { data: store } = trpc.store.getMyStore.useQuery();
@@ -94,38 +95,19 @@ const StoreMainInfo = () => {
 					</div>
 					<Divider style={{ marginBottom: theme.marginSM }} />
 					<div className={styles.infoTable}>
-						<Descriptions column={{ sm: 2, xs: 1 }}>
-							<Descriptions.Item label="Products">624</Descriptions.Item>
-							<Descriptions.Item label="Rating">4.9 (30.2k reviews)</Descriptions.Item>
-							<Descriptions.Item label="Followers">22k</Descriptions.Item>
-							<Descriptions.Item label="Response time">92% </Descriptions.Item>
-							<Descriptions.Item label="Following">1.5k</Descriptions.Item>
-							<Descriptions.Item label="Joined">1 year</Descriptions.Item>
-						</Descriptions>
+						<Descriptions
+							column={{ md: 2, lg: 2, xl: 2, xxl: 2 }}
+							items={StoreStatistic}
+						/>
 					</div>
-					<Divider style={{ margin: theme.margin }} />
+					<Divider style={{ marginBottom: theme.margin }} />
 					<div className={styles.infoTableInfo}>
 						<Descriptions
 							bordered
-							title={<small>Contact Infor</small>}
-							column={{ sm: 1 }}
-						>
-							<Descriptions.Item label="Phone">
-								{phoneStore || 'No info'}
-							</Descriptions.Item>
-							<Descriptions.Item label="Email">
-								{contact.email || 'No info'}
-							</Descriptions.Item>
-							<Descriptions.Item label="Instagram">
-								{contact.instagramLink || 'No info'}
-							</Descriptions.Item>
-							<Descriptions.Item label="Facebook">
-								{contact.facebookLink || 'No info'}
-							</Descriptions.Item>
-							<Descriptions.Item label="Youtube">
-								{contact.youtubeLink || 'No info'}
-							</Descriptions.Item>
-						</Descriptions>
+							title={<small>Store Information</small>}
+							column={{ md: 1, lg: 1, xl: 1, xxl: 1 }}
+							items={showStoreInformation(contact, phoneStore)}
+						/>
 					</div>
 				</div>
 			</div>
