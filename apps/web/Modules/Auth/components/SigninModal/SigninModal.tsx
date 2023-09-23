@@ -12,7 +12,6 @@ import {
 	Space,
 	Typography,
 } from '@shoppik/ui/components/Core';
-import Flex from '@shoppik/ui/components/Flex';
 
 import RegisterStoreForm from '@/Modules/Store/components/RegisterStoreForm/RegisterStoreForm';
 import { MENU_KEYS } from '../../auth';
@@ -59,44 +58,27 @@ const SigninModal = ({ session }: SigninModalProps) => {
 
 	const items: MenuProps['items'] = [
 		{
-			label: (
-				<Flex>
-					<User size="small" />
-					<Text style={{ marginLeft: 10 }}>Profile</Text>
-				</Flex>
-			),
 			key: MENU_KEYS.PROFILE,
+			label: <Text>Profile</Text>,
+			icon: <User size="small" />,
 		},
 		{
-			label: (
-				<Flex>
-					<Buy size="small" />
-					<Text style={{ marginLeft: 10 }}>Shopping cart</Text>
-				</Flex>
-			),
 			key: MENU_KEYS.MY_ORDER,
+			label: <Text>Shopping cart</Text>,
+			icon: <Buy size="small" />,
 		},
 		{
-			label: (
-				<Flex>
-					<Password size="small" />
-					<Text style={{ marginLeft: 10 }}>Become a owner</Text>
-				</Flex>
-			),
 			key: MENU_KEYS.REGISTER_OWNER,
+			label: <Text>Become a owner</Text>,
+			icon: <Password size="small" />,
 		},
 		{
 			type: 'divider',
 		},
 		{
-			label: (
-				<Flex>
-					<Logout size="small" />
-					<Text style={{ marginLeft: 10, color: 'inherit' }}>Log out</Text>
-				</Flex>
-			),
-			danger: true,
 			key: MENU_KEYS.LOGOUT,
+			label: <Text style={{ color: 'orangered' }}>Log out</Text>,
+			icon: <Logout size="small" primaryColor="orangered" />,
 		},
 	];
 

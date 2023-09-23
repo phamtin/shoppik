@@ -16,7 +16,8 @@ type Props =
   | "right"
   | "unset";
 
-export interface FlexProps extends PropsWithChildren {
+export interface FlexProps {
+  children?: any;
   justifyContent?: Props;
   alignitems?: Props;
   textAlignCenter?: Props;
@@ -34,7 +35,7 @@ export interface FlexProps extends PropsWithChildren {
   gap?: number;
 }
 
-const Flex: FC<FlexProps> = (props) => {
+const Flex = (props: FlexProps) => {
   const {
     children,
     justifyContent,
