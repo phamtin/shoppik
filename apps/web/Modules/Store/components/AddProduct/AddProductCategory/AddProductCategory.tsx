@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 
 import {
 	Alert,
@@ -30,17 +30,20 @@ const AddProductCategory = (props: AddProductCategoryProps) => {
 		[],
 	);
 
-	const handleChange = (tag: ShoppikCategoryResponse) => {
-		if (selectedShoppikTags.length == 0) return setSelectedShopikTag([tag]);
-		for (let i = 0; i < selectedShoppikTags.length; i++) {
-			const selectedTag = selectedShoppikTags[i];
-			if (selectedTag.id === tag.id) {
-				return setSelectedShopikTag((prev) => prev.filter((t) => t.id !== tag.id));
+	const handleChange = useCallback(
+		(tag: ShoppikCategoryResponse) => {
+			if (selectedShoppikTags.length == 0) return setSelectedShopikTag([tag]);
+			for (let i = 0; i < selectedShoppikTags.length; i++) {
+				const selectedTag = selectedShoppikTags[i];
+				if (selectedTag.id === tag.id) {
+					return setSelectedShopikTag((prev) => prev.filter((t) => t.id !== tag.id));
+				}
+				continue;
 			}
-			continue;
-		}
-		setSelectedShopikTag((prev) => [...prev, tag]);
-	};
+			setSelectedShopikTag((prev) => [...prev, tag]);
+		},
+		[selectedShoppikTags],
+	);
 
 	const memorizedTags = useMemo(
 		() =>
@@ -54,7 +57,7 @@ const AddProductCategory = (props: AddProductCategoryProps) => {
 						onChange={(tag) => handleChange(tag)}
 					/>
 				)),
-		[props.shoppikCategory, selectedShoppikTags],
+		[props.shoppikCategory, handleChange, selectedShoppikTags],
 	);
 
 	const handleChangeProductTag = (tag: string, checked: boolean) => {

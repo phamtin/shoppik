@@ -1,6 +1,6 @@
 import { Button, Input, Layout, Space } from '@shoppik/ui/components/Core';
-import { Filter, Search } from 'react-iconly';
 import { useSession } from 'next-auth/react';
+import { MagnifyingGlassIcon, FunnelIcon } from '@heroicons/react/24/outline';
 import SigninModal from '@/Modules/Auth/components/SigninModal/SigninModal';
 import useStyle from './navbar.style';
 import NotiButton from './NotiButton/NotiButton';
@@ -22,15 +22,18 @@ function NavBar() {
 						size="large"
 						placeholder="search.."
 						bordered={false}
-						prefix={
-							<Search
-								set="light"
-								style={{ width: theme.sizeMD }}
-								primaryColor={theme.colorTextDisabled}
+						prefix={<MagnifyingGlassIcon width={24} color={theme.colorTextDisabled} />}
+					/>
+					<Button
+						size="large"
+						icon={
+							<FunnelIcon
+								width={20}
+								style={{ marginTop: 4 }}
+								color={theme.colorTextSecondary}
 							/>
 						}
 					/>
-					<Button size="large" icon={<Filter />} />
 				</div>
 			</div>
 			<Space size="small">

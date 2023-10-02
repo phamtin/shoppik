@@ -1,16 +1,16 @@
 import { memo } from 'react';
 
-import { Form, Input, InputNumber, Typography } from '@shoppik/ui/components/Core';
+import { Form, InputNumber, Typography } from '@shoppik/ui/components/Core';
 
-import useStyle from './add-product-price.style';
 import ProductAddTitle from '../../ProductAddTitle/ProductAddTitle';
+// import useStyle from './add-product-price.style';
 
 const { Text } = Typography;
 
 interface AddProductPriceProps {}
 
-const AddProductPrice = (props: AddProductPriceProps) => {
-	const styles = useStyle();
+const AddProductPrice = ({}: AddProductPriceProps) => {
+	// const styles = useStyle();
 
 	return (
 		<div className="infoWrapper">

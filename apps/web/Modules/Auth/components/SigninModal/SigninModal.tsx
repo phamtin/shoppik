@@ -1,9 +1,14 @@
+import { useState } from 'react';
 import { Session } from 'next-auth';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-
+import {
+	BriefcaseIcon,
+	UserIcon,
+	ShoppingCartIcon,
+	ArrowUturnLeftIcon,
+} from '@heroicons/react/24/outline';
 import {
 	Button,
 	Dropdown,
@@ -13,12 +18,10 @@ import {
 	Typography,
 } from '@shoppik/ui/components/Core';
 
+import RegisterStoreContent from '@/Modules/Store/components/RegisterStoreContent/RegisterStoreContent';
 import RegisterStoreForm from '@/Modules/Store/components/RegisterStoreForm/RegisterStoreForm';
 import { MENU_KEYS } from '../../auth';
-import { Buy, Logout, Password, User } from 'react-iconly';
-
 import useStyle from './signin-modal';
-import RegisterStoreContent from '@/Modules/Store/components/RegisterStoreContent/RegisterStoreContent';
 
 const { Title, Text } = Typography;
 
@@ -60,17 +63,17 @@ const SigninModal = ({ session }: SigninModalProps) => {
 		{
 			key: MENU_KEYS.PROFILE,
 			label: <Text>Profile</Text>,
-			icon: <User size="small" />,
+			icon: <UserIcon width={20} />,
 		},
 		{
 			key: MENU_KEYS.MY_ORDER,
 			label: <Text>Shopping cart</Text>,
-			icon: <Buy size="small" />,
+			icon: <ShoppingCartIcon width={20} />,
 		},
 		{
 			key: MENU_KEYS.REGISTER_OWNER,
 			label: <Text>Become a owner</Text>,
-			icon: <Password size="small" />,
+			icon: <BriefcaseIcon width={20} />,
 		},
 		{
 			type: 'divider',
@@ -78,7 +81,7 @@ const SigninModal = ({ session }: SigninModalProps) => {
 		{
 			key: MENU_KEYS.LOGOUT,
 			label: <Text style={{ color: 'orangered' }}>Log out</Text>,
-			icon: <Logout size="small" primaryColor="orangered" />,
+			icon: <ArrowUturnLeftIcon color="orangered" width={20} />,
 		},
 	];
 

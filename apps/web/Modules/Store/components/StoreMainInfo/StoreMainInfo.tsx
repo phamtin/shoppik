@@ -13,7 +13,11 @@ import {
 	Avatar,
 	Modal,
 } from '@shoppik/ui/components/Core';
-import { ChevronLeft, ChevronRight, Location } from 'react-iconly';
+import {
+	ChevronLeftIcon,
+	ChevronRightIcon,
+	MapPinIcon,
+} from '@heroicons/react/24/outline';
 import useStyle from './store-main-info.style';
 import { trpc } from '@/lib/trpc/trpc';
 import RegisterStoreForm from '../RegisterStoreForm/RegisterStoreForm';
@@ -50,7 +54,9 @@ const StoreMainInfo = () => {
 				<Button
 					className="collapeBtn"
 					shape="circle"
-					icon={collapsed ? <ChevronRight set="light" /> : <ChevronLeft set="light" />}
+					icon={
+						collapsed ? <ChevronRightIcon width={24} /> : <ChevronLeftIcon width={24} />
+					}
 					onClick={toggleCollapse}
 				/>
 
@@ -74,7 +80,7 @@ const StoreMainInfo = () => {
 						</Space>
 					</div>
 					<div className={styles.addressArea}>
-						<Location size="medium" />
+						<MapPinIcon width={24} />
 						<Typography.Paragraph>{addressStore}</Typography.Paragraph>
 					</div>
 					<div className={styles.descriptionArea}>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Button, Typography } from '@shoppik/ui/components/Core';
+import { Typography } from '@shoppik/ui/components/Core';
 import CardSlider from '@/Components/CardSlider/CardSlider';
 import Banner from '@/Modules/Dashboard/components/Banner/Banner';
 import BestSeller from '@/Modules/Dashboard/components/BestSeller/BestSeller';
@@ -18,7 +18,6 @@ const DashboardOverview = () => {
 	const timer = useRef<any>(null);
 
 	const [width, setWidth] = useState(0);
-	const [index, setIndex] = useState(0);
 
 	const onResize = () => {
 		clearTimeout(timer.current);
@@ -46,12 +45,12 @@ const DashboardOverview = () => {
 					<CardSlider
 						width={890}
 						elements={cc.map((i) => (
-							<ProductCard name={i} />
+							<ProductCard key={i} name={i} />
 						))}
 					/>
 				</div>
 			</div>
-
+			{width}
 			<div className="rightWrapper">
 				<BestSeller />
 				<RecentView />

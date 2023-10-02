@@ -18,7 +18,10 @@ const ShoppikCategory = ({ tags, tag, onChange }: ShoppikCategoryProps) => {
 		onChange(tag);
 	};
 
-	const selected = useMemo(() => tags.findIndex((t) => t.id === tag.id) != -1, [tags]);
+	const selected = useMemo(
+		() => tags.findIndex((t) => t.id === tag.id) != -1,
+		[tags, tag.id],
+	);
 
 	return (
 		<div className={`${styles.wrapper} ${selected && styles.selected}`} onClick={onClick}>

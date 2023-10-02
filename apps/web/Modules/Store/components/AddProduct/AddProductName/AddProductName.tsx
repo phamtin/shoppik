@@ -5,7 +5,7 @@ import { baseFieldValidation } from '@/Utils/validator/validator';
 import ProductAddTitle from '../../ProductAddTitle/ProductAddTitle';
 import { Form, Input, Upload, Typography } from '@shoppik/ui/components/Core';
 import { ArrowUpOnSquareIcon } from '@heroicons/react/24/outline';
-import useStyle from './add-product-name.style';
+
 const { Text } = Typography;
 
 const { TextArea } = Input;
@@ -14,8 +14,6 @@ const { Dragger } = Upload;
 interface AddProductNameProps {}
 
 const AddProductName = (props: AddProductNameProps) => {
-	const styles = useStyle();
-
 	return (
 		<div className="infoWrapper">
 			<ProductAddTitle title="Name & description" shapeColor="#74f17adf" />

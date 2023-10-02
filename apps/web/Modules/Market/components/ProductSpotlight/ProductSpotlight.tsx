@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Chart } from 'react-iconly';
+import { ChartPieIcon } from '@heroicons/react/24/outline';
 import { Button, Col, Row, Typography } from '@shoppik/ui/components/Core';
 import InfoItem from '@/Modules/Market/components/InfoItem/InfoItem';
 import useStyles from './product-spotlight.style';
@@ -53,13 +53,13 @@ const ProductSpotLight = (props: ProductSpotLightProps) => {
 								<Text className="productMoreItemTime">Oct 17, 2022 at 05:08</Text>
 							</div>
 						</div>
-						<div style={{ marginTop: 'auto' }}>
+						<div>
 							<Button
 								block
 								type="primary"
 								size="large"
 								className="productButton"
-								icon={<Chart />}
+								icon={<ChartPieIcon width={22} />}
 							>
 								Place Bid
 							</Button>

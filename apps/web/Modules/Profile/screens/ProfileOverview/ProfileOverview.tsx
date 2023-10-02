@@ -14,7 +14,7 @@ import {
 	message,
 } from '@shoppik/ui/components/Core';
 import dayjs from 'dayjs';
-import { Upload } from 'react-iconly';
+import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 import { trpc } from '@/lib/trpc/trpc';
 import { Account } from '@shoppik/schema';
 import { DATE_FORMAT } from '@/Utils/dayjs/time';
@@ -56,7 +56,7 @@ const ProfileScreen = () => {
 			...GetMyProfile.data,
 			birthday: dayjs(GetMyProfile.data.birthday) as any, // trick, fix later
 		});
-	}, [GetMyProfile.data]);
+	}, [form, GetMyProfile.data]);
 
 	if (GetMyProfile.error ?? UpdateUserProfile.error) {
 		const error = GetMyProfile.error ?? UpdateUserProfile.error;
@@ -108,7 +108,7 @@ const ProfileScreen = () => {
 								ava
 							</Avatar>
 							<UploadButton>
-								<Button className="uploadBtn" icon={<Upload set="light" size="small" />}>
+								<Button className="uploadBtn" icon={<ArrowUpTrayIcon width={16} />}>
 									Upload
 								</Button>
 							</UploadButton>

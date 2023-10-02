@@ -22,6 +22,7 @@
 			"Service/*": ["./Service/*"],
 			"Repository/*": ["./Repository/*"]
 		}
+		// "isolatedDeclarations": true
 	},
 	"exclude": ["node_modules", ".vscode", ".turbo"],
 	"tsc-alias": {

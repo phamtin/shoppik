@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Delete } from 'react-iconly';
+import { XCircleIcon } from '@heroicons/react/24/outline';
 import { trpc } from '@/lib/trpc/trpc';
 import {
 	Button,
@@ -96,7 +96,7 @@ const RegisterStoreForm = ({ toggleForm, store }: RegisterStoreFormProps) => {
 			street: storeAddress.street,
 			storeAddress: [storeAddress.province, storeAddress.district, storeAddress.ward],
 		});
-	}, [loggedInUser.email, store?.storeAddress]);
+	}, [loggedInUser.email, form, store, store?.storeAddress]);
 
 	useEffect(() => {
 		setTarget(
@@ -124,7 +124,7 @@ const RegisterStoreForm = ({ toggleForm, store }: RegisterStoreFormProps) => {
 				break;
 			}
 		}
-	}, [district]);
+	}, [district, selectedLocation.p, target]);
 
 	useEffect(() => {
 		if (!ward?.length) return;
@@ -145,7 +145,7 @@ const RegisterStoreForm = ({ toggleForm, store }: RegisterStoreFormProps) => {
 				}
 			}
 		}
-	}, [ward]);
+	}, [ward, selectedLocation.d, target]);
 
 	const onSubmit = (values: any) => {
 		if (!values) return;
@@ -275,7 +275,9 @@ const RegisterStoreForm = ({ toggleForm, store }: RegisterStoreFormProps) => {
 														size="small"
 														danger
 														type="link"
-														icon={<Delete size="small" style={{ marginTop: 5 }} />}
+														icon={
+															<XCircleIcon color="#de2535" style={{ marginTop: 5 }} />
+														}
 														onClick={() => remove(field.name)}
 													/>
 												) : null}

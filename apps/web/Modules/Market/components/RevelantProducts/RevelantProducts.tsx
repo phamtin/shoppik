@@ -1,4 +1,3 @@
-import { Typography } from '@shoppik/ui/components/Core';
 import useStyles from './revelant-products.style';
 import ProductCard from '../ProductCard/ProductCard';
 
@@ -7,7 +6,6 @@ interface RevelantProductsProps {
 }
 
 const RevelantProducts = (props: RevelantProductsProps) => {
-	const { title } = props;
 	const { styles } = useStyles(props);
 
 	return (

@@ -1,6 +1,6 @@
 import { createStyles } from 'antd-style';
 
-const styles = createStyles(({ token }) => ({
+const styles = createStyles(() => ({
 	wrapper: {
 		width: '100%',
 	},

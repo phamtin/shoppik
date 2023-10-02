@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { Button, Space, Typography } from '@shoppik/ui/components/Core';
-import Image from 'next/image';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import useStyles from './detail-title.style';
 
 const { Text } = Typography;
@@ -9,7 +9,7 @@ interface DetailTitleProps {
 	title: string;
 }
 
-const DetailTitle = ({ title }: DetailTitleProps) => {
+const DetailTitle = ({}: DetailTitleProps) => {
 	const { styles } = useStyles();
 	const router = useRouter();
 
@@ -17,12 +17,8 @@ const DetailTitle = ({ title }: DetailTitleProps) => {
 
 	return (
 		<Space align="center" className={styles.wrapper}>
-			<Button
-				onClick={goBack}
-				icon={<Image src="/images/ic-back.png" alt="back" height={10} width={6} />}
-				className="iconBack"
-			/>
-			<Text>Market Details</Text>
+			<Button onClick={goBack} icon={<ArrowLeftIcon width={20} />} className="iconBack" />
+			<Text style={{ fontSize: 14 }}>Market Details</Text>
 		</Space>
 	);
 };

@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import useStyles from './UpdateStoreForm.style';
 import { trpc } from '@/lib/trpc/trpc';
 import { baseFieldValidation } from '@/Utils/validator/validator';
-import { Delete } from 'react-iconly';
+import { XCircleIcon } from '@heroicons/react/24/outline';
 
 interface UpdateStoreFormProps {
 	onTurnOffUpdateModal: () => void;
@@ -38,7 +38,7 @@ const UpdateStoreForm = ({ onTurnOffUpdateModal }: UpdateStoreFormProps) => {
 	useEffect(() => {
 		if (!dataGetMyStore) return;
 		form.setFieldsValue(dataGetMyStore.data || {});
-	}, [dataGetMyStore]);
+	}, [form, dataGetMyStore]);
 
 	const onSubmit = (values: StoreWithRelations) => {
 		const { name, tradeName = '', landingPageUrl = '', contact } = values;
@@ -95,13 +95,7 @@ const UpdateStoreForm = ({ onTurnOffUpdateModal }: UpdateStoreFormProps) => {
 												size="small"
 												danger
 												type="link"
-												icon={
-													<Delete
-														set="broken"
-														size="small"
-														style={{ marginTop: theme.marginSM }}
-													/>
-												}
+												icon={<XCircleIcon width={20} color="#de2535" />}
 												onClick={() => remove(field.name)}
 											/>
 										) : null}
