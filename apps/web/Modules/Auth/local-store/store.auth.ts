@@ -8,7 +8,7 @@ state$.settings.theme.get() === 'dark';
 
 // observe re-runs when any observables change
 observe(() => {
-	console.log(state$.settings.theme.get());
+	return state$.settings.theme.get();
 });
 
 // Assign to state$ with set

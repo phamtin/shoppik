@@ -2,7 +2,7 @@ import { Typography } from '@shoppik/ui/components/Core';
 import Flex from '@shoppik/ui/components/Flex';
 import useStyles from './ProductAddTitle.style';
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 interface ProductAddTitleProps {
 	title: string;

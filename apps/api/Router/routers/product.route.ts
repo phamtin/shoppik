@@ -6,7 +6,7 @@ import { publicProcedure, authenticatedProcedure, router } from '../trpc';
 
 const createProductRequest = z.object({
 	name: z.string(),
-	description: z.string(),
+	description: z.string().nullable().optional(),
 	images: z.array(z.string()),
 	keyFeatures: z.array(z.string()),
 	detail: z.array(AttributePatternSchema),

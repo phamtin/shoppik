@@ -1,11 +1,10 @@
-import { Typography } from '@shoppik/ui/components/Core';
 import useStyles from './sub-detail.style';
 
 interface SubDetailProps {
 	title: string;
 }
 
-const SubDetail = ({ title }: SubDetailProps) => {
+const SubDetail = ({}: SubDetailProps) => {
 	const { styles } = useStyles();
 
 	return <div className={styles.wrapper}></div>;

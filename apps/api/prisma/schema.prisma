@@ -156,7 +156,7 @@ model Product {
   storeId           String             @db.ObjectId
   name              String
   slug              String
-  description       String
+  description       String?
   keyFeatures       String[]
   images            String[]
   originPrice       Int

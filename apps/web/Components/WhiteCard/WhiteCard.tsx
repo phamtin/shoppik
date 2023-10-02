@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { Button, Typography } from '@shoppik/ui/components/Core';
-import Image from 'next/image';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import useStyles from './white-card.style';
 
 const { Title } = Typography;
@@ -18,11 +18,7 @@ function WhiteCard(props: WhiteCardProps) {
 
 	return (
 		<div className={styles.wrapper}>
-			<Button
-				onClick={goBack}
-				icon={<Image src="/images/ic-back.png" alt="back" height={11} width={6} />}
-				className="iconBack"
-			/>
+			<Button onClick={goBack} icon={<ArrowLeftIcon width={24} />} className="iconBack" />
 			<Title level={5}>{`Market Detail - ${title}`}</Title>
 		</div>
 	);

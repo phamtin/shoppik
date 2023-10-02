@@ -14,6 +14,9 @@ const nextConfig = {
 	images: {
 		domains: ['lh3.googleusercontent.com'],
 	},
+	eslint: {
+		dirs: ['pages', 'Components'], // Only run ESLint on the 'pages' and 'utils' directories during production builds (next build)
+	},
 	async headers() {
 		return [
 			{

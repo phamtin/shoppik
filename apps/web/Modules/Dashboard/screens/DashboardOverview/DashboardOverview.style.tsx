@@ -1,6 +1,6 @@
 import { createStyles } from 'antd-style';
 
-export default createStyles(({ token }) => ({
+export default createStyles(() => ({
 	wrapper: {
 		width: '97%',
 		maxWidth: 1920,

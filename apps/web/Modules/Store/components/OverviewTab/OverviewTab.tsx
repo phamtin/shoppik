@@ -34,7 +34,7 @@ const OverviewTab = () => {
 	const { styles } = useStyle();
 
 	const onChange: TableProps<any>['onChange'] = () => {
-		console.error('CC');
+		console.info('CC');
 	};
 
 	return (
@@ -49,5 +49,7 @@ const OverviewTab = () => {
 		</div>
 	);
 };
+
+OverviewTab.displayName = 'OverviewTab';
 
 export default memo(OverviewTab);

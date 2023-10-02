@@ -35,34 +35,37 @@ const AddProductDetail = (props: AddProductDetailProps) => {
 					colon={false}
 					label={<Text className="title">Key features</Text>}
 				>
-					<Form.List name={'keyFeatures'}>
+					<Form.List name="keyFeatures">
 						{(fields, { add, remove }, { errors }) => (
 							<>
-								{fields.map((field, index) => (
-									<Form.Item key={`${field.name}${field.key}`} required={false}>
-										<Form.Item {...field} noStyle className="block">
-											<Input
-												size="large"
-												placeholder={`Feature ${index + 1} here`}
-												style={{ width: fields.length > 1 ? '92%' : '100%' }}
-											/>
-										</Form.Item>
-										{fields.length > 1 ? (
-											<DelayedComponent>
-												<Button
-													size="small"
-													type="link"
-													icon={<XCircleIcon width={20} color="#de2535" />}
-													style={{ marginLeft: theme.marginXS }}
-													onClick={() => remove(field.name)}
+								{fields.map((field, index) => {
+									const { key, ...restProps } = field;
+									return (
+										<Form.Item key={key} required={false}>
+											<Form.Item {...restProps} noStyle className="block">
+												<Input
+													size="large"
+													placeholder={`Feature ${index + 1} here`}
+													style={{ width: fields.length > 1 ? '92%' : '100%' }}
 												/>
-											</DelayedComponent>
-										) : null}
-									</Form.Item>
-								))}
+											</Form.Item>
+											{fields.length > 1 ? (
+												<DelayedComponent>
+													<Button
+														size="small"
+														type="link"
+														icon={<XCircleIcon width={20} color="#de2535" />}
+														style={{ marginLeft: theme.marginXS }}
+														onClick={() => remove(field.name)}
+													/>
+												</DelayedComponent>
+											) : null}
+										</Form.Item>
+									);
+								})}
 								{fields.length <= 4 && (
 									<Form.Item noStyle>
-										<Button block type="dashed" onClick={() => add()}>
+										<Button block type="dashed" onClick={add}>
 											Add feature
 										</Button>
 										<Form.ErrorList errors={errors} />
@@ -81,50 +84,55 @@ const AddProductDetail = (props: AddProductDetailProps) => {
 					<Form.List name="detail">
 						{(fields, { add, remove }, { errors }) => (
 							<>
-								{fields.map((field, index) => (
-									<div key={`${field.name}${field.key}`}>
-										<Space.Compact style={{ width: fields.length > 1 ? '92%' : '100%' }}>
-											<Form.Item
-												{...field}
-												name={[field.name, 'k']}
-												key={index}
-												style={{ width: '30%' }}
+								{fields.map((field, index) => {
+									const { key, ...props } = field;
+									return (
+										<div key={key}>
+											<Space.Compact
+												style={{ width: fields.length > 1 ? '92%' : '100%' }}
 											>
-												<Input
-													size="large"
-													style={{ width: '100%' }}
-													placeholder={`Detail ${index + 1}`}
-												/>
-											</Form.Item>
-											<Form.Item
-												{...field}
-												name={[field.name, 'v']}
-												key={index}
-												style={{ width: '70%' }}
-											>
-												<Input
-													size="large"
-													style={{ width: '100%' }}
-													placeholder={`Description of detail ${index + 1}`}
-												/>
-											</Form.Item>
-										</Space.Compact>
-										{fields.length > 1 ? (
-											<DelayedComponent>
-												<Button
-													size="small"
-													type="link"
-													icon={<XCircleIcon width={20} color="#de2535" />}
-													style={{ marginLeft: theme.marginXS }}
-													onClick={() => remove(field.name)}
-												/>
-											</DelayedComponent>
-										) : null}
-									</div>
-								))}
+												<Form.Item
+													{...props}
+													name={[props.name, 'k']}
+													key={'key' + index}
+													style={{ width: '30%' }}
+												>
+													<Input
+														size="large"
+														style={{ width: '100%' }}
+														placeholder={`Detail ${index + 1}`}
+													/>
+												</Form.Item>
+												<Form.Item
+													{...props}
+													name={[props.name, 'v']}
+													key={'value' + index}
+													style={{ width: '70%' }}
+												>
+													<Input
+														size="large"
+														style={{ width: '100%' }}
+														placeholder={`Description of detail ${index + 1}`}
+													/>
+												</Form.Item>
+											</Space.Compact>
+											{fields.length > 1 ? (
+												<DelayedComponent>
+													<Button
+														size="small"
+														type="link"
+														icon={<XCircleIcon width={20} color="#de2535" />}
+														style={{ marginLeft: theme.marginXS }}
+														onClick={() => remove(props.name)}
+													/>
+												</DelayedComponent>
+											) : null}
+										</div>
+									);
+								})}
 								{fields.length <= 4 && (
 									<Form.Item noStyle>
-										<Button block type="dashed" onClick={() => add()}>
+										<Button block type="dashed" onClick={add}>
 											Add details
 										</Button>
 										<Form.ErrorList errors={errors} />

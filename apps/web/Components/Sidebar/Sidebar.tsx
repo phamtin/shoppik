@@ -1,10 +1,17 @@
 'use client';
 
-import { memo, useState } from 'react';
+import { FC, memo, useState } from 'react';
 import Image from 'next/image';
-import { ArrowLeft, Home, Bag, Chart, Message, Activity } from 'react-iconly';
-import { Button, Layout, Menu, MenuProps, Typography } from '@shoppik/ui/components/Core';
 import { useRouter } from 'next/navigation';
+import {
+	ChevronDoubleLeftIcon,
+	CommandLineIcon,
+	ShoppingBagIcon,
+	ChartBarIcon,
+	ChatBubbleBottomCenterIcon,
+	ArrowPathIcon,
+} from '@heroicons/react/24/outline';
+import { Button, Layout, Menu, MenuProps, Typography } from '@shoppik/ui/components/Core';
 import { getItem } from '@/Utils/common';
 
 import useStyle from './sidebar.style';
@@ -34,11 +41,11 @@ const myStoreUrl = {
 };
 
 const items: MenuProps['items'] = [
-	getItem('Dashboard', 'dashboard', <Home />),
-	getItem('Market', 'market', <Chart />),
-	getItem('Activity', 'activity', <Activity />),
-	getItem('Messengers', 'messengers', <Message />),
-	getItem('My store', 'sub2', <Bag />, [
+	getItem('Dashboard', 'dashboard', <CommandLineIcon />),
+	getItem('Market', 'market', <ChartBarIcon />),
+	getItem('Activity', 'activity', <ArrowPathIcon />),
+	getItem('Messengers', 'messengers', <ChatBubbleBottomCenterIcon />),
+	getItem('My store', 'sub2', <ShoppingBagIcon />, [
 		getItem('Overview', myStoreUrl.overview, <Dot color="orangered" />),
 		getItem('Partners', myStoreUrl.partners, <Dot color="orange" />),
 		getItem('Statistic', myStoreUrl.statistic, <Dot color="#acff1e" />),
@@ -51,10 +58,10 @@ interface SidebarProp {
 	collapsed?: boolean;
 }
 
-const Sidebar: React.FC<SidebarProp> = () => {
+const Sidebar: FC<SidebarProp> = () => {
 	const router = useRouter();
 	const [collapsed, setCollapsed] = useState(false);
-	const { styles } = useStyle({ collapsed });
+	const { styles, theme } = useStyle({ collapsed });
 
 	const onGotoPage: MenuProps['onClick'] = (e) => {
 		if (e.key in myStoreUrl) {
@@ -101,9 +108,9 @@ const Sidebar: React.FC<SidebarProp> = () => {
 					left: '8px',
 					padding: '8px 9px',
 					border: 'none',
-					backgroundColor: '#0a0a0a',
+					background: 0,
 				}}
-				icon={<ArrowLeft set="light" primaryColor="#FFF" />}
+				icon={<ChevronDoubleLeftIcon color={theme.colorBgElevated} width={24} />}
 				onClick={toggleCollapsed}
 			/>
 		</Sider>

@@ -36,7 +36,7 @@ const AddProduct = () => {
 
 		mutationCreateProduct.mutate({
 			name: values.name ?? '',
-			description: values.description ?? '',
+			description: values.description,
 			images: values.images ?? [],
 			keyFeatures: values.keyFeatures ?? [],
 			variants: transformToAttributePattern(values.variants),

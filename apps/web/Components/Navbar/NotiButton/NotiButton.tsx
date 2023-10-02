@@ -6,7 +6,7 @@ import {
 	Segmented,
 	Typography,
 } from '@shoppik/ui/components/Core';
-import { Notification } from 'react-iconly';
+import { BellIcon } from '@heroicons/react/24/outline';
 
 import useStyle from './noti-button.style';
 import NotiItem from './NotiItem';
@@ -123,7 +123,7 @@ function NotiButton() {
 	return (
 		<div className={styles.wrapper}>
 			<Dropdown trigger={['click']} dropdownRender={renderNotiDropdown}>
-				<Button size="large" type="text" icon={<Notification />} />
+				<Button size="large" type="text" icon={<BellIcon width={24} />} />
 			</Dropdown>
 		</div>
 	);

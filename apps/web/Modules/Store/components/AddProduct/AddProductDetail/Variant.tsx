@@ -23,6 +23,8 @@ interface Props {
 }
 
 const DetailVariant = ({ form, field, index, remove }: Props) => {
+	const { key, ...restProps } = field;
+
 	const inputRef = useRef<InputRef>(null);
 	const editInputRef = useRef<InputRef>(null);
 
@@ -92,8 +94,8 @@ const DetailVariant = ({ form, field, index, remove }: Props) => {
 	};
 
 	return (
-		<Flex alignitems="flex-start">
-			<Form.Item {...field} name={[field.name, 'k']} key={index}>
+		<Flex key={index} alignitems="flex-start">
+			<Form.Item {...restProps} name={[field.name, 'k']}>
 				<Input className="textInput" placeholder={`Variant ${index + 1}`} />
 			</Form.Item>
 			<Space size={[0, 8]} wrap>

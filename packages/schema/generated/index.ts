@@ -143,7 +143,7 @@ export const ProductSchema = z.object({
   storeId: z.string(),
   name: z.string(),
   slug: z.string(),
-  description: z.string(),
+  description: z.string().nullable(),
   keyFeatures: z.string().array(),
   images: z.string().array(),
   originPrice: z.number().int(),

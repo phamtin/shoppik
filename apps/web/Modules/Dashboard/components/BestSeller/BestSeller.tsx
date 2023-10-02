@@ -1,4 +1,4 @@
-import { Chart } from 'react-iconly';
+import { ChartPieIcon } from '@heroicons/react/24/outline';
 import InfoItem from '@/Modules/Market/components/InfoItem/InfoItem';
 import CardHeader from '../CardHeader/CardHeader';
 import useStyles from './BestSeller.style';
@@ -8,7 +8,7 @@ const BestSeller = () => {
 
 	return (
 		<div className={styles.wrapper}>
-			<CardHeader title="Dashboard Overview" rightTitle={<Chart primaryColor="red" />} />
+			<CardHeader title="Dashboard Overview" rightTitle={<ChartPieIcon width={24} />} />
 			<div className="bestSellerItems">
 				<InfoItem
 					image="/images/ava1.png"
