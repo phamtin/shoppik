@@ -20,7 +20,7 @@ import { Account } from '@shoppik/schema';
 import { DATE_FORMAT } from '@/Utils/dayjs/time';
 import { baseFieldValidation } from '@/Utils/validator/validator';
 import { VALID_EMAIL_REGEX } from '@/Helper/regex';
-import GlobalError from '@/app/error/Error';
+import { handleToastTrpcError } from '@/app/error/Error';
 import { LIST_INFO } from '../../types/Profile.type';
 
 const { Text } = Typography;
@@ -46,7 +46,7 @@ const ProfileScreen = () => {
 			utils.user.getMyProfile.invalidate();
 		},
 		onError(err) {
-			messageApi.open({ type: 'error', content: err.message });
+			handleToastTrpcError(err.data, messageApi);
 		},
 	});
 
@@ -58,10 +58,10 @@ const ProfileScreen = () => {
 		});
 	}, [form, GetMyProfile.data]);
 
-	if (GetMyProfile.error ?? UpdateUserProfile.error) {
-		const error = GetMyProfile.error ?? UpdateUserProfile.error;
-		return <GlobalError error={error?.data} />;
-	}
+	// if (GetMyProfile.error ?? UpdateUserProfile.error) {
+	// 	const error = GetMyProfile.error ?? UpdateUserProfile.error;
+	// 	return <GlobalError error={error?.data} />;
+	// }
 
 	const onSave = (values: any) => {
 		if (!values || values.type === 'click') return;

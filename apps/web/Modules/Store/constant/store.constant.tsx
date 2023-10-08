@@ -57,3 +57,5 @@ export const floatActions = [
 		title: 'Moneitize from Partners',
 	},
 ];
+
+export const StoreTags = ['iOs', 'Iphone', 'IMac', 'Apple Watch', 'Apple TV'];

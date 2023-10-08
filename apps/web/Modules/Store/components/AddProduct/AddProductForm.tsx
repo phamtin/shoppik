@@ -19,7 +19,7 @@ const AddProducts = (props: AddProductProps) => {
 		name: '',
 		description: '',
 		images: [],
-		keyFeatures: [],
+		keyFeatures: [''],
 		detail: [{ k: '', v: '', u: '' }],
 		variants: [{ k: '', v: '', u: '' }],
 		shoppikCategories: [],

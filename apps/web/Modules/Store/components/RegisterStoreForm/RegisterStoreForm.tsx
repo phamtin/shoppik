@@ -18,6 +18,7 @@ import { StoreAddress, StoreWithRelations } from '@shoppik/schema';
 import useStyle from './RegisterStoreForm.style';
 import useLoggedInUser from '@/Hooks/useLoggedInUser/useLoggedInUser';
 import { useRouter } from 'next/navigation';
+import { handleToastTrpcError } from '@/app/error/Error';
 
 const { Title, Text } = Typography;
 
@@ -68,7 +69,7 @@ const RegisterStoreForm = ({ toggleForm, store }: RegisterStoreFormProps) => {
 			trpcStore.getMyStore.invalidate();
 		},
 		onError(err) {
-			messageApi.open({ type: 'error', content: err.message });
+			handleToastTrpcError(err.data, messageApi);
 		},
 	});
 
@@ -82,7 +83,7 @@ const RegisterStoreForm = ({ toggleForm, store }: RegisterStoreFormProps) => {
 			toggleForm?.();
 		},
 		onError(err) {
-			messageApi.open({ type: 'error', content: err.message });
+			handleToastTrpcError(err.data, messageApi);
 		},
 	});
 

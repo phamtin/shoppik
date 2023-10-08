@@ -2,6 +2,7 @@
 
 import { FC, memo, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import {
 	ChevronDoubleLeftIcon,
 	CommandLineIcon,
@@ -11,7 +12,6 @@ import {
 	ArrowPathIcon,
 } from '@heroicons/react/24/outline';
 import { Button, Layout, Menu, MenuProps, Typography } from '@shoppik/ui/components/Core';
-import { useRouter } from 'next/navigation';
 import { getItem } from '@/Utils/common';
 
 import useStyle from './sidebar.style';

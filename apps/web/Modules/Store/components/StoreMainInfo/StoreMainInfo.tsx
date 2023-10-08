@@ -22,19 +22,22 @@ import useStyle from './store-main-info.style';
 import { trpc } from '@/lib/trpc/trpc';
 import RegisterStoreForm from '../RegisterStoreForm/RegisterStoreForm';
 import { StoreStatistic, showStoreInformation } from '../../helper/store.helper';
+import { StoreTags } from '../../constant/store.constant';
+import { handleToastTrpcError } from '@/app/error/Error';
 
 const StoreMainInfo = () => {
-	const { data: store } = trpc.store.getMyStore.useQuery();
-
-	const [collapsed, setCollapsed] = useState(false);
 	const [updateModal, setUpdateModal] = useState(false);
+	const [collapsed, setCollapsed] = useState(false);
 	const { styles, theme } = useStyle({ collapsed });
 
-	const toggleUpdateModal = () => setUpdateModal((prev) => !prev);
+	const { data: store, isError, error } = trpc.store.getMyStore.useQuery();
 
-	const tags = ['iOs', 'Iphone', 'IMac', 'Apple Watch', 'Apple TV'];
-
+	if (isError) {
+		return handleToastTrpcError(error.data);
+	}
 	if (!store?.data) return <></>;
+
+	const toggleUpdateModal = () => setUpdateModal((prev) => !prev);
 
 	const toggleCollapse = () => setCollapsed((prev) => !prev);
 	const webStore = store.data.landingPageUrl || 'https://kurogu.vercel.app/';
@@ -87,7 +90,7 @@ const StoreMainInfo = () => {
 						<Typography.Paragraph>{store.data.description}</Typography.Paragraph>
 					</div>
 					<div className={styles.tags}>
-						{tags.map((t) => (
+						{StoreTags.map((t) => (
 							<Tag key={t}>{t}</Tag>
 						))}
 					</div>

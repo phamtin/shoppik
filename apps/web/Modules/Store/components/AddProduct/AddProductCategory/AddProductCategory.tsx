@@ -118,7 +118,6 @@ const AddProductCategory = (props: AddProductCategoryProps) => {
 				</Form.Item>
 				<br />
 				<Form.Item
-					name="storeCategories"
 					className="inputItem"
 					colon={false}
 					label={

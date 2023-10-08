@@ -5,7 +5,7 @@ import { useState, useEffect, PropsWithChildren } from 'react';
 interface Prop extends PropsWithChildren {
 	waitBeforeShow?: number;
 }
-const DelayedComponent = ({ children, waitBeforeShow = 300 }: Prop) => {
+const DelayedComponent = ({ children, waitBeforeShow = 200 }: Prop) => {
 	const [isShown, setIsShown] = useState(false);
 
 	useEffect(() => {
