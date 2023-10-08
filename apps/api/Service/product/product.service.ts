@@ -1,7 +1,15 @@
 import { TRPCError } from '@trpc/server';
 import { StoreStatusSchema } from '@shoppik/schema';
 
-import { CreateProductRequest, CreateProductResponse, GetShoppikCategoryResponse, GetStoreProductsRequest, GetStoreProductsResponse } from 'Router/routers/product.route';
+import {
+	CreateProductRequest,
+	CreateProductResponse,
+	GetProductDetailRequest,
+	GetProductDetailResponse,
+	GetShoppikCategoryResponse,
+	GetStoreProductsRequest,
+	GetStoreProductsResponse,
+} from 'Router/routers/product.route';
 import StoreService from 'Service/store/store.service';
 import ProductRepo from 'Repository/product.repo';
 import { Context } from 'Router/context';
@@ -31,10 +39,16 @@ const getStoreProducts = async (ctx: Context, request: GetStoreProductsRequest):
 	return products;
 };
 
+const getProductDetail = async (ctx: Context, request: GetProductDetailRequest): Promise<GetProductDetailResponse> => {
+	const product = await ProductRepo.getProductDetail(ctx, request);
+	return product;
+};
+
 const ProductService = {
 	createProduct,
 	getStoreProducts,
 	getShoppikCategory,
+	getProductDetail,
 };
 
 export default ProductService;

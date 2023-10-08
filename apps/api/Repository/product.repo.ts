@@ -1,6 +1,14 @@
 import slugify from 'slugify';
 
-import { CreateProductRequest, CreateProductResponse, GetShoppikCategoryResponse, GetStoreProductsRequest, GetStoreProductsResponse } from 'Router/routers/product.route';
+import {
+	CreateProductRequest,
+	CreateProductResponse,
+	GetProductDetailRequest,
+	GetProductDetailResponse,
+	GetShoppikCategoryResponse,
+	GetStoreProductsRequest,
+	GetStoreProductsResponse,
+} from 'Router/routers/product.route';
 import { Context } from '../Router/context';
 import { TRPCError } from '@trpc/server';
 
@@ -46,7 +54,7 @@ const getStoreProducts = async (ctx: Context, request: GetStoreProductsRequest):
 	const shoppikCategoryDb = ctx.prisma.product;
 
 	let skip = 0;
-	let limit = Infinity;
+	let limit = undefined;
 	let sortBy = 'name';
 	let sortOrder = 'asc';
 
@@ -102,6 +110,19 @@ const getShoppikCategory = async (ctx: Context): Promise<GetShoppikCategoryRespo
 	return res;
 };
 
-const ProductRepo = Object.freeze({ createProduct, getStoreProducts, getShoppikCategory });
+const getProductDetail = async (ctx: Context, request: GetProductDetailRequest): Promise<GetProductDetailResponse> => {
+	const shoppikCategoryDb = ctx.prisma.product;
+
+	const product = await shoppikCategoryDb.findUnique({
+		where: {
+			id: request.productId,
+		},
+		include: true,
+	});
+
+	return product;
+};
+
+const ProductRepo = Object.freeze({ createProduct, getProductDetail, getStoreProducts, getShoppikCategory });
 
 export default ProductRepo;
