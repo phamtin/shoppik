@@ -11,6 +11,7 @@ import { Button, Form, Typography, message } from '@shoppik/ui/components/Core';
 import ProductAddTitle from '../../components/ProductAddTitle/ProductAddTitle';
 import AddProductForm from '../../components/AddProduct/AddProductForm';
 import useStyles from './add-product.style';
+import { useRouter } from 'next/navigation';
 
 const { Title, Text } = Typography;
 
@@ -18,6 +19,7 @@ const AddProduct = () => {
 	const { styles, theme } = useStyles();
 	const [form] = Form.useForm<any>();
 	const [messageApi, contextHolder] = message.useMessage();
+	const router = useRouter();
 
 	const mutationCreateProduct = trpc.product.createProduct.useMutation({
 		onSuccess() {
@@ -25,6 +27,7 @@ const AddProduct = () => {
 				type: 'success',
 				content: 'Product created successfully',
 			});
+			router.push('/my-store/overview')
 		},
 		onError(e) {
 			messageApi.open({ type: 'error', content: e.message });

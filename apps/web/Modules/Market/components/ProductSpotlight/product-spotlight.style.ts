@@ -34,38 +34,6 @@ export default createStyles(({ token }) => ({
 				fontWeight: 500,
 				marginBottom: token.marginXXS,
 			},
-			'.productDesc': {
-				lineHeight: 1.4,
-				color: token.colorTextLabel,
-			},
-			'.productItemInfo': {
-				display: 'flex',
-				justifyContent: 'space-between',
-				marginBottom: token.marginLG,
-			},
-			'.productMore': {
-				display: 'flex',
-				justifyContent: 'space-between',
-				marginBottom: token.marginLG,
-				'.productMoreItem': {
-					display: 'flex',
-					flexDirection: 'column',
-					'.productMoreItemTitle': {
-						fontSize: token.fontSizeSM,
-						color: token.colorTextQuaternary,
-					},
-					'.productMoreItemPrice': {
-						fontSize: token.fontSizeHeading4,
-						margin: 0,
-					},
-				},
-			},
-
-			'.productButton': {
-				display: 'flex',
-				justifyContent: 'center',
-				alignSelf: 'end',
-			},
 		},
 	},
 }));
