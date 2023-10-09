@@ -1,27 +1,47 @@
+import { StarIcon } from '@heroicons/react/24/solid';
+import { Button, Col, Divider, Row, Typography } from '@shoppik/ui/components/Core';
+import Flex from '@shoppik/ui/components/Flex';
+import { GetProductDetailResponse } from 'Router/routers/product.route';
 import Image from 'next/image';
-import { ChartPieIcon } from '@heroicons/react/24/outline';
-import { Button, Col, Row, Typography } from '@shoppik/ui/components/Core';
-import InfoItem from '@/Modules/Market/components/InfoItem/InfoItem';
+import { useState } from 'react';
 import useStyles from './product-spotlight.style';
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Text } = Typography;
 
 interface ProductSpotLightProps {
-	title: string;
+	product: GetProductDetailResponse;
 }
 
 const ProductSpotLight = (props: ProductSpotLightProps) => {
-	const { title } = props;
-	const { styles } = useStyles(props);
+	const { product } = props;
+	const { styles, theme } = useStyles(props);
+
+	const [count, setCount] = useState(1);
+
+	const onAdd = () => {
+		if (count === product?.quantity) {
+			return;
+		}
+		setCount(count + 1)
+	}
+
+	const onRemove = () => {
+		if (count === 0) {
+			return;
+		}
+		setCount(count - 1)
+	}
+
+	if (!product) return <></>
 
 	return (
 		<div className={styles.wrapper}>
 			<Row>
-				<Col xs={24} lg={12}>
+				<Col xs={24} lg={10}>
 					<div style={{ minHeight: 340 }}>
 						<Image
 							alt="example"
-							src="/images/product-detail.png"
+							src={product.images[0]}
 							layout="fill"
 							objectFit="cover"
 						/>
@@ -31,39 +51,57 @@ const ProductSpotLight = (props: ProductSpotLightProps) => {
 				<Col xs={24} lg={12}>
 					<div className="productInfo">
 						<Title level={3} className="productName">
-							{title}
+							{product.name}
 						</Title>
-						<Paragraph className="productDesc">
-							A collection of 10,000 utility-enabled PFPs that feature a richly diverse
-							and unique pool of rarity-powered traits. A collection of 10,000
-							utility-enabled PFPs that feature a richly diverse and unique pool of
-							rarity-powered traits.
-						</Paragraph>
-						<div className="productItemInfo">
-							<InfoItem image="/images/ava1.png" title="Created By" content="Perperzon" />
-							<InfoItem image="/images/ava2.png" title="Owned By" content="Videz" />
-						</div>
-						<div className="productMore">
-							<div className="productMoreItem">
-								<Text className="productMoreItemTitle">Current Bid</Text>
-								<Text className="productMoreItemPrice">1.75</Text>
-							</div>
-							<div className="productMoreItem">
-								<Text className="productMoreItemTitle">End In</Text>
-								<Text className="productMoreItemTime">Oct 17, 2022 at 05:08</Text>
-							</div>
-						</div>
-						<div>
-							<Button
-								block
-								type="primary"
-								size="large"
-								className="productButton"
-								icon={<ChartPieIcon width={22} />}
-							>
-								Place Bid
-							</Button>
-						</div>
+						<Flex>
+							<Flex gap={theme.marginXS}>
+								<Title level={4}>4.9</Title>
+								<Flex>
+									<StarIcon width={12} color="#D0011C" />
+									<StarIcon width={12} color="#D0011C" />
+									<StarIcon width={12} color="#D0011C" />
+									<StarIcon width={12} color="#D0011C" />
+									<StarIcon width={12} color="#D0011C" />
+								</Flex>
+							</Flex>
+							<Divider type="vertical" />
+							<Flex gap={theme.marginXS}>
+								<Title level={4}>47</Title>
+								<Text>đánh giá</Text>
+							</Flex>
+							<Divider type="vertical" />
+							<Flex gap={theme.marginXS}>
+								<Title level={4}>199</Title>
+								<Text>đã bán</Text>
+							</Flex>
+						</Flex>
+						<Title>${product.originPrice}</Title>
+						{product.variants.filter(variant => variant['v'].length > 0).map((variant) => {
+							const parseData = variant['v'].replace(/'/g, "\"");
+							const result = JSON.parse(parseData);
+
+							return (
+								<Flex gap={theme.marginSM} mb={theme.marginSM}>
+									<Title level={5}>{variant['k']}</Title>
+									<Flex gap={theme.marginXS}>
+										{result.map((item: string) => <Button>{item}</Button>)}
+									</Flex>
+								</Flex>
+							)
+						})}
+						<Flex gap={theme.marginSM} mb={theme.marginSM}>
+							<Title level={5}>Số lượng: </Title>
+							<Flex gap={theme.marginXS}>
+								<Button onClick={onRemove} disabled={count === 0}>-</Button>
+								<Button>{count}</Button>
+								<Button onClick={onAdd} disabled={count === product?.quantity}>+</Button>
+							</Flex>
+							<Text>{product.quantity} sản phẩm sẵn có</Text>
+						</Flex>
+						<Flex gap={theme.marginSM}>
+							<Button type="default">Thêm vào giỏ hàng</Button>
+							<Button type="primary">Mua ngay</Button>
+						</Flex>
 					</div>
 				</Col>
 			</Row>

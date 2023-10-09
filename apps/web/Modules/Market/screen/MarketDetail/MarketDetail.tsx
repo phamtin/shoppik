@@ -6,6 +6,8 @@ import ProductSpotLight from '@/Modules/Market/components/ProductSpotlight/Produ
 import RevelantProducts from '@/Modules/Market/components/RevelantProducts/RevelantProducts';
 
 import useStyle from './MarketDetail.style';
+import { trpc } from '@/lib/trpc/trpc';
+import ProductInfo from '../../components/ProductInfo/ProductInfo';
 
 const { Text } = Typography;
 
@@ -15,6 +17,9 @@ interface MarketDetail {
 
 const MarketDetail = (props: MarketDetail) => {
 	const { id } = props;
+
+	const { data } = trpc.product.getProductDetail.useQuery({ productId: id })
+
 	const { styles } = useStyle();
 
 	return (
@@ -23,8 +28,9 @@ const MarketDetail = (props: MarketDetail) => {
 
 			<div className={styles.wrapperSection}>
 				<div className="left">
-					<ProductSpotLight title={id} />
-					<RevelantProducts />
+					<ProductSpotLight product={data} />
+					<ProductInfo product={data} />
+					{/* <RevelantProducts /> */}
 				</div>
 				<div className="right">
 					<Text>Content goes here...</Text>

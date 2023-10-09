@@ -41,7 +41,7 @@ const myStoreUrl = {
 };
 
 const items: MenuProps['items'] = [
-	getItem('Dashboard', 'dashboard', <CommandLineIcon />),
+	getItem('Dashboard', '', <CommandLineIcon />),
 	getItem('Market', 'market', <ChartBarIcon />),
 	getItem('Activity', 'activity', <ArrowPathIcon />),
 	getItem('Messengers', 'messengers', <ChatBubbleBottomCenterIcon />),

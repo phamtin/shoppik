@@ -22,7 +22,7 @@ const ProductAddTitle = ({ title, shapeColor }: ProductAddTitleProps) => {
 					borderRadius: 3,
 				}}
 			/>
-			<Text strong style={{ fontSize: 16 }}>
+			<Text strong style={{ fontSize: 16, marginBottom: 0 }}>
 				{title}
 			</Text>
 		</Flex>

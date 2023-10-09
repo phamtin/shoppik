@@ -31,7 +31,7 @@ const customThemeIPad = {
 	colorTextBase: '#181818',
 };
 
-const cc = { height: '100%', overflow: 'auto', backgroundColor: '#FFFFFF' };
+const cc = { height: '100%', overflow: 'auto', backgroundColor: '#fcfcfc' };
 
 export default trpc.withTRPC(function RootLayout({ children }: PropsWithChildren) {
 	let theme = customTheme;

@@ -22,6 +22,7 @@ function NavBar() {
 						size="large"
 						placeholder="search.."
 						bordered={false}
+						style={{ backgroundColor: '#F4F4F4' }}
 						prefix={<MagnifyingGlassIcon width={24} color={theme.colorTextDisabled} />}
 					/>
 					<Button
