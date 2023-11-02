@@ -55,6 +55,11 @@ const getProductDetail = async (ctx: Context, request: GetProductDetailRequest):
 	return res;
 };
 
+const getProductDetail = async (ctx: Context, request: GetProductDetailRequest): Promise<GetProductDetailResponse> => {
+	const product = await ProductRepo.getProductDetail(ctx, request);
+	return product;
+};
+
 const ProductService = {
 	createProduct,
 	getOverviewProductList,
