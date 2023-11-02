@@ -20,9 +20,9 @@ class RedisCache {
 		if (!this.instance) {
 			try {
 				this.instance = new Redis({
-					host: 'redis-11182.c302.asia-northeast1-1.gce.cloud.redislabs.com',
-					password: 'vqMuiLDaZD0RWeWLd61OhRZ0DyRzd1vZ',
-					port: 11182,
+					host: process.env.REDIS_HOST as never,
+					port: process.env.REDIS_PORT as never,
+					password: process.env.REDIS_PASSWORD as never,
 				});
 				// this.instance = new Redis({
 				// 	host: process.env.REDIS_HOST,
