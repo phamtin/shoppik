@@ -31,7 +31,7 @@
 		],
 		"strictNullChecks": true
 	},
-	"exclude": ["node_modules", ".vscode", ".turbo", "Generated/is.ts"],
+	"exclude": ["node_modules", ".vscode", ".turbo", "Generated"],
 	"tsc-alias": {
 		"verbose": false,
 		"resolveFullPaths": true
