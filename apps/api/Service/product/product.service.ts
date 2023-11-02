@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { StoreStatusSchema } from '@shoppik/schema';
+import { StoreStatus } from '@shoppik/types';
 
 import {
 	CreateProductRequest,
@@ -9,17 +9,19 @@ import {
 	GetShoppikCategoryResponse,
 	GetStoreProductsRequest,
 	GetStoreProductsResponse,
-} from 'Router/routers/product.route';
+} from 'Router/product.route';
 import StoreService from 'Service/store/store.service';
-import ProductRepo from 'Repository/product.repo';
-import { Context } from 'Router/context';
+import ProductRepo from 'Repository/product/product.repo';
+import { Context } from 'Router/routers/context';
 
 const createProduct = async (ctx: Context, request: CreateProductRequest): Promise<CreateProductResponse> => {
 	ctx.systemLog.info('Create new Product - START');
 
 	const store = await StoreService.getMyStore(ctx);
-
-	if (!store ?? store.data?.isDeleted ?? store.data?.storeStatus !== StoreStatusSchema.Enum.ACTIVE) {
+	if (store.data === null) {
+		throw new TRPCError({ code: 'BAD_REQUEST' });
+	}
+	if (store.data.isDeleted ?? store.data.storeStatus !== StoreStatus.ACTIVE) {
 		throw new TRPCError({ code: 'BAD_REQUEST' });
 	}
 	const created = await ProductRepo.createProduct(ctx, request);
@@ -29,24 +31,33 @@ const createProduct = async (ctx: Context, request: CreateProductRequest): Promi
 	return created;
 };
 
-const getShoppikCategory = async (ctx: Context): Promise<GetShoppikCategoryResponse> => {
-	const ShoppikCategories = await ProductRepo.getShoppikCategory(ctx);
+const getShoppikCategory = async (): Promise<GetShoppikCategoryResponse> => {
+	const ShoppikCategories = await ProductRepo.getShoppikCategory();
 	return ShoppikCategories;
 };
 
-const getStoreProducts = async (ctx: Context, request: GetStoreProductsRequest): Promise<GetStoreProductsResponse> => {
-	const products = await ProductRepo.getStoreProducts(ctx, request);
-	return products;
+const getOverviewProductList = async (ctx: Context, request: GetStoreProductsRequest): Promise<GetStoreProductsResponse> => {
+	let res: GetStoreProductsResponse = {
+		products: [],
+		total: 0,
+	};
+	res = await ProductRepo.getOverviewProductList(ctx, request);
+
+	return res;
 };
 
 const getProductDetail = async (ctx: Context, request: GetProductDetailRequest): Promise<GetProductDetailResponse> => {
-	const product = await ProductRepo.getProductDetail(ctx, request);
-	return product;
+	let res: GetProductDetailResponse = {
+		product: null,
+	};
+	res = await ProductRepo.getProductDetail(ctx, request);
+
+	return res;
 };
 
 const ProductService = {
 	createProduct,
-	getStoreProducts,
+	getOverviewProductList,
 	getShoppikCategory,
 	getProductDetail,
 };

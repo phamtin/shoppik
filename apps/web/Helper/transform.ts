@@ -1,11 +1,11 @@
-import { AttributePattern } from '@shoppik/schema';
+import { AttributePattern } from '@shoppik/types';
 
-export const transformToAttributePattern = (
+const transformToAttributePattern = (
 	input: Array<Record<keyof AttributePattern, any>> | undefined,
 ): AttributePattern[] => {
 	if (!input) return [];
 
-	const res: AttributePattern[] = [{ k: '', v: '', u: null }];
+	const res: AttributePattern[] = [];
 
 	for (let i = 0; i < input.length; i++) {
 		const element = input[i];
@@ -14,13 +14,10 @@ export const transformToAttributePattern = (
 		res.push({
 			k: element.k,
 			v: typeof element.v === 'string' ? element.v : JSON.stringify(element.v),
-			u: element.u
-				? typeof element.u === 'string'
-					? element.u
-					: JSON.stringify(element.u)
-				: null,
 		});
 	}
 
 	return res;
 };
+
+export default transformToAttributePattern;

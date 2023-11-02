@@ -1,4 +1,4 @@
-import { Contact } from '@shoppik/schema';
+import { Contact } from '@shoppik/types';
 import { DescriptionsProps } from '@shoppik/ui/components/Core';
 
 export const StoreStatistic: DescriptionsProps['items'] = [

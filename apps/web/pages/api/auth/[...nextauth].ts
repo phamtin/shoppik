@@ -11,7 +11,7 @@ import { JWT } from 'next-auth/jwt';
 import { setCookie } from 'cookies-next';
 import GoogleProvider from 'next-auth/providers/google';
 
-import { SigninMethodSchema } from '@shoppik/schema';
+import { SigninMethod } from '@shoppik/types';
 import { AdapterUser } from 'next-auth/adapters';
 import { getBaseUrl } from '@/lib/trpc/trpc';
 import dayjs from 'dayjs';
@@ -62,10 +62,11 @@ export const authOptions = (req?: NextApiRequest, res?: NextApiResponse): AuthOp
 						scope: account.scope,
 						expiresAt: account.expires_at,
 						accessToken: account.id_token,
-						provider: SigninMethodSchema.Enum.GOOGLE,
+						provider: SigninMethod.GOOGLE,
 					}),
 				});
-				const accessToken = (await response.json()).result?.data.encryptedJwt;
+				const awaited = await response.json();
+				const accessToken = awaited.result?.data.encryptedJwt;
 
 				// Setting http-only cookie
 				setCookie('accessToken', accessToken, {

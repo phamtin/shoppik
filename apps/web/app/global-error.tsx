@@ -11,8 +11,6 @@ export default function GlobalError({
 }) {
 	const router = useRouter();
 
-	console.log('WTF ????????');
-
 	// if (error) {
 	// 	router.replace('/dashboard');
 	// }

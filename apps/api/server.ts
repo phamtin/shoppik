@@ -5,11 +5,11 @@ import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 import cors from '@fastify/cors';
 import fastifyEnv from '@fastify/env';
 
-import { createContext } from './Router/context';
-import { appRouter } from './Router/routers/_app';
+import { createContext } from './Router/routers/context';
+import { appRouter } from './Router/_app';
 import options from './Loaders/env';
 
-export type { AppRouter } from './Router/routers/_app';
+export type { AppRouter } from './Router/_app';
 
 const Fastify: FastifyInstance = fastify({
 	maxParamLength: 5000,

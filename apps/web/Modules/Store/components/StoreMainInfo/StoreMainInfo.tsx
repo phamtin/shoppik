@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 
 import {
@@ -20,7 +18,7 @@ import {
 } from '@heroicons/react/24/outline';
 import useStyle from './store-main-info.style';
 import { trpc } from '@/lib/trpc/trpc';
-import RegisterStoreForm from '../RegisterStoreForm/RegisterStoreForm';
+import RegisterStoreForm from '../CreateStoreModal/CreateStoreModal';
 import { StoreStatistic, showStoreInformation } from '../../helper/store.helper';
 import { StoreTags } from '../../constant/store.constant';
 import { handleToastTrpcError } from '@/app/error/Error';
@@ -46,7 +44,7 @@ const StoreMainInfo = () => {
 		'https://res.cloudinary.com/dtizrfvjh/image/upload/v1668920121/qzrteppsiwxoyvbipnhg.jpg';
 	const address = store.data.storeAddress;
 	const addressStore = `${address.street}, ${address.ward}, ${address.district}, ${address.province}`;
-	const phoneStore = store.data.contact?.phone.map((p) => (
+	const phoneStore = store.data.contact?.phone.map((p: any) => (
 		<p key={p}>{`${p.replace('+84', '0')}`}</p>
 	));
 	const contact = store.data.contact;
@@ -134,9 +132,9 @@ const StoreMainInfo = () => {
 					toggleForm={toggleUpdateModal}
 					store={{
 						...store.data,
-						createdAt: new Date(store.data.createdAt),
-						updatedAt: new Date(store.data.updatedAt ?? 0),
-						DeletedAt: new Date(store.data.DeletedAt ?? 0),
+						createdAt: store.data.createdAt as Date,
+						updatedAt: store.data.updatedAt as Date,
+						deletedAt: store.data.deletedAt as Date,
 					}}
 				/>
 			</Modal>

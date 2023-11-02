@@ -19,7 +19,7 @@ import {
 } from '@shoppik/ui/components/Core';
 
 import RegisterStoreContent from '@/Modules/Store/components/RegisterStoreContent/RegisterStoreContent';
-import RegisterStoreForm from '@/Modules/Store/components/RegisterStoreForm/RegisterStoreForm';
+import RegisterStoreForm from '@/Modules/Store/components/CreateStoreModal/CreateStoreModal';
 import { MENU_KEYS } from '../../auth';
 import useStyle from './signin-modal';
 

@@ -18,22 +18,26 @@
 		"incremental": true,
 		"paths": {
 			"@/*": ["./*"],
-			"prisma/*": ["../api/prisma/*"],
+			"Pkgs/*": ["../api/Pkgs/*"],
 			"Loaders/*": ["../api/Loaders/*"],
 			"Router/*": ["../api/Router/*"],
 			"Service/*": ["../api/Service/*"],
-			"Repository/*": ["../api/Repository/*"]
+			"Repository/*": ["../api/Repository/*"],
+			"Generated/*": ["../api/Generated/*"]
 		},
 		"plugins": [
 			{
 				"name": "next"
+			},
+			{
+				"transform": "typia/lib/transform"
 			}
 		]
 	},
 	"include": [
 		"next-env.d.ts",
-		"**/*.ts",
-		"**/*.tsx",
+		"./**/*.ts",
+		"./**/*.tsx",
 		"middleware.ts",
 		".next/types/**/*.ts"
 	],

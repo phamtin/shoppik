@@ -1,15 +1,9 @@
 'use client';
 
 import { getCookie } from 'cookies-next';
-
 import { createTRPCNext } from '@trpc/next';
 import { httpBatchLink, loggerLink } from '@trpc/client';
-import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
-
 import type { AppRouter } from '../../../api/server';
-
-export type RouterInputs = inferRouterInputs<AppRouter>;
-export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 export const getBaseUrl = () => {
 	return process.env.NEXT_PUBLIC_API_URL;

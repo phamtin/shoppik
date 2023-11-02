@@ -1,6 +1,7 @@
 import { memo, useCallback, useMemo, useState } from 'react';
 
 import {
+	Flex,
 	Alert,
 	Divider,
 	Form,
@@ -8,35 +9,32 @@ import {
 	Tag,
 	Typography,
 } from '@shoppik/ui/components/Core';
-import { ShoppikCategoryResponse } from '@/Modules/Store/types/store.types';
-import Flex from '@shoppik/ui/components/Flex';
 import ShoppikCategoryTag from '../../ShoppikCategoryTag/ShoppikCategoryTag';
 import ProductAddTitle from '../../ProductAddTitle/ProductAddTitle';
 import useStyle from './add-product-category.style';
+import { ShoppikCategory } from '@shoppik/types';
 
 const { CheckableTag } = Tag;
 const { Text } = Typography;
 
 interface AddProductCategoryProps {
 	form: FormInstance;
-	shoppikCategory: ShoppikCategoryResponse[] | undefined;
+	shoppikCategory: ShoppikCategory[] | undefined;
 }
 
 const AddProductCategory = (props: AddProductCategoryProps) => {
 	const { styles, theme } = useStyle();
 
 	const [selectedProductTags, setSelectedProductTags] = useState<string[]>([]);
-	const [selectedShoppikTags, setSelectedShopikTag] = useState<ShoppikCategoryResponse[]>(
-		[],
-	);
+	const [selectedShoppikTags, setSelectedShopikTag] = useState<ShoppikCategory[]>([]);
 
 	const handleChange = useCallback(
-		(tag: ShoppikCategoryResponse) => {
+		(tag: ShoppikCategory) => {
 			if (selectedShoppikTags.length == 0) return setSelectedShopikTag([tag]);
 			for (let i = 0; i < selectedShoppikTags.length; i++) {
 				const selectedTag = selectedShoppikTags[i];
-				if (selectedTag.id === tag.id) {
-					return setSelectedShopikTag((prev) => prev.filter((t) => t.id !== tag.id));
+				if (selectedTag._id === tag._id) {
+					return setSelectedShopikTag((prev) => prev.filter((t) => t._id !== tag._id));
 				}
 				continue;
 			}
@@ -51,7 +49,7 @@ const AddProductCategory = (props: AddProductCategoryProps) => {
 				?.filter((t) => !t.isSubCategory)
 				.map((t) => (
 					<ShoppikCategoryTag
-						key={`${t.id}${t.name}`}
+						key={`${t._id}${t.name}`}
 						tags={selectedShoppikTags}
 						tag={t}
 						onChange={(tag) => handleChange(tag)}
@@ -93,18 +91,20 @@ const AddProductCategory = (props: AddProductCategoryProps) => {
 					)}
 					<div className={styles.categoryWrapper}>{memorizedTags}</div>
 					{selectedShoppikTags.map((selectedTag) => (
-						<div key={`${selectedTag.id}${selectedTag.name}`}>
+						<div key={`${selectedTag._id}${selectedTag.name}`}>
 							<Flex>
 								<div style={{ minWidth: 100 }}>
 									<Text>{`${selectedTag.name}:`}</Text>
 								</div>
 								<div style={{ flexWrap: 'wrap' }}>
 									{props.shoppikCategory?.map((t) =>
-										t.parentId === selectedTag.id ? (
+										t.parentId === selectedTag._id ? (
 											<CheckableTag
-												key={`${t.id}${t.name}`}
-												checked={selectedProductTags.includes(t.id)}
-												onChange={(checked) => handleChangeProductTag(t.id, checked)}
+												key={`${t._id}${t.name}`}
+												checked={selectedProductTags.includes(t._id?.toString() || '')}
+												onChange={(checked) =>
+													handleChangeProductTag(t._id?.toString() || '', checked)
+												}
 											>
 												{t.name}
 											</CheckableTag>

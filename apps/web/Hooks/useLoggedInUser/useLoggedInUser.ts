@@ -1,5 +1,5 @@
 import { trpc } from '@/lib/trpc/trpc';
-import { Customer, Owner } from '@shoppik/schema';
+import { Customer, Owner } from '@shoppik/types';
 import { useSession } from 'next-auth/react';
 
 export type LoggedInUser = {
@@ -9,8 +9,8 @@ export type LoggedInUser = {
 	lastname: string;
 	fullname: string;
 	avatar: string;
-	roleCustomer: Omit<Customer, 'updatedAt'>;
-	roleOwner: Omit<Owner, 'updatedAt'> | null;
+	roleCustomer: Customer;
+	roleOwner?: Omit<Owner, 'storeId'> & { storeId: string };
 };
 
 export async function getSession() {
@@ -41,7 +41,7 @@ const useLoggedInUser = () => {
 		avatar: '',
 		fullname: '',
 		roleCustomer: { trustscore: 0 },
-		roleOwner: null,
+		roleOwner: { storeId: '' },
 	};
 
 	if (!session?.data?.user?.email) {
@@ -50,14 +50,19 @@ const useLoggedInUser = () => {
 
 	if (data) {
 		loggedInUser = {
-			id: data.id,
+			id: data._id?.toString() ?? '',
 			email: data.email,
 			firstname: data.firstname,
 			fullname: data.fullname,
 			avatar: data.avatar,
 			lastname: data.lastname,
-			roleCustomer: data.roleCustomer,
-			roleOwner: data.roleOwner,
+			roleCustomer: {
+				...data.roleCustomer,
+				updatedAt: data.roleCustomer.updatedAt
+					? new Date(data.roleCustomer.updatedAt)
+					: undefined,
+			},
+			roleOwner: { ...data.roleOwner, storeId: data.roleOwner?.storeId.toString() ?? '' },
 		};
 	}
 

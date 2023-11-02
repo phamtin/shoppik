@@ -1,5 +1,4 @@
-import { Typography } from '@shoppik/ui/components/Core';
-import Flex from '@shoppik/ui/components/Flex';
+import { Typography, Flex } from '@shoppik/ui/components/Core';
 import useStyles from './ProductAddTitle.style';
 
 const { Text } = Typography;
@@ -13,7 +12,7 @@ const ProductAddTitle = ({ title, shapeColor }: ProductAddTitleProps) => {
 	const { theme } = useStyles();
 
 	return (
-		<Flex gap={theme.marginSM} mb={theme.margin}>
+		<Flex gap={theme.marginSM}>
 			<div
 				style={{
 					height: 32,

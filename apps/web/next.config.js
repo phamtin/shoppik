@@ -3,10 +3,7 @@ const nextConfig = {
 	swcMinify: true,
 	productionBrowserSourceMaps: false, // Disable source maps in development
 
-	transpilePackages: ['@shoppik/ui', '@shoppik/schema'],
-	experimental: {
-		serverActions: true,
-	},
+	transpilePackages: ['@shoppik/ui', '@shoppik/types'],
 	reactStrictMode: false,
 	compiler: {
 		styledComponents: true,
