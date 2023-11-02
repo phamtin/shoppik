@@ -70,6 +70,19 @@ class RedisCache {
 		);
 	}
 
+	setHashMap(key: string, data: object | Map<string | number, string | number>) {
+		return new Promise((resolve, reject) => {
+			if (data === undefined || data === null) {
+				this.instance?.del(key);
+				return resolve(true);
+			}
+			this.instance?.hmset(key, data, (err) => {
+				if (err) return reject(err);
+				return resolve(true);
+			});
+		});
+	}
+
 	_deleteKey(key: string | string[]) {
 		if (typeof key === 'string') {
 			return new Promise(() => this.instance?.del(key));
