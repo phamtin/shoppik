@@ -19,7 +19,6 @@ interface ErrorStateProps {
 }
 
 const GlobalError: React.FC<ErrorStateProps> = ({ error }: ErrorStateProps) => {
-	console.log(error);
 	const router = useRouter();
 	const { update } = useSession();
 

@@ -16,15 +16,22 @@
 		"removeComments": false,
 		"forceConsistentCasingInFileNames": true,
 		"paths": {
-			"prisma/*": ["./prisma/*"],
 			"Loaders/*": ["./Loaders/*"],
 			"Router/*": ["./Router/*"],
 			"Service/*": ["./Service/*"],
-			"Repository/*": ["./Repository/*"]
-		}
+			"Repository/*": ["./Repository/*"],
+			"Pkgs/*": ["./Pkgs/*"],
+			"Generated/*": ["./Generated/*"]
+		},
 		// "isolatedDeclarations": true
+		"plugins": [
+			{
+				"transform": "typia/lib/transform"
+			}
+		],
+		"strictNullChecks": true
 	},
-	"exclude": ["node_modules", ".vscode", ".turbo"],
+	"exclude": ["node_modules", ".vscode", ".turbo", "Generated/is.ts"],
 	"tsc-alias": {
 		"verbose": false,
 		"resolveFullPaths": true

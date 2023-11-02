@@ -16,7 +16,7 @@ import {
 import dayjs from 'dayjs';
 import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 import { trpc } from '@/lib/trpc/trpc';
-import { Account } from '@shoppik/schema';
+import { AccountSchema } from '@shoppik/types';
 import { DATE_FORMAT } from '@/Utils/dayjs/time';
 import { baseFieldValidation } from '@/Utils/validator/validator';
 import { VALID_EMAIL_REGEX } from '@/Helper/regex';
@@ -29,21 +29,24 @@ const ProfileScreen = () => {
 	const { styles } = useStyle();
 	const utils = trpc.useContext();
 	const [messageApi, contextHolder] = message.useMessage();
-	const [form] = Form.useForm<Partial<Account> | undefined>();
+	const [form] = Form.useForm<Partial<AccountSchema> | undefined>();
 
 	const [selectedSide, setSelectedSide] = useState(LIST_INFO[0].key);
 
-	const GetMyProfile = trpc.user.getMyProfile.useQuery(undefined, {
-		useErrorBoundary: true,
-	});
+	const GetMyProfile = trpc.user.getMyProfile.useQuery(undefined);
+
+	// const product = trpc.product.getProductDetail.useQuery({
+	// 	_id: '652d66cbb4b5c3ae901916c6',
+	// });
+	// // console.log(product.data);
 
 	const UpdateUserProfile = trpc.user.updateUserProfile.useMutation({
 		onSuccess() {
+			utils.user.getMyProfile.invalidate();
 			messageApi.open({
 				type: 'success',
 				content: 'Profile updated successfully',
 			});
-			utils.user.getMyProfile.invalidate();
 		},
 		onError(err) {
 			handleToastTrpcError(err.data, messageApi);
@@ -57,11 +60,6 @@ const ProfileScreen = () => {
 			birthday: dayjs(GetMyProfile.data.birthday) as any, // trick, fix later
 		});
 	}, [form, GetMyProfile.data]);
-
-	// if (GetMyProfile.error ?? UpdateUserProfile.error) {
-	// 	const error = GetMyProfile.error ?? UpdateUserProfile.error;
-	// 	return <GlobalError error={error?.data} />;
-	// }
 
 	const onSave = (values: any) => {
 		if (!values || values.type === 'click') return;
@@ -94,7 +92,7 @@ const ProfileScreen = () => {
 					))}
 				</div>
 				<div className="rightSide">
-					<Form<Partial<Account> | undefined>
+					<Form<Partial<AccountSchema> | undefined>
 						name="profile"
 						form={form}
 						onFinish={onSave}

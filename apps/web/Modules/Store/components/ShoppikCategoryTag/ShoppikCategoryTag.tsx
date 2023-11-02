@@ -1,14 +1,14 @@
 import { memo, useMemo } from 'react';
 import { Typography } from '@shoppik/ui/components/Core';
 import useStyle from './shoppik-category.style';
-import { ShoppikCategoryResponse } from '../../types/store.types';
+import { ShoppikCategory } from '@shoppik/types';
 
 const { Paragraph } = Typography;
 
 interface ShoppikCategoryProps {
-	tag: ShoppikCategoryResponse;
-	tags: ShoppikCategoryResponse[];
-	onChange: (tag: ShoppikCategoryResponse) => void;
+	tag: ShoppikCategory;
+	tags: ShoppikCategory[];
+	onChange: (tag: ShoppikCategory) => void;
 }
 
 const ShoppikCategory = ({ tags, tag, onChange }: ShoppikCategoryProps) => {
@@ -19,8 +19,8 @@ const ShoppikCategory = ({ tags, tag, onChange }: ShoppikCategoryProps) => {
 	};
 
 	const selected = useMemo(
-		() => tags.findIndex((t) => t.id === tag.id) != -1,
-		[tags, tag.id],
+		() => tags.findIndex((t) => t._id === tag._id) != -1,
+		[tags, tag._id],
 	);
 
 	return (

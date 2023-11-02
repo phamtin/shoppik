@@ -26,14 +26,15 @@ const AddProducts = (props: AddProductProps) => {
 		storeCategories: [{ name: '', slug: '' }],
 		originPrice: 1,
 		quantity: 1,
-		isDraft: false,
+		isDraft: true,
 	};
 
 	return (
 		<div className="leftSection">
 			<Form
 				id="form-add-product"
-				{...{ labelCol: { span: 4 }, wrapperCol: { span: 20 } }}
+				labelCol={{ span: 4 }}
+				wrapperCol={{ span: 20 }}
 				form={form}
 				initialValues={initialValues}
 				layout="horizontal"
@@ -43,7 +44,10 @@ const AddProducts = (props: AddProductProps) => {
 
 				<AddProductDetail form={form} />
 
-				<AddProductCategory form={form} shoppikCategory={queryGetShoppikCategory.data} />
+				<AddProductCategory
+					form={form}
+					shoppikCategory={queryGetShoppikCategory.data?.data}
+				/>
 
 				<AddProductPrice />
 			</Form>

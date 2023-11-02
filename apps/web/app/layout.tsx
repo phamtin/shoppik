@@ -20,7 +20,7 @@ const customTheme = {
 	sizeUnit: 4,
 	colorPrimary: '#0b5dff',
 	fontSize: 13.2,
-	colorTextBase: '#181818',
+	colorTextBase: '#161616',
 };
 const customThemeIPad = {
 	borderRadius: 6,
@@ -28,7 +28,7 @@ const customThemeIPad = {
 	sizeUnit: 3,
 	fontSize: 12,
 	colorPrimary: '#0b5dff',
-	colorTextBase: '#181818',
+	colorTextBase: '#161616',
 };
 
 const cc = { height: '100%', overflow: 'auto', backgroundColor: '#FFFFFF' };

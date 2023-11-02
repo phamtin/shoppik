@@ -12,8 +12,8 @@ import {
 	Space,
 	Tag,
 	Tooltip,
+	Flex,
 } from '@shoppik/ui/components/Core';
-import Flex from '@shoppik/ui/components/Flex';
 
 interface Props {
 	form: FormInstance;
@@ -94,8 +94,8 @@ const DetailVariant = ({ form, field, index, remove }: Props) => {
 	};
 
 	return (
-		<Flex key={index} alignitems="flex-start">
-			<Form.Item {...restProps} name={[field.name, 'k']}>
+		<Flex key={index} align="flex-start">
+			<Form.Item name={[field.name, 'k']}>
 				<Input className="textInput" placeholder={`Variant ${index + 1}`} />
 			</Form.Item>
 			<Space size={[0, 8]} wrap>
@@ -155,7 +155,7 @@ const DetailVariant = ({ form, field, index, remove }: Props) => {
 					/>
 				) : (
 					<Tag style={tagPlusStyle} onClick={showInput}>
-						<Flex alignitems="center">
+						<Flex align="center">
 							<PlusIcon width={14} />
 							New Tag
 						</Flex>

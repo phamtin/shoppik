@@ -9,10 +9,6 @@ export default function Error({
 	error: Error & { digest?: string };
 	reset: () => void;
 }) {
-	useEffect(() => {
-		console.log('WTF: ', error);
-	}, [error]);
-
 	return (
 		<div>
 			<h2>Something went wrong! (Profile)</h2>

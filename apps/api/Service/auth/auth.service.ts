@@ -1,11 +1,11 @@
 import crypto from 'crypto';
 import { TRPCError } from '@trpc/server';
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { SigninMethod } from '@prisma/client';
-
-import { SigninRequest, SigninResponse } from '../../Router/routers/auth.route';
-import { Owner, Customer } from '@shoppik/schema';
-import { Context } from '../../Router/context';
+import { Owner, Customer, SigninMethod } from 'Repository/schemas';
+import { SigninRequest, SigninResponse } from 'Router/auth.route';
+import { Context } from 'Router/routers/context';
+import { AccountCollection } from 'Loaders/database/mongoDB';
+import { ObjectId } from 'mongodb';
 
 type AppJwtPayload = {
 	name: string;
@@ -15,92 +15,109 @@ type AppJwtPayload = {
 };
 
 type EncryptedJwtPayload = {
-	id: string;
+	_id: string;
 	email: string;
 	fullname: string;
+	firstname: string;
+	lastname: string;
 	roleCustomer: Customer;
-	roleOwner: Owner | null;
+	roleOwner?: Owner;
 };
 
 const signinGoogle = async (ctx: Context, request: SigninRequest): Promise<SigninResponse> => {
 	ctx.systemLog.info(`Signin Google email ${request.email} - START`);
 
-	const authRepo = ctx.prisma.account;
-
-	let res: SigninResponse;
+	let res: SigninResponse = {
+		_id: '',
+		email: '',
+		fullname: '',
+		firstname: '',
+		lastname: '',
+		encryptedJwt: '',
+		roleCustomer: { trustscore: 0 },
+		roleOwner: null,
+	};
+	let createdId = '';
 
 	//	Jwt payload returned from OAuth Provider
-	const jwtPayload = jwt.decode(request.accessToken, {
-		complete: true,
-	});
-	if (!jwtPayload ?? !jwtPayload?.payload) {
+	const jwtPayload = jwt.decode(request.accessToken, { complete: true });
+
+	if (!jwtPayload || !jwtPayload?.payload) {
 		throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid credentails' });
 	}
 
-	let authenticatedUser = await authRepo.findFirst({ where: { email: request.email } });
+	const jwtPload = jwtPayload.payload as AppJwtPayload;
 
-	if (authenticatedUser?.id) {
+	const authenticatedUser = await AccountCollection.findOne({ email: request.email });
+
+	const resRoleOwner = authenticatedUser?.roleOwner ? { ...authenticatedUser.roleOwner, storeId: authenticatedUser.roleOwner.storeId.toHexString() } : null;
+
+	if (authenticatedUser?._id) {
 		res = {
 			encryptedJwt: '',
-			id: authenticatedUser.id,
+			_id: authenticatedUser._id.toString(),
+			email: authenticatedUser.email,
 			fullname: authenticatedUser.fullname,
 			firstname: authenticatedUser.firstname,
 			lastname: authenticatedUser.lastname,
-			email: authenticatedUser.email,
 			roleCustomer: {
 				trustscore: authenticatedUser.roleCustomer.trustscore,
 				updatedAt: authenticatedUser.roleCustomer.updatedAt,
 			},
-			roleOwner: {
-				storeId: authenticatedUser.roleOwner?.storeId ?? '',
-			},
+			roleOwner: resRoleOwner,
 		};
 	} else {
-		const jwt = jwtPayload.payload as AppJwtPayload;
-		authenticatedUser = await authRepo.create({
-			data: {
-				email: request.email,
-				fullname: jwt.name,
-				firstname: jwt.given_name,
-				lastname: jwt.family_name,
-				locale: jwt.locale,
-				phoneNumber: '',
-				postalCode: '',
-				birthday: '',
-				avatar: request.avatar,
-				signinMethod: SigninMethod.GOOGLE,
-				isConfirm: false,
-				isDeleted: false,
-				createdAt: new Date(),
-				roleCustomer: {
-					trustscore: 0,
-					updatedAt: null,
-				},
-			},
+		const { acknowledged, insertedId } = await AccountCollection.insertOne({
+			_id: new ObjectId(),
+			email: request.email,
+			fullname: jwtPload.name,
+			firstname: jwtPload.given_name,
+			lastname: jwtPload.family_name,
+			locale: jwtPload.locale,
+			phoneNumber: '',
+			postalCode: '',
+			birthday: '',
+			avatar: request.avatar,
+			signinMethod: SigninMethod.GOOGLE,
+			isConfirm: false,
+			isDeleted: false,
+			createdAt: new Date(),
+			roleCustomer: { trustscore: 0 },
 		});
+		if (!acknowledged) {
+			throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+		}
+		createdId = insertedId.toString();
 	}
 
 	const encryptedJwt = generateEncryptedJwt(
 		{
-			id: authenticatedUser.id,
-			email: authenticatedUser.email,
-			fullname: authenticatedUser.fullname,
-			roleCustomer: authenticatedUser.roleCustomer,
-			roleOwner: authenticatedUser.roleOwner,
+			_id: authenticatedUser?._id.toString() ?? createdId,
+			email: request.email,
+			fullname: request.fullname,
+			firstname: jwtPload.given_name,
+			lastname: jwtPload.family_name,
+			roleCustomer: authenticatedUser?.roleCustomer || { trustscore: 0 },
+			roleOwner: authenticatedUser?.roleOwner,
 		},
 		'accessTokenPrivateKey',
 		{ expiresIn: 60 * 60 * 6 }, //	6 hour
 	);
 
+	if (authenticatedUser?._id) {
+		res = { ...res, encryptedJwt };
+		return res;
+	}
+
 	res = {
 		encryptedJwt,
-		id: authenticatedUser.id,
-		email: authenticatedUser.email,
-		fullname: authenticatedUser.fullname,
-		firstname: authenticatedUser.firstname,
-		lastname: authenticatedUser.lastname,
-		roleCustomer: authenticatedUser.roleCustomer,
-		roleOwner: authenticatedUser.roleOwner,
+		_id: createdId,
+		email: request.email,
+		fullname: jwtPload.name,
+		firstname: jwtPload.given_name,
+		lastname: jwtPload.family_name,
+		roleCustomer: { trustscore: 0 },
+		roleOwner: null,
 	};
 
 	ctx.systemLog.info(`Signin Google email ${request.email} - END`);

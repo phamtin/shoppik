@@ -2,15 +2,14 @@
 
 import React from 'react';
 import { trpc } from '@/lib/trpc/trpc';
-import Flex from '@shoppik/ui/components/Flex';
-import { ProductWithRelations } from '@shoppik/schema';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
-import { transformToAttributePattern } from '@/Helper/transform';
-import { Button, Form, Typography, message } from '@shoppik/ui/components/Core';
+import transformToAttributePattern from '@/Helper/transform';
+import { Flex, Button, Form, Typography, message } from '@shoppik/ui/components/Core';
 
 import ProductAddTitle from '../../components/ProductAddTitle/ProductAddTitle';
 import AddProductForm from '../../components/AddProduct/AddProductForm';
 import useStyles from './add-product.style';
+import { ProductSchema } from '@shoppik/types';
 
 const { Title, Text } = Typography;
 
@@ -31,9 +30,8 @@ const AddProduct = () => {
 		},
 	});
 
-	const onSubmit = (values: Partial<ProductWithRelations>) => {
+	const onSubmit = (values: Partial<ProductSchema>) => {
 		if (!values) return;
-
 		mutationCreateProduct.mutate({
 			name: values.name ?? '',
 			description: values.description,
@@ -43,7 +41,7 @@ const AddProduct = () => {
 			detail: transformToAttributePattern(values.detail),
 			shoppikCategories: values.shoppikCategories ?? [],
 			storeCategories: [
-				{ id: '64c549d101aaa5c06958e6ec', name: 'category1', slug: 'category1' }, //	not yet implemented
+				{ _id: '64c549d101aaa5c06958e6ec', name: 'category1', slug: 'category1' }, //	not yet implemented
 			],
 			quantity: values.quantity ?? 1,
 			originPrice: values.originPrice ?? 1,
@@ -72,7 +70,7 @@ const AddProduct = () => {
 				</div>
 
 				<div className="submitArea">
-					<Flex justifyContent="space-between">
+					<Flex justify="space-between">
 						<Flex gap={theme.marginXS}>
 							<CheckCircleIcon width={24} />
 							<Text>Last saved Oct 4, 2021 - 23:32</Text>
