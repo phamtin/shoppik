@@ -24,6 +24,18 @@ const schema = {
 			type: 'string',
 			default: 'ACCESS_TOKEN_PRIVATE_KEY',
 		},
+		REDIS_PORT: {
+			type: 'string',
+			default: '11182',
+		},
+		REDIS_HOST: {
+			type: 'string',
+			default: 'redis-11182.c302.asia-northeast1-1.gce.cloud.redislabs.com',
+		},
+		REDIS_PASSWORD: {
+			type: 'string',
+			default: '',
+		},
 	},
 };
 
